@@ -236,15 +236,15 @@ public class ShipSpawner : MonoBehaviour
         obj.transform.SetParent(parent.transform);
         textObj.transform.SetParent(parent.transform);
 
-        IntfShip ctrl = obj.GetComponent<IntfShip>();
+        ShipIntf ctrl = obj.GetComponent<ShipIntf>();
         ctrl.setHealth(healthBar);
         ctrl.setTextObj(textObj);
 
         HealthBar bar = healthBar.GetComponent<HealthBar>();
         bar.target = obj;
 
-        TextShip textShip = textObj.GetComponent<TextShip>();
-        textShip.target = obj;
+        ShipLabel ShipLabel = textObj.GetComponent<ShipLabel>();
+        ShipLabel.target = obj;
 
         if (Camera.main.GetComponent<Pause>().getPaused())
         {
@@ -263,7 +263,7 @@ public class ShipSpawner : MonoBehaviour
     void setFaction(GameObject obj, ShipDefinitions.Faction faction)
     {
         obj.tag = faction.ToString();
-        obj.GetComponent<IntfShipController>().setFaction(faction);
+        obj.GetComponent<ShipController>().setFaction(faction);
         //obj.GetComponent<IntfFiringModule>().
     }
 }
