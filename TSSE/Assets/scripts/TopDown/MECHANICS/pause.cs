@@ -37,9 +37,9 @@ public class Pause : MonoBehaviour {
                         particle.pause();
                     }
 
-                    if (obj.GetComponent<IntfShipController>() != null)
+                    if (obj.GetComponent<ShipController>() != null)
                     {
-                        IntfShipController particle = obj.GetComponent<IntfShipController>();
+                        ShipController particle = obj.GetComponent<ShipController>();
                         particle.pause();
                     }
                 }
@@ -56,9 +56,9 @@ public class Pause : MonoBehaviour {
                         particle.unpause();
                     }
 
-                    if (obj.GetComponent<IntfShipController>() != null)
+                    if (obj.GetComponent<ShipController>() != null)
                     {
-                        IntfShipController ctrl = obj.GetComponent<IntfShipController>();
+                        ShipController ctrl = obj.GetComponent<ShipController>();
                         ctrl.unpause();
                     }
                 }
@@ -79,9 +79,9 @@ public class Pause : MonoBehaviour {
             GameObject[] objects = UnityEngine.Object.FindObjectsOfType<GameObject>();
             foreach (GameObject obj in objects)
             {
-                if (obj.GetComponent<IntfShipController>() != null)
+                if (obj.GetComponent<ShipController>() != null)
                 {
-                    IntfShipController ctrl = obj.GetComponent<IntfShipController>();
+                    ShipController ctrl = obj.GetComponent<ShipController>();
                     if (ctrl.getTarget() != null)
                     {
                         if (ctrl.getFaction() == ShipDefinitions.Faction.PlayerAffil ||
@@ -110,13 +110,13 @@ public class Pause : MonoBehaviour {
             return;
         }
 
-        Destroy((Object) ship.GetComponent<IntfShipController>());
-        ship.AddComponent<ImplMainShipController>();
+        Destroy((Object) ship.GetComponent<ShipController>());
+        ship.AddComponent<ManualController>();
 
         if(manualShip)
         {
-            Destroy((Object)manualShip.GetComponent<IntfShipController>());
-            manualShip.AddComponent<ImplBasicAIShipController>();
+            Destroy((Object)manualShip.GetComponent<ShipController>());
+            manualShip.AddComponent<AIController>();
         }
         manualShip = ship;
     }

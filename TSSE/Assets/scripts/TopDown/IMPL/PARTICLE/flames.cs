@@ -5,19 +5,16 @@ using System.Collections;
 // In lore, this is referred to as a plasma cluster
 public class flames : ParticleAbstract
 {
+    float spinrate = 4;
+
     // Use this for initialization
-    void Start()
-    {
-    }
 
     // Update is called once per frame
     void Update()
     {
         if (!active)
-        {
             return;
-        }
-        transform.Rotate(new Vector3(0, 0, 4));
+        transform.Rotate(new Vector3(0, 0, spinrate));
         if (lifetime <= 0)
         {
             Destroy(gameObject);
@@ -25,6 +22,20 @@ public class flames : ParticleAbstract
         else
         {
             lifetime--;
+        }
+    }
+
+    public void OnTriggerEnter2D(Collider2D col)
+    {
+        if ((col.CompareTag("Enemy") &&
+                (faction == ShipDefinitions.Faction.Player ||
+                faction == ShipDefinitions.Faction.PlayerAffil)) ||
+             (col.CompareTag("Player") ||
+              col.CompareTag("PlayerAffil")) &&
+                faction == ShipDefinitions.Faction.Enemy)
+        {
+            col.gameObject.GetComponent
+                <ShipIntf>().isHit(1);
         }
     }
 }
