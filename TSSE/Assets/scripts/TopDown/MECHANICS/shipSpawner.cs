@@ -254,7 +254,7 @@ public class ShipSpawner : MonoBehaviour
 
     public void deleteAll()
     {
-        foreach (ImplMainShip ship in GameObject.FindObjectsOfType<ImplMainShip>())
+        foreach (MainShip ship in GameObject.FindObjectsOfType<MainShip>())
         {
             Destroy(ship.transform.parent.gameObject);
         }

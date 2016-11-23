@@ -6,7 +6,7 @@ using System.Collections;
 // from firing, to accelerating, to changing the text label or health bar, it
 // does not know *when* to do any of these things.
 // Hence the need for a ShipController! :D
-public class ImplMainShip : MonoBehaviour, ShipIntf
+public class MainShip : MonoBehaviour, ShipIntf
 {
     public bool inactive;
     public int rotationSpeed = 5;

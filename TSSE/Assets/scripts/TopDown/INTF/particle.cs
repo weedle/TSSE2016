@@ -2,7 +2,7 @@
 using System.Collections;
 
 // ParticleAbstract is the abstraction of any particle (eg, missiles)
-public abstract class ParticleAbstract : MonoBehaviour
+public abstract class Particle : MonoBehaviour
 {
     public int lifetime;
     private Vector2 velKeep;

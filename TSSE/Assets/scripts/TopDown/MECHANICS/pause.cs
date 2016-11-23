@@ -31,9 +31,9 @@ public class Pause : MonoBehaviour {
 
                 foreach (GameObject obj in objects)
                 {
-                    if (obj.GetComponent<ParticleAbstract>() != null)
+                    if (obj.GetComponent<Particle>() != null)
                     {
-                        ParticleAbstract particle = obj.GetComponent<ParticleAbstract>();
+                        Particle particle = obj.GetComponent<Particle>();
                         particle.pause();
                     }
 
@@ -50,9 +50,9 @@ public class Pause : MonoBehaviour {
 
                 foreach (GameObject obj in objects)
                 {
-                    if (obj.GetComponent<ParticleAbstract>() != null)
+                    if (obj.GetComponent<Particle>() != null)
                     {
-                        ParticleAbstract particle = obj.GetComponent<ParticleAbstract>();
+                        Particle particle = obj.GetComponent<Particle>();
                         particle.unpause();
                     }
 

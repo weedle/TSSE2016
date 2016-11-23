@@ -3,7 +3,7 @@ using System.Collections;
 
 // The class for the flamethrower effect
 // In lore, this is referred to as a plasma cluster
-public class flames : ParticleAbstract
+public class flames : Particle
 {
     float spinrate = 4;
 

@@ -5,7 +5,7 @@ using System.Collections;
 public class MissileFiringModule : MonoBehaviour, FiringModule
 {
     public int counter = 0;
-    public ParticleAbstract projectile;
+    public Particle projectile;
     public float projectileSpeed = 20;
     public int ammoMax = 3;
     public int ammunition = 3;

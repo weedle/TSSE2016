@@ -3,7 +3,7 @@ using System.Collections;
 
 // HealingMissile is the projectile used by the healing
 // weapon mod that increases the health of other ships
-public class HealingMissile : ParticleAbstract
+public class HealingMissile : Particle
 {
     public GameObject target = null;
     public float moveSpeed = 3;

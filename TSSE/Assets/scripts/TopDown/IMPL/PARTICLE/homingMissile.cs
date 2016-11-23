@@ -2,7 +2,7 @@
 using System.Collections;
 
 // This is the damaging missile shot by the missile weapon mod
-public class HomingMissile : ParticleAbstract
+public class HomingMissile : Particle
 {
     public GameObject target = null;
     public float moveSpeed = 3;

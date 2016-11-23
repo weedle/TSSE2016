@@ -7,7 +7,7 @@ using System.Collections;
 public class HealFiringModule : MonoBehaviour, FiringModule
 {
     public int counter = 0;
-    public ParticleAbstract projectile;
+    public Particle projectile;
     public float projectileSpeed = 20;
     public int ammoMax = 8;
     public int ammunition = 8;
