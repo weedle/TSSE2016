@@ -30,10 +30,6 @@ public interface ShipIntf {
 
     void isHit(float damage);
 
-    void setHealth(GameObject health);
-
-    void setTextObj(GameObject text);
-
     float getHealthPercent();
 
     void setText(string newText);

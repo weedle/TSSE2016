@@ -3,7 +3,7 @@ using System.Collections;
 
 public class ShipLabel : MonoBehaviour
 {
-    public GameObject target;
+    private GameObject target;
     // Use this for initialization
     void Start()
     {
@@ -26,5 +26,10 @@ public class ShipLabel : MonoBehaviour
     public void setText(string text)
     {
         GetComponent<TextMesh>().text = text;
+    }
+
+    public void setTarget(GameObject obj)
+    {
+        this.target = obj;
     }
 }

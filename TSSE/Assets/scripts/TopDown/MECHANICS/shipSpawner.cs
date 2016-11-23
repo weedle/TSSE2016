@@ -228,23 +228,23 @@ public class ShipSpawner : MonoBehaviour
 
         GameObject parent = (GameObject)Instantiate(empty, spawnPoint, Quaternion.Euler(0, 0, 0));
 
-        GameObject healthBar = (GameObject)Instantiate(health, spawnPoint, Quaternion.Euler(0, 0, 0));
+        //GameObject healthBar = (GameObject)Instantiate(health, spawnPoint, Quaternion.Euler(0, 0, 0));
 
-        GameObject textObj = (GameObject)Instantiate(text, spawnPoint, Quaternion.Euler(0, 0, 0));
+        //GameObject textObj = (GameObject)Instantiate(text, spawnPoint, Quaternion.Euler(0, 0, 0));
 
-        healthBar.transform.SetParent(parent.transform);
-        obj.transform.SetParent(parent.transform);
-        textObj.transform.SetParent(parent.transform);
+        //healthBar.transform.SetParent(parent.transform);
+        //obj.transform.SetParent(parent.transform);
+        //textObj.transform.SetParent(parent.transform);
 
         ShipIntf ctrl = obj.GetComponent<ShipIntf>();
-        ctrl.setHealth(healthBar);
-        ctrl.setTextObj(textObj);
+        //ctrl.setHealth(healthBar);
+        //ctrl.setTextObj(textObj);
 
-        HealthBar bar = healthBar.GetComponent<HealthBar>();
-        bar.target = obj;
+        //HealthBar bar = healthBar.GetComponent<HealthBar>();
+        //bar.target = obj;
 
-        ShipLabel ShipLabel = textObj.GetComponent<ShipLabel>();
-        ShipLabel.target = obj;
+        //ShipLabel ShipLabel = textObj.GetComponent<ShipLabel>();
+        //ShipLabel.target = obj;
 
         if (Camera.main.GetComponent<Pause>().getPaused())
         {

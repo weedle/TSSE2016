@@ -26,6 +26,14 @@ public class MainShip : MonoBehaviour, ShipIntf
         //Camera camera = Camera.main;
         //camera.orthographicSize = 640 / Screen.width * Screen.height / 2;
         shipName = ShipDefinitions.generateName();
+        GameObject parent = GameObject.Find("GameLogic").GetComponent<PrefabHost>().getEmptyObject();
+        this.health = GameObject.Find("GameLogic").GetComponent<PrefabHost>().getHealthObject();
+        this.text = GameObject.Find("GameLogic").GetComponent<PrefabHost>().getLabelObject();
+        health.transform.SetParent(parent.transform);
+        text.transform.SetParent(parent.transform);
+        transform.SetParent(parent.transform);
+        health.GetComponent<HealthBar>().setTarget(gameObject);
+        text.GetComponent<ShipLabel>().setTarget(gameObject);
     }
 
     // Update is called once per frame
@@ -123,16 +131,6 @@ public class MainShip : MonoBehaviour, ShipIntf
     public float getHealthPercent()
     {
         return (float)healthPoints / maxHealth;
-    }
-
-    public void setHealth(GameObject health)
-    {
-        this.health = health;
-    }
-
-    public void setTextObj(GameObject text)
-    {
-        this.text = text;
     }
 
     public void setText(string newText)

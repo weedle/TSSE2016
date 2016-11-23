@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class HealthBar : MonoBehaviour {
-    public GameObject target;
+    private GameObject target;
     private float normalLength;
 	// Use this for initialization
 	void Start () {
@@ -21,7 +21,7 @@ public class HealthBar : MonoBehaviour {
         
 
         Vector3 newPos = target.transform.position;
-        newPos.x -= 0.2f;
+        //newPos.x -= 0.1f;
         newPos.y += 0.35f;
         transform.position = newPos;
 
@@ -41,5 +41,10 @@ public class HealthBar : MonoBehaviour {
         //t.localScale -= new Vector3(0.1f, 0, 0);
         //t.localScale.Set(t.localScale.x * perc, t.localScale.y, t.localScale.z);
         t.localScale = health;
+    }
+
+    public void setTarget(GameObject obj)
+    {
+        this.target = obj;
     }
 }
