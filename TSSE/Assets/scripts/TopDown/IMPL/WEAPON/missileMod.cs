@@ -2,10 +2,10 @@
 using System.Collections;
 
 // Firing Module that shoots damaging homing missiles
-public class MissileFiringModule : MonoBehaviour, FiringModule
+public class MissileMod : MonoBehaviour, FiringModule
 {
     public int counter = 0;
-    public Particle projectile;
+    private GameObject projectile;
     public float projectileSpeed = 20;
     public int ammoMax = 3;
     public int ammunition = 3;
@@ -16,7 +16,8 @@ public class MissileFiringModule : MonoBehaviour, FiringModule
     // Use this for initialization
     void Start()
     {
-        setFaction(ShipDefinitions.stringToFaction(gameObject.tag));
+        projectile = GameObject.Find("GameLogic").GetComponent<PrefabHost>().getMissileObject();
+        projectile.GetComponent<Particle>().setFaction(ShipDefinitions.stringToFaction(gameObject.tag));
         projectileSpeed += Random.Range(-4, 4);
         ammoMax += Random.Range(-4, 4);
         ammoCooldown += Random.Range(-20, 20);
@@ -73,12 +74,6 @@ public class MissileFiringModule : MonoBehaviour, FiringModule
     public float getEffectiveAngle()
     {
         return 6;
-    }
-
-    // Set faction of missile so it homes in on enemies
-    public void setFaction(ShipDefinitions.Faction faction)
-    {
-        projectile.faction = faction;
     }
 
     // can fire if have ammunition and not on cooldown

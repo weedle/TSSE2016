@@ -4,7 +4,7 @@ using System.Collections;
 // The pew pew laser weapon of this game!
 // The effect is that of a flickering line, it's pretty neat
 // Also, very simple to implement xD
-public class CrownFiringModule : MonoBehaviour, FiringModule
+public class CrownMod : MonoBehaviour, FiringModule
 {
     public Color color1 = Color.blue;
     public Color color2 = Color.cyan;

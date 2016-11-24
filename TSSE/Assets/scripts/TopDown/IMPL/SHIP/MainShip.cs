@@ -12,8 +12,8 @@ public class MainShip : MonoBehaviour, ShipIntf
     public int rotationSpeed = 5;
     public float moveSpeed = 1;
     private string shipName;
-    public GameObject health;
-    public GameObject text;
+    private GameObject health;
+    private GameObject text;
     public float healthPoints = 10;
     public float maxHealth = 10;
     private Vector2 velKeep;

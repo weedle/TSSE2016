@@ -42,4 +42,9 @@ public abstract class Particle : MonoBehaviour
 
         GetComponent<Animator>().StartPlayback();
     }
+
+    public void setFaction(ShipDefinitions.Faction faction)
+    {
+        this.faction = faction;
+    }
 }

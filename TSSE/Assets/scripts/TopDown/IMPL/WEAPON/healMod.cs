@@ -4,10 +4,10 @@ using System.Collections;
 // In progress weapon to heal other ships
 // Fires tiny healing missiles at a decent rate
 // In lore, those missiles are disposable repair drones
-public class HealFiringModule : MonoBehaviour, FiringModule
+public class HealMod : MonoBehaviour, FiringModule
 {
     public int counter = 0;
-    public Particle projectile;
+    private GameObject projectile;
     public float projectileSpeed = 20;
     public int ammoMax = 8;
     public int ammunition = 8;
@@ -18,7 +18,8 @@ public class HealFiringModule : MonoBehaviour, FiringModule
     // Use this for initialization
     void Start()
     {
-        setFaction(ShipDefinitions.stringToFaction(gameObject.tag));
+        projectile = GameObject.Find("GameLogic").GetComponent<PrefabHost>().getMissileObject();
+        projectile.GetComponent<Particle>().setFaction(ShipDefinitions.stringToFaction(gameObject.tag));
         projectileSpeed += Random.Range(-4, 4);
         ammoMax += Random.Range(-4, 4);
         ammoCooldown += Random.Range(-20, 20);
@@ -75,12 +76,6 @@ public class HealFiringModule : MonoBehaviour, FiringModule
     public float getEffectiveAngle()
     {
         return 8;
-    }
-
-    // Set faction of the missiles so they know who to heal
-    public void setFaction(ShipDefinitions.Faction faction)
-    {
-        projectile.faction = faction;
     }
     
     // can fire if we have ammunition and are not on cooldown

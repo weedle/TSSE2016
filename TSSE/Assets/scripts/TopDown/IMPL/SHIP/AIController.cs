@@ -80,7 +80,7 @@ public class AIController : MonoBehaviour, ShipController
             GameObject obj = GetComponent<TargetFinder>().getTarget(faction);
 
             if ((GetComponent<FiringModule>().GetType().
-                Equals(typeof(HealFiringModule))))
+                Equals(typeof(HealMod))))
             {
                 obj = GetComponent<TargetFinder>().getFriendly(faction);
             }
@@ -157,7 +157,7 @@ public class AIController : MonoBehaviour, ShipController
                     }
 
                     if ((GetComponent<FiringModule>().GetType().
-                        Equals(typeof(HealFiringModule))))
+                        Equals(typeof(HealMod))))
                     {
                         if (target.GetComponent<ShipIntf>().getHealthPercent() < 0.95)
                             state = ShipDefinitions.SState.Firing;

@@ -3,10 +3,10 @@ using System.Collections;
 
 // The Ion Cannon firing module, in code treated as a flamethrower
 // since that's initially what it was based on
-public class FlameFiringModule : MonoBehaviour, FiringModule
+public class FlameMod : MonoBehaviour, FiringModule
 {
     public int counter = 0;
-    public Particle projectile;
+    private GameObject projectile;
     public float projectileSpeed = 20;
     public int ammoMax = 15;
     public int ammunition = 15;
@@ -15,6 +15,8 @@ public class FlameFiringModule : MonoBehaviour, FiringModule
     // Use this for initialization
     void Start()
     {
+        projectile = GameObject.Find("GameLogic").GetComponent<PrefabHost>().getRedFlames();
+        projectile.GetComponent<Particle>().setFaction(ShipDefinitions.stringToFaction(gameObject.tag));
         projectileSpeed += Random.Range(-4, 4);
         ammoMax += Random.Range(-4, 4);
         ammoCooldown += Random.Range(-20, 20);
@@ -49,7 +51,9 @@ public class FlameFiringModule : MonoBehaviour, FiringModule
                 temp = new Vector3(transform.position.x, transform.position.y);
                 proj = (Rigidbody2D)Instantiate(projectile.GetComponent<Rigidbody2D>(),
                     temp + vec, Quaternion.Euler(0, 0, 90));
-                temp = new Vector3(projectileSpeed * vec.x, projectileSpeed * vec.y, 0);
+                temp = new Vector3(projectileSpeed * 
+                    (vec.x + Random.Range(-0.04f, 0.04f)), projectileSpeed * 
+                    (vec.y + Random.Range(-0.04f, 0.04f)), 0);
                 proj.velocity = temp;
                 //proj.MoveRotation(proj.transform.rotation.eulerAngles.z
                 //    + Random.Range(-15, 15));
@@ -70,12 +74,6 @@ public class FlameFiringModule : MonoBehaviour, FiringModule
     public float getEffectiveAngle()
     {
         return 4;
-    }
-
-    // Set the faction for the flame particles (to avoid friendly fire)
-    public void setFaction(ShipDefinitions.Faction faction)
-    {
-        projectile.faction = faction;
     }
 
     // Whether or not the weapon has ammunition and is not on cooldown
