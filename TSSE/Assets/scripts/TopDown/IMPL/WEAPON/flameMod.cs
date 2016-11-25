@@ -52,8 +52,8 @@ public class FlameMod : MonoBehaviour, FiringModule
                 proj = (Rigidbody2D)Instantiate(projectile.GetComponent<Rigidbody2D>(),
                     temp + vec, Quaternion.Euler(0, 0, 90));
                 temp = new Vector3(projectileSpeed * 
-                    (vec.x + Random.Range(-0.04f, 0.04f)), projectileSpeed * 
-                    (vec.y + Random.Range(-0.04f, 0.04f)), 0);
+                    (vec.x + Random.Range(-0.03f, 0.03f)), projectileSpeed * 
+                    (vec.y + Random.Range(-0.03f, 0.03f)), 0);
                 proj.velocity = temp;
                 //proj.MoveRotation(proj.transform.rotation.eulerAngles.z
                 //    + Random.Range(-15, 15));

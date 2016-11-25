@@ -34,6 +34,9 @@ public class MainShip : MonoBehaviour, ShipIntf
         transform.SetParent(parent.transform);
         health.GetComponent<HealthBar>().setTarget(gameObject);
         text.GetComponent<ShipLabel>().setTarget(gameObject);
+
+        gameObject.AddComponent<BoxCollider2D>();
+        gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
     }
 
     // Update is called once per frame
@@ -81,7 +84,8 @@ public class MainShip : MonoBehaviour, ShipIntf
 
     public void fire()
     {
-        GetComponent<FiringModule>().fire();
+        if(GetComponent<FiringModule>() != null)
+            GetComponent<FiringModule>().fire();
     }
 
     public float getEffectiveDistance()

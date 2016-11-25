@@ -28,10 +28,11 @@ public class PrefabHost : MonoBehaviour
         return obj;
     }
 
+    // Do not instantiate temporary objects here
     public GameObject getMissileObject()
     {
-        GameObject obj = (GameObject)Instantiate(missile, Vector3.zero, Quaternion.Euler(0, 0, 0));
-        return obj;
+        //GameObject obj = (GameObject)Instantiate(missile, Vector3.zero, Quaternion.Euler(0, 0, 0));
+        return missile;
     }
 
     public GameObject getRedFlames()

@@ -17,7 +17,6 @@ public class MissileMod : MonoBehaviour, FiringModule
     void Start()
     {
         projectile = GameObject.Find("GameLogic").GetComponent<PrefabHost>().getMissileObject();
-        projectile.GetComponent<Particle>().setFaction(ShipDefinitions.stringToFaction(gameObject.tag));
         projectileSpeed += Random.Range(-4, 4);
         ammoMax += Random.Range(-4, 4);
         ammoCooldown += Random.Range(-20, 20);
@@ -54,12 +53,14 @@ public class MissileMod : MonoBehaviour, FiringModule
             Rigidbody2D proj;
             vec = new Vector3(0, (float)0.25, 0);
             vec = transform.rotation * vec;
-            temp = new Vector3(transform.position.x, transform.position.y);
+            temp = new Vector3(transform.position.x, transform.position.y); 
             proj = (Rigidbody2D)Instantiate(projectile.GetComponent<Rigidbody2D>(),
                 temp + vec, Quaternion.Euler(0, 0, 90));
             temp = new Vector3(projectileSpeed * vec.x, projectileSpeed * vec.y, 0);
             proj.velocity = temp;
             proj.MoveRotation(transform.rotation.eulerAngles.z);
+            proj.GetComponent<Particle>().setFaction(ShipDefinitions.stringToFaction(gameObject.tag));
+
             ammunition--;
         }
     }

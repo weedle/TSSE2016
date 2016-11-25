@@ -17,6 +17,7 @@ public class CrownMod : MonoBehaviour, FiringModule
     // Use this for initialization
     void Start()
     {
+        gameObject.AddComponent<TargetFinder>();
         faction = ShipDefinitions.stringToFaction(gameObject.tag);
         ammoMax += Random.Range(-4, 4);
         ammoCooldown += Random.Range(-20, 20);
