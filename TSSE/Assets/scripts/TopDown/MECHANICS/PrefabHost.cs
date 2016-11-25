@@ -8,6 +8,7 @@ public class PrefabHost : MonoBehaviour
     public GameObject particleRedFire;
     public GameObject particleBlueFire;
     public GameObject missile;
+    public GameObject laser;
     public GameObject empty;
 
     public GameObject getHealthObject()
@@ -39,5 +40,11 @@ public class PrefabHost : MonoBehaviour
     {
         //GameObject obj = (GameObject)Instantiate(particleRedFire, Vector3.zero, Quaternion.Euler(0, 0, 0));
         return particleRedFire;
+    }
+
+    public GameObject getLaser()
+    {
+        //GameObject obj = (GameObject)Instantiate(particleRedFire, Vector3.zero, Quaternion.Euler(0, 0, 0));
+        return laser;
     }
 }
