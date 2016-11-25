@@ -9,8 +9,6 @@ using System.Collections;
 public class MainShip : MonoBehaviour, ShipIntf
 {
     public bool inactive;
-    public int rotationSpeed = 5;
-    public float moveSpeed = 1;
     private string shipName;
     private GameObject health;
     private GameObject text;
@@ -21,8 +19,6 @@ public class MainShip : MonoBehaviour, ShipIntf
     // Use this for initialization
     void Start()
     {
-        rotationSpeed += Random.Range(-2, 2);
-        moveSpeed += Random.Range(-0.3f, 0.3f);
         //Camera camera = Camera.main;
         //camera.orthographicSize = 640 / Screen.width * Screen.height / 2;
         shipName = ShipDefinitions.generateName();
@@ -65,20 +61,14 @@ public class MainShip : MonoBehaviour, ShipIntf
 
     public void move(float vertical)
     {
-        Vector2 temp = new Vector2(Mathf.Cos(getAngle()),
-                Mathf.Sin(getAngle()));
-        Rigidbody2D rigidbody = GetComponent<Rigidbody2D>();
-        if (vertical != 0)
-            rigidbody.velocity = temp * moveSpeed * (vertical + Mathf.Sign(vertical));
-        temp = Vector3.zero;
+        if (gameObject.GetComponentInChildren<EngineModule>() != null)
+            gameObject.GetComponentInChildren<EngineModule>().move(vertical);
     }
 
     public void rotate(float horizontal)
     {
-        Vector3 temp = new Vector3(0, 0, -1 * rotationSpeed * horizontal);
-        if (horizontal != 0)
-            transform.Rotate(temp);
-        temp = Vector3.zero;
+        if (gameObject.GetComponentInChildren<EngineModule>() != null)
+            gameObject.GetComponentInChildren<EngineModule>().rotate(horizontal);
     }
 
 
@@ -90,12 +80,16 @@ public class MainShip : MonoBehaviour, ShipIntf
 
     public float getEffectiveDistance()
     {
-        return GetComponent<FiringModule>().getEffectiveDistance();
+        if (GetComponent<FiringModule>() != null)
+            return GetComponent<FiringModule>().getEffectiveDistance();
+        return 0;
     }
 
     public float getEffectiveAngle()
     {
-        return GetComponent<FiringModule>().getEffectiveAngle();
+        if (GetComponent<FiringModule>() != null)
+            return GetComponent<FiringModule>().getEffectiveAngle();
+        return 0;
     }
 
     public void start()
