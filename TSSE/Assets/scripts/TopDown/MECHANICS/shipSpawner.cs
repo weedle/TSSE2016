@@ -127,6 +127,9 @@ public class ShipSpawner : MonoBehaviour
         temp = Vector3.zero;
     }
 
+
+
+
     public void spawnBunch()
     {
         Vector3 temp;
@@ -166,6 +169,9 @@ public class ShipSpawner : MonoBehaviour
         }
     }
 
+
+
+
     public void spawnFireShip(ShipDefinitions.Faction faction, Vector2 spawnPoint)
     {
         if (faction.Equals(ShipDefinitions.Faction.PlayerAffil))
@@ -173,6 +179,9 @@ public class ShipSpawner : MonoBehaviour
         else
             spawnEnemyShip(spawnPoint);
     }
+
+
+
 
     public void spawnCrownShip(ShipDefinitions.Faction faction, Vector2 spawnPoint)
     {
@@ -182,6 +191,9 @@ public class ShipSpawner : MonoBehaviour
             spawnEnemyCrown(spawnPoint);
     }
 
+
+
+
     public void spawnMissileShip(ShipDefinitions.Faction faction, Vector2 spawnPoint)
     {
         if (faction.Equals(ShipDefinitions.Faction.PlayerAffil))
@@ -190,35 +202,45 @@ public class ShipSpawner : MonoBehaviour
             spawnEnemyMissile(spawnPoint);
     }
 
+
+
+
     void spawnAllyShip(Vector2 spawnPoint)
     {
         spawnShip(spawnPoint, ally, allyCol);
     }
+
+
 
     void spawnAllyCrown(Vector2 spawnPoint)
     {
         spawnShip(spawnPoint, allyCrown, allyCol);
     }
 
+
     void spawnAllyMissile(Vector2 spawnPoint)
     {
         spawnShip(spawnPoint, allyMissile, allyCol);
     }
+
 
     void spawnEnemyShip(Vector2 spawnPoint)
     {
         spawnShip(spawnPoint, enemy, enemyCol);
     }
 
+
     void spawnEnemyCrown(Vector2 spawnPoint)
     {
         spawnShip(spawnPoint, enemyCrown, enemyCol);
     }
 
+
     void spawnEnemyMissile(Vector2 spawnPoint)
     {
         spawnShip(spawnPoint, enemyMissile, enemyCol);
     }
+
 
     void spawnShip(Vector2 spawnPoint, GameObject ship, Color color)
     {
@@ -252,6 +274,8 @@ public class ShipSpawner : MonoBehaviour
         }
     }
 
+
+
     public void deleteAll()
     {
         foreach (MainShip ship in GameObject.FindObjectsOfType<MainShip>())
@@ -259,6 +283,8 @@ public class ShipSpawner : MonoBehaviour
             Destroy(ship.transform.parent.gameObject);
         }
     }
+
+
 
     void setFaction(GameObject obj, ShipDefinitions.Faction faction)
     {
