@@ -4,6 +4,7 @@ using System.Collections;
 
 public class ButtonManager : MonoBehaviour {
 
+    // Load new scenes after pressing the appropriate buttons 
     public void SettingsBtn (string Settings)
     {
         SceneManager.LoadScene(Settings); 
@@ -33,5 +34,11 @@ public class ButtonManager : MonoBehaviour {
     {
         SceneManager.LoadScene("Ships");
     }
-    // switch case 
+
+    // Refactored - Much Simplier and fewer lines of code for loading scenes 
+    // Must add open scenes onto build settings for onClick to work 
+    public void LoadScenes(string scenePath)
+    {
+        SceneManager.LoadScene(scenePath);  
+    }
 }
