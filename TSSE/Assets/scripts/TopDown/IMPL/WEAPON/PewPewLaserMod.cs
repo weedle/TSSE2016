@@ -15,8 +15,6 @@ public class PewPewLaserMod : MonoBehaviour, FiringModule
     void Start()
     {
         projectile = GameObject.Find("GameLogic").GetComponent<PrefabHost>().getLaser();
-        projectile.GetComponent<Particle>().setFaction(ShipDefinitions.stringToFaction(gameObject.tag));
-        projectile.GetComponent<SpriteRenderer>().color = Color.green;
         //projectileSpeed += Random.Range(-4, 4);
         ammoMax += Random.Range(-4, 4);
         ammoCooldown += Random.Range(-20, 20);
@@ -46,15 +44,22 @@ public class PewPewLaserMod : MonoBehaviour, FiringModule
             Rigidbody2D proj;
             vec = new Vector3(0, (float)0.25, 0);
             vec = transform.rotation * vec;
-                temp = new Vector3(transform.position.x, transform.position.y);
-                proj = (Rigidbody2D)Instantiate(projectile.GetComponent<Rigidbody2D>(),
-                    temp + vec, transform.rotation);
-                temp = new Vector3(projectileSpeed *
-                    (vec.x), projectileSpeed *
-                    (vec.y), 0);
-                proj.velocity = temp;
-                //proj.MoveRotation(proj.transform.rotation.eulerAngles.z
-                //    + Random.Range(-15, 15));
+            temp = new Vector3(transform.position.x, transform.position.y);
+            proj = (Rigidbody2D)Instantiate(projectile.GetComponent<Rigidbody2D>(),
+                temp + vec, transform.rotation);
+            temp = new Vector3(projectileSpeed *
+                (vec.x), projectileSpeed *
+                (vec.y), 0);
+            proj.velocity = temp;
+
+        ShipDefinitions.Faction faction = ShipDefinitions.stringToFaction(gameObject.tag);
+        proj.GetComponent<Particle>().setFaction(faction);
+            if (faction == ShipDefinitions.Faction.PlayerAffil)
+                proj.GetComponent<SpriteRenderer>().color = Color.cyan;
+            else
+                proj.GetComponent<SpriteRenderer>().color = Color.yellow;
+            //proj.MoveRotation(proj.transform.rotation.eulerAngles.z
+            //    + Random.Range(-15, 15));
             ammunition--;
             temp = Vector3.zero;
             vec = Vector3.zero;

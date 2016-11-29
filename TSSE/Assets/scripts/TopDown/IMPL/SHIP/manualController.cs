@@ -50,6 +50,11 @@ public class ManualController : MonoBehaviour, ShipController
     {
         faction = ShipDefinitions.stringToFaction(gameObject.tag);
         ship = GetComponent<ShipIntf>();
+
+        if(GetComponent<FiringModule>() == null)
+        {
+            gameObject.AddComponent<DummyFiringMod>();
+        }
     }
 
     // Update is called once per frame

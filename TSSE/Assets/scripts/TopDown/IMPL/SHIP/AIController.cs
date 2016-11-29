@@ -196,6 +196,11 @@ public class AIController : MonoBehaviour, ShipController
         tag = gameObject.tag;
         tagReserve = tag;
         badVector = new Vector3(1e5f, 1e5f, 1e5f);
+        if (GetComponent<FiringModule>() == null)
+        {
+            gameObject.AddComponent<DummyFiringMod>();
+        }
+
     }
 
     // Update is called once per frame

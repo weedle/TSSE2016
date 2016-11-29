@@ -19,6 +19,14 @@ public class CrownMod : MonoBehaviour, FiringModule
     {
         gameObject.AddComponent<TargetFinder>();
         faction = ShipDefinitions.stringToFaction(gameObject.tag);
+
+        // bad guys use red lasers, good guys use blue?
+        if(faction == ShipDefinitions.Faction.Enemy)
+        {
+            color1 = Color.red;
+            color2 = Color.yellow;
+        }
+
         ammoMax += Random.Range(-4, 4);
         ammoCooldown += Random.Range(-20, 20);
     }

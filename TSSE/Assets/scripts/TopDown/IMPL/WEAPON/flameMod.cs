@@ -15,7 +15,11 @@ public class FlameMod : MonoBehaviour, FiringModule
     // Use this for initialization
     void Start()
     {
-        projectile = GameObject.Find("GameLogic").GetComponent<PrefabHost>().getRedFlames();
+        ShipDefinitions.Faction faction = ShipDefinitions.stringToFaction(gameObject.tag);
+        if(faction == ShipDefinitions.Faction.Enemy)
+            projectile = GameObject.Find("GameLogic").GetComponent<PrefabHost>().getRedFlames();
+        else
+            projectile = GameObject.Find("GameLogic").GetComponent<PrefabHost>().getBlueFlames();
         projectileSpeed += Random.Range(-4, 4);
         ammoMax += Random.Range(-4, 4);
         ammoCooldown += Random.Range(-20, 20);

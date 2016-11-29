@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class PrefabHost : MonoBehaviour
 {
@@ -62,6 +63,11 @@ public class PrefabHost : MonoBehaviour
     {
         //GameObject obj = (GameObject)Instantiate(particleRedFire, Vector3.zero, Quaternion.Euler(0, 0, 0));
         return particleRedFire;
+    }
+
+    internal GameObject getBlueFlames()
+    {
+        return particleBlueFire;
     }
 
     public GameObject getLaser()
