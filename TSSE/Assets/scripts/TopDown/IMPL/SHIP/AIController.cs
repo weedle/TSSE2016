@@ -78,13 +78,13 @@ public class AIController : MonoBehaviour, ShipController
             // if target is found, switch to state aiming
             Vector3 target = badVector;
             GameObject obj = GetComponent<TargetFinder>().getTarget(faction);
-
+            /*
             if ((GetComponent<FiringModule>().GetType().
                 Equals(typeof(HealMod))))
             {
                 obj = GetComponent<TargetFinder>().getFriendly(faction);
             }
-
+            */
             this.target = obj;
             if (obj)
             {

@@ -64,13 +64,13 @@ public class PewPewLaserMod : MonoBehaviour, FiringModule
     // Effective range for the flamethrower (technically ion cannon)
     public float getEffectiveDistance()
     {
-        return 2;
+        return 8;
     }
 
     // Effective angle at which to fire
     public float getEffectiveAngle()
     {
-        return 4;
+        return 2;
     }
 
     // Whether or not the weapon has ammunition and is not on cooldown

@@ -3,23 +3,12 @@ using System.Collections;
 
 public class ShipSpawner : MonoBehaviour
 {
-    public GameObject enemy;
-    public GameObject ally;
-    public GameObject player;
-    public GameObject enemyCrown;
-    public GameObject allyCrown;
-    public GameObject enemyMissile;
-    public GameObject allyMissile;
-    public GameObject allyHealer;
-    public GameObject empty;
-    public GameObject health;
-    public GameObject text;
     float cooldownMax = 15;
     float cooldown = 15;
     int counter = 2000;
 
-    private Color enemyCol = new Color(1, 0.2f, 0.2f);
-    private Color allyCol = new Color(0.2f, 1, 0.2f);
+    //private Color enemyCol = new Color(1, 0.2f, 0.2f);
+    //private Color allyCol = new Color(0.2f, 1, 0.2f);
     // Use this for initialization
     void Start()
     {
@@ -31,7 +20,7 @@ public class ShipSpawner : MonoBehaviour
     void Update()
     {
         //if (Camera.main.GetComponent<Pause>().getPaused()) return;
-        Vector3 temp;
+        //Vector3 temp;
         if (Time.frameCount % 1000 == 0)
         {
             System.GC.Collect();
@@ -43,6 +32,7 @@ public class ShipSpawner : MonoBehaviour
         }
         counter++;
         return;
+        /*
         if (cooldown <= 0)
         {
             Vector2 cursorPoint = new Vector2(ShipDefinitions.getCursor().x,
@@ -125,6 +115,7 @@ public class ShipSpawner : MonoBehaviour
             cooldown--;
         }
         temp = Vector3.zero;
+        */
     }
 
 
@@ -133,15 +124,15 @@ public class ShipSpawner : MonoBehaviour
     public void spawnBunch()
     {
         Vector3 temp;
-        for (int i = 0; i <= 8; i++)
+        for (int i = 0; i <= 4; i++)
         {
             Vector3 spawnPoint;
-            Vector3 spawnRand = 2 * Random.insideUnitSphere;
+            Vector3 spawnRand = 8 * Random.insideUnitSphere;
             spawnPoint = Vector3.zero;
             temp = new Vector3(0, Camera.main.pixelHeight / 2);
             spawnPoint.y = Camera.main.ScreenToWorldPoint(temp).y;
             spawnRand.z = 0;
-            float z = Random.Range(0, 15);
+            float z = Random.Range(0, 16);
             if (z <= 7.5)
             {
                 temp = new Vector3(Camera.main.pixelWidth / 4, 0, Camera.main.nearClipPlane);
@@ -153,102 +144,125 @@ public class ShipSpawner : MonoBehaviour
                 spawnPoint.x = Camera.main.ScreenToWorldPoint(temp).x;
             }
 
-            if (z <= 2.5)
-                spawnEnemyShip(spawnPoint + spawnRand);
-            else if (z > 2.5 && z <= 5)
-                spawnEnemyCrown(spawnPoint + spawnRand);
-            else if (z > 5 && z <= 7.5)
-                spawnEnemyMissile(spawnPoint + spawnRand);
-            else if (z > 7.5 && z <= 10)
-                spawnAllyShip(spawnPoint + spawnRand);
-            else if (z > 10 && z <= 12.5)
-                spawnAllyCrown(spawnPoint + spawnRand);
-            else
-                spawnAllyMissile(spawnPoint + spawnRand);
+            if (z <= 2)
+                spawnFireShip(spawnPoint + spawnRand, ShipDefinitions.Faction.Enemy);
+            else if (z > 2 && z <= 4)
+                spawnCrownShip(spawnPoint + spawnRand, ShipDefinitions.Faction.Enemy);
+            else if (z > 4 && z <= 6)
+                spawnMissileShip(spawnPoint + spawnRand, ShipDefinitions.Faction.Enemy);
+            else if (z > 6 && z <= 8)
+                spawnLaserShip(spawnPoint + spawnRand, ShipDefinitions.Faction.Enemy);
 
+            else if (z > 8 && z <= 10)
+                spawnFireShip(spawnPoint + spawnRand, ShipDefinitions.Faction.PlayerAffil);
+            else if (z > 10 && z <= 12)
+                spawnCrownShip(spawnPoint + spawnRand, ShipDefinitions.Faction.PlayerAffil);
+            else if (z > 12 && z <= 14)
+                spawnMissileShip(spawnPoint + spawnRand, ShipDefinitions.Faction.PlayerAffil);
+            else
+                spawnLaserShip(spawnPoint + spawnRand, ShipDefinitions.Faction.PlayerAffil);
         }
     }
 
-
-
-
-    public void spawnFireShip(ShipDefinitions.Faction faction, Vector2 spawnPoint)
+    GameObject getShipRuby()
     {
-        if (faction.Equals(ShipDefinitions.Faction.PlayerAffil))
-            spawnAllyShip(spawnPoint);
+        GameObject ship = GameObject.Find("GameLogic")
+            .GetComponent<PrefabHost>().getShipRubyObject();
+        ship.AddComponent<AIController>();
+        ship.AddComponent<TargetFinder>();
+        //setFaction(ship, ShipDefinitions.Faction.PlayerAffil);
+
+        
+        return ship;
+    }
+
+    void equipEngineLvl1(GameObject ship)
+    {
+        GameObject engine;
+        if (ship.GetComponent<ShipController>().getFaction()
+            == ShipDefinitions.Faction.PlayerAffil)
+        {
+            engine = GameObject.Find("GameLogic")
+                .GetComponent<PrefabHost>().getEngineLvl1Object();
+        }
         else
-            spawnEnemyShip(spawnPoint);
+        {
+            engine = GameObject.Find("GameLogic")
+                .GetComponent<PrefabHost>().getEngineLvl2Object();
+        }
+        engine.transform.parent = ship.transform;
+    }
+
+    void equipFire(GameObject ship)
+    {
+        ship.AddComponent<FlameMod>();
+    }
+
+    void equipCrown(GameObject ship)
+    {
+        ship.AddComponent<CrownMod>();
+    }
+
+    void equipMissile(GameObject ship)
+    {
+        ship.AddComponent<MissileMod>();
+    }
+
+    void equipLaser(GameObject ship)
+    {
+        ship.AddComponent<PewPewLaserMod>();
     }
 
 
 
-
-    public void spawnCrownShip(ShipDefinitions.Faction faction, Vector2 spawnPoint)
+    public void spawnFireShip(Vector3 spawnPoint, ShipDefinitions.Faction faction)
     {
-        if (faction.Equals(ShipDefinitions.Faction.PlayerAffil))
-            spawnAllyCrown(spawnPoint);
-        else
-            spawnEnemyCrown(spawnPoint);
+        GameObject ship = getShipRuby();
+        setFaction(ship, faction);
+        equipEngineLvl1(ship);
+        equipFire(ship);
+        spawnShip(spawnPoint, ship);
     }
 
-
-
-
-    public void spawnMissileShip(ShipDefinitions.Faction faction, Vector2 spawnPoint)
+    public void spawnCrownShip(Vector3 spawnPoint, ShipDefinitions.Faction faction)
     {
-        if (faction.Equals(ShipDefinitions.Faction.PlayerAffil))
-            spawnAllyMissile(spawnPoint);
-        else
-            spawnEnemyMissile(spawnPoint);
+
+        GameObject ship = getShipRuby();
+        setFaction(ship, faction);
+        equipEngineLvl1(ship);
+        equipCrown(ship);
+        spawnShip(spawnPoint, ship);
     }
 
-
-
-
-    void spawnAllyShip(Vector2 spawnPoint)
+    public void spawnMissileShip(Vector3 spawnPoint, ShipDefinitions.Faction faction)
     {
-        spawnShip(spawnPoint, ally, allyCol);
+        GameObject ship = getShipRuby();
+        setFaction(ship, faction);
+        equipEngineLvl1(ship);
+        equipMissile(ship);
+        spawnShip(spawnPoint, ship);
     }
 
-
-
-    void spawnAllyCrown(Vector2 spawnPoint)
+    public void spawnLaserShip(Vector3 spawnPoint, ShipDefinitions.Faction faction)
     {
-        spawnShip(spawnPoint, allyCrown, allyCol);
+        GameObject ship = getShipRuby();
+        setFaction(ship, faction);
+        equipEngineLvl1(ship);
+        equipLaser(ship);
+        spawnShip(spawnPoint, ship);
     }
 
-
-    void spawnAllyMissile(Vector2 spawnPoint)
+    void spawnShip(Vector2 spawnPoint, GameObject ship)
     {
-        spawnShip(spawnPoint, allyMissile, allyCol);
-    }
-
-
-    void spawnEnemyShip(Vector2 spawnPoint)
-    {
-        spawnShip(spawnPoint, enemy, enemyCol);
-    }
-
-
-    void spawnEnemyCrown(Vector2 spawnPoint)
-    {
-        spawnShip(spawnPoint, enemyCrown, enemyCol);
-    }
-
-
-    void spawnEnemyMissile(Vector2 spawnPoint)
-    {
-        spawnShip(spawnPoint, enemyMissile, enemyCol);
-    }
-
-
-    void spawnShip(Vector2 spawnPoint, GameObject ship, Color color)
-    {
-        GameObject obj = (GameObject)Instantiate(ship, spawnPoint, Quaternion.Euler(0, 0, 0));
-        obj.GetComponent<SpriteRenderer>().color = color;
+        //GameObject obj = (GameObject)Instantiate(ship, spawnPoint, Quaternion.Euler(0, 0, 0));
+        GameObject obj = ship;
+        obj.transform.position = spawnPoint;
+        //obj.GetComponent<SpriteRenderer>().color = color;
         cooldown = cooldownMax;
 
-        GameObject parent = (GameObject)Instantiate(empty, spawnPoint, Quaternion.Euler(0, 0, 0));
+        //GameObject empty = GameObject.Find("GameLogic")
+        //    .GetComponent<PrefabHost>().getEmptyObject();
+        //GameObject parent = (GameObject)Instantiate(empty, spawnPoint, Quaternion.Euler(0, 0, 0));
 
         //GameObject healthBar = (GameObject)Instantiate(health, spawnPoint, Quaternion.Euler(0, 0, 0));
 
@@ -268,14 +282,12 @@ public class ShipSpawner : MonoBehaviour
         //ShipLabel ShipLabel = textObj.GetComponent<ShipLabel>();
         //ShipLabel.target = obj;
 
-        if (Camera.main.GetComponent<Pause>().getPaused())
+        if (GameObject.Find("GameLogic").GetComponent<Pause>().getPaused())
         {
             ctrl.pause();
         }
     }
-
-
-
+    
     public void deleteAll()
     {
         foreach (MainShip ship in GameObject.FindObjectsOfType<MainShip>())
@@ -283,8 +295,6 @@ public class ShipSpawner : MonoBehaviour
             Destroy(ship.transform.parent.gameObject);
         }
     }
-
-
 
     void setFaction(GameObject obj, ShipDefinitions.Faction faction)
     {

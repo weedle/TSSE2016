@@ -33,6 +33,12 @@ public class MainShip : MonoBehaviour, ShipIntf
 
         gameObject.AddComponent<BoxCollider2D>();
         gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
+
+        //string id = shipName.Substring(shipName.Length - 4);
+        parent.name = "Parent-" + shipName;
+        gameObject.name = "Ship-" + shipName;
+        health.name = "Health-" + shipName;
+        text.name = "Text-" + shipName;
     }
 
     // Update is called once per frame

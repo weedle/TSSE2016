@@ -16,7 +16,6 @@ public class FlameMod : MonoBehaviour, FiringModule
     void Start()
     {
         projectile = GameObject.Find("GameLogic").GetComponent<PrefabHost>().getRedFlames();
-        projectile.GetComponent<Particle>().setFaction(ShipDefinitions.stringToFaction(gameObject.tag));
         projectileSpeed += Random.Range(-4, 4);
         ammoMax += Random.Range(-4, 4);
         ammoCooldown += Random.Range(-20, 20);
@@ -43,18 +42,21 @@ public class FlameMod : MonoBehaviour, FiringModule
         {
             Vector3 vec;
             Vector3 temp;
-            Rigidbody2D proj;
+            GameObject proj;
             vec = new Vector3(0, (float)0.25, 0);
             vec = transform.rotation * vec;
             for (int i = 0; i <= 3; i++)
             {
                 temp = new Vector3(transform.position.x, transform.position.y);
-                proj = (Rigidbody2D)Instantiate(projectile.GetComponent<Rigidbody2D>(),
+                proj = (GameObject)Instantiate(projectile,
                     temp + vec, Quaternion.Euler(0, 0, 90));
+                proj.GetComponent<Particle>().setFaction(
+                    ShipDefinitions.stringToFaction(
+                        gameObject.GetComponent<ShipController>().getFaction().ToString()));
                 temp = new Vector3(projectileSpeed * 
                     (vec.x + Random.Range(-0.03f, 0.03f)), projectileSpeed * 
                     (vec.y + Random.Range(-0.03f, 0.03f)), 0);
-                proj.velocity = temp;
+                proj.GetComponent<Rigidbody2D>().velocity = temp;
                 //proj.MoveRotation(proj.transform.rotation.eulerAngles.z
                 //    + Random.Range(-15, 15));
             }

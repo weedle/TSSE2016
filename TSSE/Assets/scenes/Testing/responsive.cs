@@ -9,7 +9,11 @@ public class responsive : MonoBehaviour {
 	public string input;
 	public GameObject logbox;
 	public Text logtext;
-	public ShipSpawner ally;
+    private ShipSpawner spawner;
+
+    public GameObject ally;
+    public GameObject enemy;
+	//public ShipSpawner ally;
 	//public ShipSpawner enemy;
 
 
@@ -20,7 +24,9 @@ public class responsive : MonoBehaviour {
 		logbox = GameObject.Find ("Log");
 		logtext = logbox.GetComponent<Text> ();
 
-		ally = GameObject.Find ("spawnLocation01").GetComponent<ShipSpawner>();
+        spawner = GameObject.Find("GameLogic")
+            .GetComponent<ShipSpawner>();
+		//ally = GameObject.Find ("spawnLocation01").GetComponent<ShipSpawner>();
 		//enemy = GameObject.Find ("spawnLocation02");
 
 	
@@ -42,7 +48,7 @@ public class responsive : MonoBehaviour {
 
 		if (textParam[0].Equals ("clear")) {
 			//enemy.deleteAll ();
-			ally.deleteAll ();
+			spawner.deleteAll ();
 		}
 
 		if (paramNum > 1) {
@@ -50,7 +56,7 @@ public class responsive : MonoBehaviour {
 			if (textParam [0].Equals ("s")) {
 
 				if (textParam [1].Equals ("rand")) {
-					ally.spawnBunch ();
+                    spawner.spawnBunch ();
 				}
 
 				if (paramNum > 2) {
@@ -66,22 +72,31 @@ public class responsive : MonoBehaviour {
 						faction = ShipDefinitions.Faction.PlayerAffil;
 					if (textParam [1].Equals ("e"))
 						faction = ShipDefinitions.Faction.Enemy;
-
-					for (int i = 0; i <= num; i++) {
+					for (int i = 1; i <= num; i++) {
 
 						Vector2 randPt = Bounds.getRandPosInBounds ();
+                        if (faction == ShipDefinitions.Faction.PlayerAffil)
+                        {
+                            randPt = ally.transform.position;
+                        }
+                        else
+                        {
+                            randPt = enemy.transform.position;
+                        }
 						switch (textParam [2]) {
-							
 						case "f":
-							ally.spawnFireShip(faction, randPt);
+                            spawner.spawnFireShip(randPt, faction);
 							break;
 						case "c":
-							ally.spawnCrownShip(faction, randPt);
+                            spawner.spawnCrownShip(randPt, faction);
 							break;
 						case "m":
-							ally.spawnMissileShip(faction, randPt);
+                            spawner.spawnMissileShip(randPt, faction);
 							break;
-						}
+                        case "l":
+                            spawner.spawnLaserShip(randPt, faction);
+                            break;
+                        }
 					}
 				}
 			} else if (textParam[0].Equals("n")){
