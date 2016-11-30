@@ -11,6 +11,12 @@ public class EngineModule : MonoBehaviour {
         moveSpeed += Random.Range(-0.3f, 0.3f);
         rotationSpeed += Random.Range(-2, 2);
         gameObject.GetComponent<SpriteRenderer>().enabled = false;
+
+        if(ship.getShipType() == 1)
+        {
+            moveSpeed *= 0.8f;
+            rotationSpeed *= 0.8f;
+        }
     }
 	
 	// Update is called once per frame

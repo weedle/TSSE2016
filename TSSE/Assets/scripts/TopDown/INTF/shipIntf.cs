@@ -39,4 +39,6 @@ public interface ShipIntf {
     void pause();
 
     void unpause();
+
+    int getShipType();
 }

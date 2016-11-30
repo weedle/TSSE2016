@@ -15,6 +15,7 @@ public class MainShip : MonoBehaviour, ShipIntf
     public float healthPoints = 10;
     public float maxHealth = 10;
     private Vector2 velKeep;
+    public int shipType;
 
     // Use this for initialization
     void Start()
@@ -163,5 +164,10 @@ public class MainShip : MonoBehaviour, ShipIntf
 
         Rigidbody2D rbody = GetComponent<Rigidbody2D>();
         rbody.velocity = velKeep;
+    }
+
+    public int getShipType()
+    {
+        return shipType;
     }
 }

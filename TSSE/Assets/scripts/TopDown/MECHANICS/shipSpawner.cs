@@ -164,38 +164,76 @@ public class ShipSpawner : MonoBehaviour
         }
     }
 
+    void addAIComponents(GameObject ship)
+    {
+        ship.AddComponent<AIController>();
+        ship.AddComponent<TargetFinder>();
+    }
+
     GameObject getShipRuby()
     {
         GameObject ship = GameObject.Find("GameLogic")
             .GetComponent<PrefabHost>().getShipRubyObject();
-        ship.AddComponent<AIController>();
-        ship.AddComponent<TargetFinder>();
+        addAIComponents(ship);
         return ship;
     }
+
     GameObject getShipRubyPirate()
     {
         GameObject ship = GameObject.Find("GameLogic")
             .GetComponent<PrefabHost>().getShipRubyPirateObject();
-        ship.AddComponent<AIController>();
-        ship.AddComponent<TargetFinder>();
+        addAIComponents(ship);
+        return ship;
+    }
+    
+    GameObject getShipPeacock()
+    {
+        GameObject ship = GameObject.Find("GameLogic")
+            .GetComponent<PrefabHost>().getShipPeacockObject();
+        addAIComponents(ship);
+        return ship;
+    }
+
+    GameObject getShipPeacockPirate()
+    {
+        GameObject ship = GameObject.Find("GameLogic")
+            .GetComponent<PrefabHost>().getShipPeacockPirateObject();
+        addAIComponents(ship);
         return ship;
     }
 
     void equipEngineLvl1(GameObject ship)
     {
-        GameObject engine;
-        if (ship.GetComponent<ShipController>().getFaction()
-            == ShipDefinitions.Faction.PlayerAffil)
-        {
-            engine = GameObject.Find("GameLogic")
+        GameObject engine = GameObject.Find("GameLogic")
                 .GetComponent<PrefabHost>().getEngineLvl1Object();
+        engine.transform.parent = ship.transform;
+    }
+
+    void equipEngineLvl2(GameObject ship)
+    {
+        GameObject engine = GameObject.Find("GameLogic")
+                .GetComponent<PrefabHost>().getEngineLvl2Object();
+        engine.transform.parent = ship.transform;
+    }
+
+    GameObject getShip(ShipDefinitions.Faction faction)
+    {
+        GameObject ship;
+        if (Random.Range(0, 10) < 2)
+        {
+            if (faction == ShipDefinitions.Faction.Enemy)
+                ship = getShipPeacockPirate();
+            else
+                ship = getShipPeacock();
         }
         else
         {
-            engine = GameObject.Find("GameLogic")
-                .GetComponent<PrefabHost>().getEngineLvl2Object();
+            if (faction == ShipDefinitions.Faction.Enemy)
+                ship = getShipRubyPirate();
+            else
+                ship = getShipRuby();
         }
-        engine.transform.parent = ship.transform;
+        return ship;
     }
 
     void equipFire(GameObject ship)
@@ -218,41 +256,10 @@ public class ShipSpawner : MonoBehaviour
         ship.AddComponent<PewPewLaserMod>();
     }
 
-    public GameObject getRubyShip(ShipDefinitions.Faction faction)
-    {
-        GameObject ship;
-        if (faction == ShipDefinitions.Faction.PlayerAffil ||
-            faction == ShipDefinitions.Faction.Player)
-        {
-            ship = GameObject.Find("GameLogic")
-                .GetComponent<PrefabHost>().getShipRubyObject();
-        }
-        else if (faction == ShipDefinitions.Faction.Enemy)
-        {
-            ship = GameObject.Find("GameLogic")
-                .GetComponent<PrefabHost>().getShipRubyPirateObject();
-        }
-        else
-        {
-            ship = GameObject.Find("GameLogic")
-                .GetComponent<PrefabHost>().getShipRubyObject();
-        }
-
-        if(faction == ShipDefinitions.Faction.Player)
-        {
-            ship.AddComponent<ManualController>();
-        }
-        else
-        {
-            ship.AddComponent<AIController>();
-        }
-        setFaction(ship, faction);
-        return ship;
-    }
-
     public void spawnFireShip(Vector3 spawnPoint, ShipDefinitions.Faction faction)
     {
-        GameObject ship = getRubyShip(faction);
+        GameObject ship = getShip(faction);
+        setFaction(ship, faction);
         equipEngineLvl1(ship);
         equipFire(ship);
         spawnShip(spawnPoint, ship);
@@ -260,7 +267,8 @@ public class ShipSpawner : MonoBehaviour
 
     public void spawnCrownShip(Vector3 spawnPoint, ShipDefinitions.Faction faction)
     {
-        GameObject ship = getRubyShip(faction);
+        GameObject ship = getShip(faction);
+        setFaction(ship, faction);
         equipEngineLvl1(ship);
         equipCrown(ship);
         spawnShip(spawnPoint, ship);
@@ -268,7 +276,8 @@ public class ShipSpawner : MonoBehaviour
 
     public void spawnMissileShip(Vector3 spawnPoint, ShipDefinitions.Faction faction)
     {
-        GameObject ship = getRubyShip(faction);
+        GameObject ship = getShip(faction);
+        setFaction(ship, faction);
         equipEngineLvl1(ship);
         equipMissile(ship);
         spawnShip(spawnPoint, ship);
@@ -276,7 +285,8 @@ public class ShipSpawner : MonoBehaviour
 
     public void spawnLaserShip(Vector3 spawnPoint, ShipDefinitions.Faction faction)
     {
-        GameObject ship = getRubyShip(faction);
+        GameObject ship = getShip(faction);
+        setFaction(ship, faction);
         equipEngineLvl1(ship);
         equipLaser(ship);
         spawnShip(spawnPoint, ship);

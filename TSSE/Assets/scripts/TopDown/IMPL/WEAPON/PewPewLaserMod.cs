@@ -16,8 +16,8 @@ public class PewPewLaserMod : MonoBehaviour, FiringModule
     {
         projectile = GameObject.Find("GameLogic").GetComponent<PrefabHost>().getLaser();
         //projectileSpeed += Random.Range(-4, 4);
-        ammoMax += Random.Range(-4, 4);
-        ammoCooldown += Random.Range(-20, 20);
+        ammoMax += Random.Range(-1, 1);
+        ammoCooldown += Random.Range(-10, 10);
     }
 
     // Update is called once per frame
