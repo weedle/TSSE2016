@@ -33,4 +33,9 @@ public class DummyFiringMod : MonoBehaviour, FiringModule {
 	void Update () {
 	
 	}
+
+    public float getAmmoPerc()
+    {
+        return 1;
+    }
 }

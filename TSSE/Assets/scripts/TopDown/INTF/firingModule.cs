@@ -21,4 +21,6 @@ public interface FiringModule {
     // This is useful if the AI wants to implement different behaviour
     // during cooldown
     bool canFire();
+
+    float getAmmoPerc();
 }

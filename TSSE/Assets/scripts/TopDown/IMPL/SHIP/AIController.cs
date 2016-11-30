@@ -245,7 +245,7 @@ public class AIController : MonoBehaviour, ShipController
 
     void OnMouseDown()
     {
-        Camera.main.GetComponent<Pause>().requestManualControl(gameObject);
+        GameObject.Find("GameLogic").GetComponent<Pause>().requestManualControl(gameObject);
     }
 
     public string getName()

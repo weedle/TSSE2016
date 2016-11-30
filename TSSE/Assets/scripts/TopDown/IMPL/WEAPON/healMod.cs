@@ -84,5 +84,10 @@ public class HealMod : MonoBehaviour, FiringModule
         if (ammunition > 0) return true;
         else return false;
     }
+
+    public float getAmmoPerc()
+    {
+        return (float)ammunition / ammoMax;
+    }
 }
 

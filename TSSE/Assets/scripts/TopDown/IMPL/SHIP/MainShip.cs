@@ -11,6 +11,7 @@ public class MainShip : MonoBehaviour, ShipIntf
     public bool inactive;
     private string shipName;
     private GameObject health;
+    private GameObject ammo;
     private GameObject text;
     public float healthPoints = 10;
     public float maxHealth = 10;
@@ -25,11 +26,14 @@ public class MainShip : MonoBehaviour, ShipIntf
         shipName = ShipDefinitions.generateName();
         GameObject parent = GameObject.Find("GameLogic").GetComponent<PrefabHost>().getEmptyObject();
         this.health = GameObject.Find("GameLogic").GetComponent<PrefabHost>().getHealthObject();
+        this.ammo = GameObject.Find("GameLogic").GetComponent<PrefabHost>().getAmmoObject();
         this.text = GameObject.Find("GameLogic").GetComponent<PrefabHost>().getLabelObject();
         health.transform.SetParent(parent.transform);
+        ammo.transform.SetParent(parent.transform);
         text.transform.SetParent(parent.transform);
         transform.SetParent(parent.transform);
         health.GetComponent<HealthBar>().setTarget(gameObject);
+        ammo.GetComponent<AmmoBar>().setTarget(gameObject);
         text.GetComponent<ShipLabel>().setTarget(gameObject);
 
         gameObject.AddComponent<BoxCollider2D>();
@@ -39,6 +43,7 @@ public class MainShip : MonoBehaviour, ShipIntf
         parent.name = "Parent-" + shipName;
         gameObject.name = "Ship-" + shipName;
         health.name = "Health-" + shipName;
+        ammo.name = "Ammo-" + shipName;
         text.name = "Text-" + shipName;
     }
 
@@ -48,6 +53,11 @@ public class MainShip : MonoBehaviour, ShipIntf
         // If the ship is out of bounds, Bounds.getPosInBounds
         // will return a new position within bounds
         transform.position = Bounds.getPosInBounds(transform.position);
+        if (GetComponent<FiringModule>() != null)
+        {
+            float perc = GetComponent<FiringModule>().getAmmoPerc();
+            ammo.GetComponent<AmmoBar>().setAmmoPercentage(perc);
+        }
     }
 
     public ShipDefinitions.SState getState()

@@ -14,10 +14,21 @@ public class PewPewLaserMod : MonoBehaviour, FiringModule
     // Use this for initialization
     void Start()
     {
+        ShipDefinitions.Faction faction = ShipDefinitions.stringToFaction(gameObject.tag);
         projectile = GameObject.Find("GameLogic").GetComponent<PrefabHost>().getLaser();
         //projectileSpeed += Random.Range(-4, 4);
         ammoMax += Random.Range(-1, 1);
         ammoCooldown += Random.Range(-10, 10);
+
+        GameObject firingSprite = GameObject.Find("GameLogic")
+            .GetComponent<PrefabHost>().getFiringSpriteObject();
+        firingSprite.transform.parent = gameObject.transform;
+        firingSprite.transform.position = new Vector3(
+            gameObject.transform.position.x,
+            gameObject.transform.position.y - 0.07f,
+            gameObject.transform.position.z);
+        firingSprite.GetComponent<FiringSprite>()
+            .setSprite(faction, "laser");
     }
 
     // Update is called once per frame
@@ -83,6 +94,11 @@ public class PewPewLaserMod : MonoBehaviour, FiringModule
     {
         if (ammunition > 0) return true;
         else return false;
+    }
+
+    public float getAmmoPerc()
+    {
+        return (float)ammunition / ammoMax;
     }
 }
 

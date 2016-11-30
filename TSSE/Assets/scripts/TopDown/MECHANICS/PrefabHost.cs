@@ -5,6 +5,7 @@ using System;
 public class PrefabHost : MonoBehaviour
 {
     public GameObject healthBar;
+    public GameObject ammoBar;
     public GameObject shipLabel;
     public GameObject particleRedFire;
     public GameObject particleBlueFire;
@@ -19,9 +20,17 @@ public class PrefabHost : MonoBehaviour
     public GameObject engineLvl1;
     public GameObject engineLvl2;
 
+    public GameObject firingSprite;
+
     public GameObject getHealthObject()
     {
         GameObject obj = (GameObject)Instantiate(healthBar, Vector3.zero, Quaternion.Euler(0, 0, 0));
+        return obj;
+    }
+
+    public GameObject getAmmoObject()
+    {
+        GameObject obj = (GameObject)Instantiate(ammoBar, Vector3.zero, Quaternion.Euler(0, 0, 0));
         return obj;
     }
 
@@ -70,6 +79,12 @@ public class PrefabHost : MonoBehaviour
     public GameObject getEngineLvl2Object()
     {
         GameObject obj = (GameObject)Instantiate(engineLvl2, Vector3.zero, Quaternion.Euler(0, 0, 0));
+        return obj;
+    }
+
+    public GameObject getFiringSpriteObject()
+    {
+        GameObject obj = (GameObject)Instantiate(firingSprite, Vector3.zero, Quaternion.Euler(0, 0, 0));
         return obj;
     }
 
