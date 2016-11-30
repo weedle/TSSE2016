@@ -13,6 +13,7 @@ public class PrefabHost : MonoBehaviour
     public GameObject empty;
 
     public GameObject shipRuby;
+    public GameObject shipRubyPirate;
     public GameObject engineLvl1;
     public GameObject engineLvl2;
 
@@ -37,6 +38,12 @@ public class PrefabHost : MonoBehaviour
     public GameObject getShipRubyObject()
     {
         GameObject obj = (GameObject)Instantiate(shipRuby, Vector3.zero, Quaternion.Euler(0, 0, 0));
+        return obj;
+    }
+
+    public GameObject getShipRubyPirateObject()
+    {
+        GameObject obj = (GameObject)Instantiate(shipRubyPirate, Vector3.zero, Quaternion.Euler(0, 0, 0));
         return obj;
     }
 

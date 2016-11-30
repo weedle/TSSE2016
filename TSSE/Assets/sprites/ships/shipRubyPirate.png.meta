@@ -1,25 +1,25 @@
 fileFormatVersion: 2
-guid: ebc21d6afe2a8f44b8d43abe6a147f7a
-timeCreated: 1480128104
+guid: 98d128249c33cf64c83091a77ade39d7
+timeCreated: 1480470121
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: thirdLayer_0
-    21300002: thirdLayer_1
-    21300004: thirdLayer_2
-    21300006: thirdLayer_3
-    21300008: thirdLayer_4
-    21300010: thirdLayer_5
-    21300012: thirdLayer_6
-    21300014: thirdLayer_7
-    21300016: thirdLayer_8
-    21300018: thirdLayer_9
-    21300020: thirdLayer_10
-    21300022: thirdLayer_11
-    21300024: thirdLayer_12
-    21300026: thirdLayer_13
-    21300028: thirdLayer_14
-    21300030: thirdLayer_15
+    21300000: shipRubyPirate_0
+    21300002: shipRubyPirate_1
+    21300004: shipRubyPirate_2
+    21300006: shipRubyPirate_3
+    21300008: shipRubyPirate_4
+    21300010: shipRubyPirate_5
+    21300012: shipRubyPirate_6
+    21300014: shipRubyPirate_7
+    21300016: shipRubyPirate_8
+    21300018: shipRubyPirate_9
+    21300020: shipRubyPirate_10
+    21300022: shipRubyPirate_11
+    21300024: shipRubyPirate_12
+    21300026: shipRubyPirate_13
+    21300028: shipRubyPirate_14
+    21300030: shipRubyPirate_15
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -69,7 +69,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: thirdLayer_0
+      name: shipRubyPirate_0
       rect:
         serializedVersion: 2
         x: 0
@@ -82,7 +82,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: thirdLayer_1
+      name: shipRubyPirate_1
       rect:
         serializedVersion: 2
         x: 32
@@ -95,7 +95,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: thirdLayer_2
+      name: shipRubyPirate_2
       rect:
         serializedVersion: 2
         x: 64
@@ -108,7 +108,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: thirdLayer_3
+      name: shipRubyPirate_3
       rect:
         serializedVersion: 2
         x: 96
@@ -121,7 +121,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: thirdLayer_4
+      name: shipRubyPirate_4
       rect:
         serializedVersion: 2
         x: 128
@@ -134,7 +134,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: thirdLayer_5
+      name: shipRubyPirate_5
       rect:
         serializedVersion: 2
         x: 160
@@ -147,7 +147,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: thirdLayer_6
+      name: shipRubyPirate_6
       rect:
         serializedVersion: 2
         x: 192
@@ -160,7 +160,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: thirdLayer_7
+      name: shipRubyPirate_7
       rect:
         serializedVersion: 2
         x: 224
@@ -173,7 +173,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: thirdLayer_8
+      name: shipRubyPirate_8
       rect:
         serializedVersion: 2
         x: 256
@@ -186,7 +186,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: thirdLayer_9
+      name: shipRubyPirate_9
       rect:
         serializedVersion: 2
         x: 288
@@ -199,7 +199,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: thirdLayer_10
+      name: shipRubyPirate_10
       rect:
         serializedVersion: 2
         x: 320
@@ -212,7 +212,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: thirdLayer_11
+      name: shipRubyPirate_11
       rect:
         serializedVersion: 2
         x: 352
@@ -225,7 +225,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: thirdLayer_12
+      name: shipRubyPirate_12
       rect:
         serializedVersion: 2
         x: 384
@@ -238,7 +238,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: thirdLayer_13
+      name: shipRubyPirate_13
       rect:
         serializedVersion: 2
         x: 416
@@ -251,7 +251,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: thirdLayer_14
+      name: shipRubyPirate_14
       rect:
         serializedVersion: 2
         x: 448
@@ -264,7 +264,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: thirdLayer_15
+      name: shipRubyPirate_15
       rect:
         serializedVersion: 2
         x: 480

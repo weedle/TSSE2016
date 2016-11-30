@@ -201,6 +201,10 @@ public class AIController : MonoBehaviour, ShipController
             gameObject.AddComponent<DummyFiringMod>();
         }
 
+        if (GetComponent<TargetFinder>() == null)
+        {
+            gameObject.AddComponent<TargetFinder>();
+        }
     }
 
     // Update is called once per frame
