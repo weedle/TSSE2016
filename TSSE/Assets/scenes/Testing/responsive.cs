@@ -49,7 +49,9 @@ public class responsive : MonoBehaviour {
 		if (textParam[0].Equals ("clear")) {
 			//enemy.deleteAll ();
 			spawner.deleteAll ();
-		}
+
+            PlayerPrefs.SetInt("score", 0);
+        }
 
 		if (paramNum > 1) {
 

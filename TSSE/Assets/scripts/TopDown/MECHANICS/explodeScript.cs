@@ -26,6 +26,14 @@ public class explodeScript : StateMachineBehaviour {
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         DestroyObject(animator.transform.parent.gameObject);
+
+        if (ShipDefinitions.stringToFaction(animator.transform.tag) == ShipDefinitions.Faction.Enemy)
+        {
+            int score = PlayerPrefs.GetInt("score");
+            score++;
+            PlayerPrefs.SetInt("score", score);
+            PlayerPrefs.Save();
+        }
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here
