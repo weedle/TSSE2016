@@ -40,7 +40,7 @@ public class AmmoBar : MonoBehaviour
         ammo.x = normalLength * perc;
 
         if (perc <= 0) ammo.x = 0;
-        if (ammo.x > 1) ammo.x = 1;
+        if (float.IsInfinity(ammo.x) || float.IsNaN(ammo.x)) ammo.x = 1;
         //t.localScale -= new Vector3(0.1f, 0, 0);
         //t.localScale.Set(t.localScale.x * perc, t.localScale.y, t.localScale.z);
         t.localScale = ammo;

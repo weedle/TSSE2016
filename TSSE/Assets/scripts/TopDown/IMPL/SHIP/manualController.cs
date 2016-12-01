@@ -8,12 +8,6 @@ public class ManualController : MonoBehaviour, ShipController
     public ShipIntf ship;
     private ShipDefinitions.Faction faction;
 
-    // does nothing since player targets manually
-    public GameObject getTarget()
-    {
-        return null;
-    }
-
     public void getNextState()
     {
         float horizontal = Input.GetAxis("Horizontal");
@@ -95,4 +89,17 @@ public class ManualController : MonoBehaviour, ShipController
     {
         ship.unpause();
     }
+
+    // does nothing since player targets manually
+    public GameObject getTarget()
+    {
+        return null;
+    }
+
+    public void setTarget(GameObject eh)
+    {
+        return;
+    }
+
+
 }

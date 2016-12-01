@@ -12,7 +12,7 @@ public class CrownMod : MonoBehaviour, FiringModule
     public int counter = 0;
     public int ammoMax = 15;
     public int ammunition = 15;
-    public int ammoCooldown = 120;
+    public int ammoCooldown = 60;
 
     // Use this for initialization
     void Start()
@@ -79,7 +79,7 @@ public class CrownMod : MonoBehaviour, FiringModule
             ShipDefinitions.DrawLine(firePoint, target.transform.position, color2, 0.12f);
             ShipDefinitions.DrawLine(firePoint, target.transform.position, color1, 0.14f);
             ShipDefinitions.DrawLine(firePoint, target.transform.position, color2, 0.1f);
-            target.GetComponent<ShipIntf>().isHit(2);
+            target.GetComponent<ShipIntf>().isHit(4);
             ammunition--;
         }
         target = null;

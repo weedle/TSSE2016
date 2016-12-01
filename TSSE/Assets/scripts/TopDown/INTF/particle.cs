@@ -39,8 +39,8 @@ public abstract class Particle : MonoBehaviour
 
         Rigidbody2D rbody = GetComponent<Rigidbody2D>();
         rbody.velocity = velKeep;
-
-        GetComponent<Animator>().StartPlayback();
+        if(GetComponent<Animator>() != null)
+            GetComponent<Animator>().StartPlayback();
     }
 
     public void setFaction(ShipDefinitions.Faction faction)

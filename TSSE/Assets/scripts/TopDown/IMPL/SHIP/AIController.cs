@@ -272,4 +272,10 @@ public class AIController : MonoBehaviour, ShipController
     {
         return target;
     }
+
+    public void setTarget(GameObject newTarget)
+    {
+        this.target = newTarget;
+        state = ShipDefinitions.SState.Aiming;
+    }
 }

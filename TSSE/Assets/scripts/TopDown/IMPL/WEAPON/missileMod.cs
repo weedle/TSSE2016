@@ -9,7 +9,7 @@ public class MissileMod : MonoBehaviour, FiringModule
     public float projectileSpeed = 20;
     public int ammoMax = 3;
     public int ammunition = 3;
-    public int ammoCooldown = 160;
+    public int ammoCooldown = 120;
     public int immediateCooldown = 30;
     public int immediateCooldownMax = 30;
 
@@ -18,8 +18,8 @@ public class MissileMod : MonoBehaviour, FiringModule
     {
         ShipDefinitions.Faction faction = ShipDefinitions.stringToFaction(gameObject.tag);
         projectile = GameObject.Find("GameLogic").GetComponent<PrefabHost>().getMissileObject();
-        projectileSpeed += Random.Range(-4, 4);
-        ammoMax += Random.Range(-4, 4);
+        projectileSpeed += Random.Range(-5, 5);
+        ammoMax += Random.Range(-1, 1);
         ammoCooldown += Random.Range(-20, 20);
 
         GameObject firingSprite = GameObject.Find("GameLogic")

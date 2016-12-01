@@ -3,22 +3,89 @@ using System.Collections;
 
 public class ShipSpawner : MonoBehaviour
 {
-    float cooldownMax = 15;
-    float cooldown = 15;
+    float cooldownMax = 500;
+    float cooldown = 0;
     int counter = 2000;
+
+    public UnityEngine.UI.Text countdown;
 
     //private Color enemyCol = new Color(1, 0.2f, 0.2f);
     //private Color allyCol = new Color(0.2f, 1, 0.2f);
     // Use this for initialization
     void Start()
     {
+        for (int i = 0; i < 6; i++)
+        {
+            int shipType = PlayerPrefs.GetInt("shipType" + i);
+            string weaponType = PlayerPrefs.GetString("weaponType" + i);
+            int engineType = PlayerPrefs.GetInt("engineType" + i);
+            GameObject ship;
 
+            if (shipType == 1)
+            {
+                ship = getShipRuby();
+            }
+            else if(shipType == 2)
+            {
+                ship = getShipPeacock();
+            }
+            else
+            {
+                continue;
+            }
+
+            if (engineType == 1)
+            {
+                equipEngineLvl1(ship);
+            }
+            else if (engineType == 2)
+            {
+                equipEngineLvl2(ship);
+            }
+
+            if (weaponType == "flame")
+            {
+                equipFire(ship);
+            }
+            else if (weaponType == "laser")
+            {
+                equipLaser(ship);
+            }
+            else if (weaponType == "missile")
+            {
+                equipMissile(ship);
+            }
+            else if (weaponType == "crown")
+            {
+                equipCrown(ship);
+            }
+
+            spawnShip(Vector2.zero, ship);
+            /*
+            if (shipInfo[i].shipType == 1)
+                PlayerPrefs.SetInt("shipType" + i, 1);
+            else if (shipInfo[i].shipType == 2)
+                PlayerPrefs.SetInt("shipType" + i, 2);
+
+            if (shipInfo[i].weaponType == "flame")
+                PlayerPrefs.SetString("weaponType" + i, "flame");
+            else if (shipInfo[i].weaponType == "crown")
+                PlayerPrefs.SetString("weaponType" + i, "crown");
+            else if (shipInfo[i].weaponType == "missile")
+                PlayerPrefs.SetString("weaponType" + i, "missile");
+            else if (shipInfo[i].weaponType == "laser")
+                PlayerPrefs.SetString("weaponType" + i, "laser");
+                */
+        }
     }
 
     // Update is called once per frame
 
     void Update()
     {
+        countdown.text = (cooldownMax - cooldown).ToString();
+        if(!GameObject.Find("GameLogic").GetComponent<Pause>().getPaused())
+            cooldown++;
         //if (Camera.main.GetComponent<Pause>().getPaused()) return;
         //Vector3 temp;
         if (Time.frameCount % 1000 == 0)
@@ -31,7 +98,64 @@ public class ShipSpawner : MonoBehaviour
             Resources.UnloadUnusedAssets();
         }
         counter++;
-        return;
+
+        if(cooldown >= cooldownMax)
+        {
+            int numEnemies = 0;
+            int numGoodies = 0;
+            foreach (MainShip ship in GameObject.FindObjectsOfType<MainShip>())
+            {
+                if(ship.GetComponent<ShipController>().getFaction() == ShipDefinitions.Faction.Enemy)
+                {
+                    numEnemies++;
+                }
+                if (ship.GetComponent<ShipController>().getFaction() == ShipDefinitions.Faction.Player ||
+                    ship.GetComponent<ShipController>().getFaction() == ShipDefinitions.Faction.PlayerAffil)
+                {
+                    numGoodies++;
+                }
+            }
+
+            if(numEnemies < 6)
+            {
+
+                for (int i = 0; i <= Random.Range(0, 3); i++)
+                {
+                    Vector3 spawnPoint;
+                    Vector3 spawnRand = 8 * Random.insideUnitSphere;
+                    spawnPoint = Vector3.zero;
+                    Vector3 temp = new Vector3(0, Camera.main.pixelHeight / 2);
+                    spawnPoint.y = Camera.main.ScreenToWorldPoint(temp).y;
+                    spawnRand.z = 0;
+                    float z = Random.Range(0, 8);
+                    if (z <= 7.5)
+                    {
+                        temp = new Vector3(Camera.main.pixelWidth / 4, 0, Camera.main.nearClipPlane);
+                        spawnPoint.x = Camera.main.ScreenToWorldPoint(temp).x;
+                    }
+                    else
+                    {
+                        temp = new Vector3(3 * Camera.main.pixelWidth / 4, Camera.main.nearClipPlane);
+                        spawnPoint.x = Camera.main.ScreenToWorldPoint(temp).x;
+                    }
+
+                    if (z <= 2)
+                        spawnFireShip(spawnPoint + spawnRand, ShipDefinitions.Faction.Enemy);
+                    else if (z > 2 && z <= 4)
+                        spawnCrownShip(spawnPoint + spawnRand, ShipDefinitions.Faction.Enemy);
+                    else if (z > 4 && z <= 6)
+                        spawnMissileShip(spawnPoint + spawnRand, ShipDefinitions.Faction.Enemy);
+                    else if (z > 6 && z <= 8)
+                        spawnLaserShip(spawnPoint + spawnRand, ShipDefinitions.Faction.Enemy);
+                }
+            }
+
+            if (numGoodies == 0)
+            {
+                UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+            }
+            cooldown = 0;
+        }
         /*
         if (cooldown <= 0)
         {
@@ -298,7 +422,6 @@ public class ShipSpawner : MonoBehaviour
         GameObject obj = ship;
         obj.transform.position = spawnPoint;
         //obj.GetComponent<SpriteRenderer>().color = color;
-        cooldown = cooldownMax;
 
         //GameObject empty = GameObject.Find("GameLogic")
         //    .GetComponent<PrefabHost>().getEmptyObject();

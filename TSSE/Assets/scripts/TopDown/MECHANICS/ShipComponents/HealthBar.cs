@@ -38,7 +38,7 @@ public class HealthBar : MonoBehaviour {
         health.x = normalLength * perc;
 
         if (perc <= 0) health.x = 0;
-        if (health.x > 1) health.x = 1;
+        if (float.IsInfinity(health.x) || float.IsNaN(health.x)) health.x = 1;
         //t.localScale -= new Vector3(0.1f, 0, 0);
         //t.localScale.Set(t.localScale.x * perc, t.localScale.y, t.localScale.z);
         t.localScale = health;

@@ -7,8 +7,8 @@ public class PewPewLaserMod : MonoBehaviour, FiringModule
     private int counter = 0;
     private GameObject projectile;
     public float projectileSpeed = 40;
-    public int ammoMax = 3;
-    public int ammunition = 3;
+    public int ammoMax = 4;
+    public int ammunition = 4;
     public int ammoCooldown = 30;
 
     // Use this for initialization

@@ -30,7 +30,7 @@ public class PewPewLaser : Particle
                 faction == ShipDefinitions.Faction.Enemy)
         {
             col.gameObject.GetComponent
-                <ShipIntf>().isHit(2);
+                <ShipIntf>().isHit(8);
         }
     }
 }

@@ -17,4 +17,6 @@ public interface ShipController
     void unpause();
 
     GameObject getTarget();
+
+    void setTarget(GameObject target);
 }
