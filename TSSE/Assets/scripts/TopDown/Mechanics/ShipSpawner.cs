@@ -7,12 +7,21 @@ public class ShipSpawner : MonoBehaviour
     float cooldown = 0;
     int counter = 2000;
 
+    bool oneTime = true;
+
     public UnityEngine.UI.Text countdown;
 
     //private Color enemyCol = new Color(1, 0.2f, 0.2f);
     //private Color allyCol = new Color(0.2f, 1, 0.2f);
     // Use this for initialization
     void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+
+    void spawnLoadout()
     {
         for (int i = 0; i < 6; i++)
         {
@@ -25,7 +34,7 @@ public class ShipSpawner : MonoBehaviour
             {
                 ship = getShipRuby();
             }
-            else if(shipType == 2)
+            else if (shipType == 2)
             {
                 ship = getShipPeacock();
             }
@@ -33,6 +42,8 @@ public class ShipSpawner : MonoBehaviour
             {
                 continue;
             }
+
+            setFaction(ship, ShipDefinitions.Faction.PlayerAffil);
 
             if (engineType == 1)
             {
@@ -61,28 +72,16 @@ public class ShipSpawner : MonoBehaviour
             }
 
             spawnShip(Vector2.zero, ship);
-            /*
-            if (shipInfo[i].shipType == 1)
-                PlayerPrefs.SetInt("shipType" + i, 1);
-            else if (shipInfo[i].shipType == 2)
-                PlayerPrefs.SetInt("shipType" + i, 2);
-
-            if (shipInfo[i].weaponType == "flame")
-                PlayerPrefs.SetString("weaponType" + i, "flame");
-            else if (shipInfo[i].weaponType == "crown")
-                PlayerPrefs.SetString("weaponType" + i, "crown");
-            else if (shipInfo[i].weaponType == "missile")
-                PlayerPrefs.SetString("weaponType" + i, "missile");
-            else if (shipInfo[i].weaponType == "laser")
-                PlayerPrefs.SetString("weaponType" + i, "laser");
-                */
         }
     }
 
-    // Update is called once per frame
-
     void Update()
     {
+        if(oneTime)
+        {
+            spawnLoadout();
+            oneTime = false;
+        }
         countdown.text = (cooldownMax - cooldown).ToString();
         if(!GameObject.Find("GameLogic").GetComponent<Pause>().getPaused())
             cooldown++;
