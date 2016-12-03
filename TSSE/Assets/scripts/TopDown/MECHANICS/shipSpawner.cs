@@ -1,18 +1,29 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// This handles spawning for the combad phase.
+// Initially, it spawns the ships in your initial loadout. A stupid 
+// oneTime boolean hack makes sure they aren't spawned until other
+// stuff is loaded (putting this in start fails for some reason,
+// someone else's start needs to run first.
+// I will literally treat whoever fixes this to chocolates.
+
+ // Then, in update, we occasionally spawn enemies in waves 
+ // and send the player back to the loadout screen if all their
+ // ships are dead.
 public class ShipSpawner : MonoBehaviour
 {
     float cooldownMax = 500;
     float cooldown = 0;
     int counter = 2000;
 
+    private int MAXENEMIES = 6;
+    private int WAVEENEMIES = 3;
+
     bool oneTime = true;
 
     public UnityEngine.UI.Text countdown;
-
-    //private Color enemyCol = new Color(1, 0.2f, 0.2f);
-    //private Color allyCol = new Color(0.2f, 1, 0.2f);
+    
     // Use this for initialization
     void Start()
     {
@@ -23,6 +34,9 @@ public class ShipSpawner : MonoBehaviour
 
     void spawnLoadout()
     {
+
+        // Spawn the player's starting ships
+        // the loudout data is saved in player preferences
         for (int i = 0; i < 6; i++)
         {
             int shipType = PlayerPrefs.GetInt("shipType" + i);
@@ -79,14 +93,19 @@ public class ShipSpawner : MonoBehaviour
     {
         if(oneTime)
         {
+            // first update, spawn player ships
             spawnLoadout();
             oneTime = false;
         }
         countdown.text = (cooldownMax - cooldown).ToString();
-        if(!GameObject.Find("GameLogic").GetComponent<Pause>().getPaused())
+
+        // Don't increment wave timer if paused
+        if (!GameObject.Find("GameLogic").GetComponent<Pause>().getPaused())
+        {
             cooldown++;
-        //if (Camera.main.GetComponent<Pause>().getPaused()) return;
-        //Vector3 temp;
+        }
+        counter++;
+
         if (Time.frameCount % 1000 == 0)
         {
             System.GC.Collect();
@@ -96,12 +115,14 @@ public class ShipSpawner : MonoBehaviour
             counter = 0;
             Resources.UnloadUnusedAssets();
         }
-        counter++;
 
+        // time for a new wave
         if(cooldown >= cooldownMax)
         {
             int numEnemies = 0;
             int numGoodies = 0;
+
+            // first count how many ships of each time we have
             foreach (MainShip ship in GameObject.FindObjectsOfType<MainShip>())
             {
                 if(ship.GetComponent<ShipController>().getFaction() == ShipDefinitions.Faction.Enemy)
@@ -115,10 +136,11 @@ public class ShipSpawner : MonoBehaviour
                 }
             }
 
-            if(numEnemies < 6)
+            
+            if(numEnemies < MAXENEMIES)
             {
-
-                for (int i = 0; i <= Random.Range(0, 3); i++)
+                // spawn some enemies, but only if we don't already have a lot
+                for (int i = 0; i <= Random.Range(0, WAVEENEMIES); i++)
                 {
                     Vector3 spawnPoint;
                     Vector3 spawnRand = 8 * Random.insideUnitSphere;
@@ -149,96 +171,13 @@ public class ShipSpawner : MonoBehaviour
                 }
             }
 
+            // all our players are dead, game over
             if (numGoodies == 0)
             {
                 UnityEngine.SceneManagement.SceneManager.LoadScene(0);
             }
             cooldown = 0;
         }
-        /*
-        if (cooldown <= 0)
-        {
-            Vector2 cursorPoint = new Vector2(ShipDefinitions.getCursor().x,
-                    ShipDefinitions.getCursor().y);
-            if (Input.GetButton("z"))
-            {
-                spawnAllyShip(cursorPoint);
-            }
-            if (Input.GetButton("x"))
-            {
-                spawnAllyCrown(cursorPoint);
-            }
-            if (Input.GetButton("c"))
-            {
-                spawnAllyMissile(cursorPoint);
-            }
-            if (Input.GetButton("v"))
-            {
-                spawnEnemyShip(cursorPoint);
-            }
-            if (Input.GetButton("b"))
-            {
-                spawnEnemyCrown(cursorPoint);
-            }
-            if (Input.GetButton("n"))
-            {
-                spawnEnemyMissile(cursorPoint);
-            }
-            if (Input.GetButton("m"))
-            {
-                spawnBunch();
-            }
-            foreach (Touch touch in Input.touches)
-            {
-                Vector3 vec = Camera.main.ScreenToWorldPoint(touch.position);
-                //Vector3 bound = Camera.main.
-                //    ScreenToWorldPoint(new Vector3(Screen.width,
-                //    Screen.height, 0));
-                if (touch.phase == TouchPhase.Began)
-                {
-                    temp = new Vector3(vec.x, vec.y);
-                    if (vec.x < 0)
-                    {
-                        if (vec.y < 0)
-                        {
-                            spawnEnemyShip(temp);
-                        }
-                        else
-                        {
-                            spawnEnemyCrown(temp);
-                        }
-                    }
-                    else
-                    {
-                        if (vec.y < 0)
-                        {
-                            spawnAllyShip(temp);
-                        }
-                        else
-                        {
-                            spawnAllyCrown(temp);
-                        }
-                    }
-
-                    if (touch.position.x < Screen.width / 10 &&
-                        touch.position.y < Screen.height / 10)
-                    {
-                        deleteAll();
-                    }
-                    if (touch.position.x > Screen.width * 0.9 &&
-    touch.position.y > Screen.height * 0.9)
-                    {
-                        spawnBunch();
-                    }
-                }
-            }
-        }
-        else
-        {
-            cooldown--;
-        }
-        temp = Vector3.zero;
-        */
     }
 
 
@@ -287,12 +226,14 @@ public class ShipSpawner : MonoBehaviour
         }
     }
 
+    // add components required for ship AI to function
     void addAIComponents(GameObject ship)
     {
         ship.AddComponent<AIController>();
         ship.AddComponent<TargetFinder>();
     }
 
+    // get a ruby ship of the player faction
     GameObject getShipRuby()
     {
         GameObject ship = GameObject.Find("GameLogic")
@@ -301,6 +242,7 @@ public class ShipSpawner : MonoBehaviour
         return ship;
     }
 
+    // get a ruby ship of the pirate faction
     GameObject getShipRubyPirate()
     {
         GameObject ship = GameObject.Find("GameLogic")
@@ -308,7 +250,8 @@ public class ShipSpawner : MonoBehaviour
         addAIComponents(ship);
         return ship;
     }
-    
+
+    // get a peacock ship of the player faction
     GameObject getShipPeacock()
     {
         GameObject ship = GameObject.Find("GameLogic")
@@ -317,6 +260,7 @@ public class ShipSpawner : MonoBehaviour
         return ship;
     }
 
+    // get a peacock ship of the pirate faction
     GameObject getShipPeacockPirate()
     {
         GameObject ship = GameObject.Find("GameLogic")
@@ -325,6 +269,7 @@ public class ShipSpawner : MonoBehaviour
         return ship;
     }
 
+    // equip this ship with a lvl 1 engine
     void equipEngineLvl1(GameObject ship)
     {
         GameObject engine = GameObject.Find("GameLogic")
@@ -332,6 +277,7 @@ public class ShipSpawner : MonoBehaviour
         engine.transform.parent = ship.transform;
     }
 
+    // equip this ship with a lvl 2 engine
     void equipEngineLvl2(GameObject ship)
     {
         GameObject engine = GameObject.Find("GameLogic")
@@ -339,6 +285,7 @@ public class ShipSpawner : MonoBehaviour
         engine.transform.parent = ship.transform;
     }
 
+    // get a ship of a certain faction, small probability of higher level
     GameObject getShip(ShipDefinitions.Faction faction)
     {
         GameObject ship;
@@ -359,26 +306,31 @@ public class ShipSpawner : MonoBehaviour
         return ship;
     }
 
+    // equip this ship with a flamethrower
     void equipFire(GameObject ship)
     {
         ship.AddComponent<FlameMod>();
     }
 
+    // equip this ship with a short-range auto-targeting laser
     void equipCrown(GameObject ship)
     {
         ship.AddComponent<CrownMod>();
     }
 
+    // equip this ship with a short range missile launcher
     void equipMissile(GameObject ship)
     {
         ship.AddComponent<MissileMod>();
     }
 
+    // equip this ship with a long range laser cannon
     void equipLaser(GameObject ship)
     {
         ship.AddComponent<PewPewLaserMod>();
     }
 
+    // spawn a firethrower ship
     public void spawnFireShip(Vector3 spawnPoint, ShipDefinitions.Faction faction)
     {
         GameObject ship = getShip(faction);
@@ -388,6 +340,7 @@ public class ShipSpawner : MonoBehaviour
         spawnShip(spawnPoint, ship);
     }
 
+    // spawn a crown laser ship
     public void spawnCrownShip(Vector3 spawnPoint, ShipDefinitions.Faction faction)
     {
         GameObject ship = getShip(faction);
@@ -397,6 +350,7 @@ public class ShipSpawner : MonoBehaviour
         spawnShip(spawnPoint, ship);
     }
 
+    // spawn a missile ship
     public void spawnMissileShip(Vector3 spawnPoint, ShipDefinitions.Faction faction)
     {
         GameObject ship = getShip(faction);
@@ -406,6 +360,7 @@ public class ShipSpawner : MonoBehaviour
         spawnShip(spawnPoint, ship);
     }
 
+    // spawn a laser cannon ship
     public void spawnLaserShip(Vector3 spawnPoint, ShipDefinitions.Faction faction)
     {
         GameObject ship = getShip(faction);
@@ -415,34 +370,13 @@ public class ShipSpawner : MonoBehaviour
         spawnShip(spawnPoint, ship);
     }
 
+    // spawn the given ship at the given location
     void spawnShip(Vector2 spawnPoint, GameObject ship)
     {
-        //GameObject obj = (GameObject)Instantiate(ship, spawnPoint, Quaternion.Euler(0, 0, 0));
         GameObject obj = ship;
         obj.transform.position = spawnPoint;
-        //obj.GetComponent<SpriteRenderer>().color = color;
-
-        //GameObject empty = GameObject.Find("GameLogic")
-        //    .GetComponent<PrefabHost>().getEmptyObject();
-        //GameObject parent = (GameObject)Instantiate(empty, spawnPoint, Quaternion.Euler(0, 0, 0));
-
-        //GameObject healthBar = (GameObject)Instantiate(health, spawnPoint, Quaternion.Euler(0, 0, 0));
-
-        //GameObject textObj = (GameObject)Instantiate(text, spawnPoint, Quaternion.Euler(0, 0, 0));
-
-        //healthBar.transform.SetParent(parent.transform);
-        //obj.transform.SetParent(parent.transform);
-        //textObj.transform.SetParent(parent.transform);
 
         ShipIntf ctrl = obj.GetComponent<ShipIntf>();
-        //ctrl.setHealth(healthBar);
-        //ctrl.setTextObj(textObj);
-
-        //HealthBar bar = healthBar.GetComponent<HealthBar>();
-        //bar.target = obj;
-
-        //ShipLabel ShipLabel = textObj.GetComponent<ShipLabel>();
-        //ShipLabel.target = obj;
 
         if (GameObject.Find("GameLogic").GetComponent<Pause>().getPaused())
         {
@@ -450,6 +384,7 @@ public class ShipSpawner : MonoBehaviour
         }
     }
     
+    // remove all ships on screen
     public void deleteAll()
     {
         foreach (MainShip ship in GameObject.FindObjectsOfType<MainShip>())
@@ -458,10 +393,10 @@ public class ShipSpawner : MonoBehaviour
         }
     }
 
+    // set the faction of the given ship
     void setFaction(GameObject obj, ShipDefinitions.Faction faction)
     {
         obj.tag = faction.ToString();
         obj.GetComponent<ShipController>().setFaction(faction);
-        //obj.GetComponent<IntfFiringModule>().
     }
 }

@@ -4,7 +4,13 @@ using System;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+// Ship selection is a huge ugly mess of code for this particular scene
+// and sorely needs some refactoring.
+// note to self: remove this comment once refactoring is done
 public class ShipSelection : MonoBehaviour {
+    // these are the visual ship objects
+    // if you select your first ship to be a ruby ship, then ship1
+    // will show a ruby ship sprite
     public GameObject ship1;
     public GameObject ship2;
     public GameObject ship3;
@@ -12,6 +18,8 @@ public class ShipSelection : MonoBehaviour {
     public GameObject ship5;
     public GameObject ship6;
 
+    // these are the tiny sprites to the right of each ship object, that 
+    // reflect what weapon is equipped on that ship
     public GameObject weapon1;
     public GameObject weapon2;
     public GameObject weapon3;
@@ -19,6 +27,8 @@ public class ShipSelection : MonoBehaviour {
     public GameObject weapon5;
     public GameObject weapon6;
 
+    // to the left of each ship is the engine object, that does
+    // the same thing but for engines
     public GameObject engine1;
     public GameObject engine2;
     public GameObject engine3;
@@ -37,26 +47,29 @@ public class ShipSelection : MonoBehaviour {
     public UnityEngine.UI.Dropdown dropdown;
     public UnityEngine.UI.Text textThing;
 
+    // sprites to set when ships are selected
     public Sprite shipNoneSprite;
     public Sprite ship1Sprite;
     public Sprite ship2Sprite;
 
+    // sprites to set when weapons are selected
     public Sprite weaponNoneSprite;
     public Sprite weaponCrownSprite;
     public Sprite weaponLaserSprite;
     public Sprite weaponMissileSprite;
     public Sprite weaponFlameSprite;
 
+    // same but for engines
     public Sprite engineNoneSprite;
     public Sprite engine1Sprite;
     public Sprite engine2Sprite;
 
     public UnityEngine.UI.Button buttonContinue;
 
-
+    // this is the ship slot we are currently equipping things on
     public int selectedShip = 0;
     
-    
+    // the struct containing the info for a specific ship slot
     public struct ShipInfo
     {
         public int shipType;
@@ -64,18 +77,21 @@ public class ShipSelection : MonoBehaviour {
         public int engineType;
     }
 
+    // total cost of all equipped items so far
     private int cost;
 
+    // the current loadout
     private ShipInfo[] shipInfo;
+
+    // the sprites we change to reflect the current loadout
     private GameObject[] ships;
     private GameObject[] weapons;
     private GameObject[] engines;
 
     // Use this for initialization
     void Start() {
-        // dropdown value is 0 for option 1, 1 for option 2, etc
-
         shipInfo = new ShipInfo[6];
+
         ships = new GameObject[6];
         ships[0] = ship1;
         ships[1] = ship2;
@@ -83,6 +99,7 @@ public class ShipSelection : MonoBehaviour {
         ships[3] = ship4;
         ships[4] = ship5;
         ships[5] = ship6;
+
         weapons = new GameObject[6];
         weapons[0] = weapon1;
         weapons[1] = weapon2;
@@ -90,6 +107,7 @@ public class ShipSelection : MonoBehaviour {
         weapons[3] = weapon4;
         weapons[4] = weapon5;
         weapons[5] = weapon6;
+
         engines = new GameObject[6];
         engines[0] = engine1;
         engines[1] = engine2;
@@ -98,6 +116,7 @@ public class ShipSelection : MonoBehaviour {
         engines[4] = engine5;
         engines[5] = engine6;
 
+        // initialize info to have nothing selected
         for (int i = 0; i < 6; i++)
         {
             shipInfo[i].shipType = -1;
@@ -105,10 +124,13 @@ public class ShipSelection : MonoBehaviour {
             shipInfo[i].engineType = -1;
         }
 
+        // add listener so we change current selected ship
+        // when the dropdown changes
         dropdown.onValueChanged.AddListener(delegate {
             handleDropDownChange(dropdown);
         });
 
+        // add moar listeners
         addButtonListener(shipButton1);
         addButtonListener(shipButton2);
         addButtonListener(crownButton);
@@ -118,6 +140,8 @@ public class ShipSelection : MonoBehaviour {
         addButtonListener(engineButton1);
         addButtonListener(engineButton2);
 
+        // start with all buttons unhighlighted
+        // (nothing equipped)
         unhighlightButton(shipButton1);
         unhighlightButton(shipButton2);
         unhighlightButton(crownButton);
@@ -125,12 +149,17 @@ public class ShipSelection : MonoBehaviour {
         unhighlightButton(missileButton);
         unhighlightButton(flameButton);
 
+        // add listener
         buttonContinue.onClick.AddListener(delegate
         {
             tryToContinue(buttonContinue);
         });
     }
 
+    // if we have enough scrap for the current loadout, then
+    // save that loadout into player preferences so we can
+    // access it in the next scene
+    // then, load said scene
     void tryToContinue(Button buttonContinue)
     {
         updateCost();
@@ -167,24 +196,14 @@ public class ShipSelection : MonoBehaviour {
                 else
                     PlayerPrefs.SetString("weaponType" + i, "none");
             }
-
-            //SceneManager.LoadScene("scenes/Testing/mainTesting");
+            
+            // load the combat scene
             SceneManager.LoadScene(1);
         }
         else
         {
             textThing.text = "Not enough scrap!";
         }
-    }
-
-    void updateTextThing()
-    {
-        /*
-        textThing.text = 
-            "Ship " + (selectedShip + 1) + ": " + 
-            "Type " + shipInfo[selectedShip].shipType + " " +
-            "Weapon " + shipInfo[selectedShip].weaponType;
-            */
     }
 
     void addButtonListener(UnityEngine.UI.Button button)
@@ -197,9 +216,11 @@ public class ShipSelection : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        updateTextThing();
     }
 
+    // set all weapons to be unselected
+    // if you select a weapon, call this first to 
+    // unselect the other weapons
     void unhighlightAllWeaponButtons()
     {
         unhighlightButton(crownButton);
@@ -208,6 +229,8 @@ public class ShipSelection : MonoBehaviour {
         unhighlightButton(flameButton);
 }
 
+    // if you select any ship, weapon, or engine, this button
+    // updates the sprites of those buttons to show you what's selected
     void handleButtonPress(UnityEngine.UI.Button button)
     {
         if (button.name == "buttonShipLvl1")
@@ -381,6 +404,8 @@ public class ShipSelection : MonoBehaviour {
         updateCost();
     }
     
+    // for now we're just changing the color tint when a weapon
+    // is selected
     void highlightButton(UnityEngine.UI.Button button)
     {
         button.GetComponent<UnityEngine.UI.Image>()
@@ -393,6 +418,8 @@ public class ShipSelection : MonoBehaviour {
                 .color = new Color(256, 256, 256, 256);
     }
 
+    // react on dropdown change
+    // to show current equipped things on that ship
     void handleDropDownChange(UnityEngine.UI.Dropdown dropdownTarget)
     {
         selectedShip = dropdownTarget.value;
@@ -503,6 +530,11 @@ public class ShipSelection : MonoBehaviour {
         }
     }
 
+    // find the cost of the current loadout
+    // this really really needs to change, but it currently gets the cost
+    // by... looking at what the labels say the text is
+    // we should make this centralized later, especially if we end up
+    // implementing that automatic balancing thing
     void updateCost()
     {
         cost = 0;
