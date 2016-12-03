@@ -20,9 +20,6 @@ public class Bounds : MonoBehaviour
         Vector3 bottomLeft = new Vector3(-xbound, -ybound);
         Vector3 topRight = new Vector3(xbound, ybound);
         ShipDefinitions.DrawSquare(bottomLeft, topRight, Color.gray, 0.3f);
-
-        bottomLeft = Vector3.zero;
-        topRight = Vector3.zero;
     }
 	
 	// Update is called once per frame
