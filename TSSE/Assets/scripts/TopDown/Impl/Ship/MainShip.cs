@@ -17,6 +17,7 @@ public class MainShip : MonoBehaviour, ShipIntf
     public float maxHealth = 10;
     private Vector2 velKeep;
     public int shipType;
+    public bool initialized = false;
 
     // Use this for initialization
     void Start()
@@ -45,6 +46,7 @@ public class MainShip : MonoBehaviour, ShipIntf
         health.name = "Health-" + shipName;
         ammo.name = "Ammo-" + shipName;
         text.name = "Text-" + shipName;
+        initialized = true;
     }
 
     // Update is called once per frame
