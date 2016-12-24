@@ -2,12 +2,20 @@
 using System.Collections;
 using System;
 
-// The basic AI script for a ship (enemy or player affiliated).
-// This ship gives the orders to a ship gameobject
-// The AI is as follows: if there's an enemy ship, try to get within
-// firing range. If within firing range and pointing vaguely at it, 
-// fire main gun!. If there are no enemies, go hang out with a friendly
-// ship. If no one's around, sit and contemplate the nature of solitude.
+/*
+ * - used as a basic AI script for an enemy or player-affiliated ship
+ * - gives orders to a 'ship' gameObject
+ * 
+ * - summary of the AI:
+ * 		+ if there's an enemy ship, try to get the enemy ship within your firing
+ * 		  range
+ * 		+ if the enenmy whip is within firing range AND you are vaguely pointing
+ * 		  in its direction, fire you main gun at it!
+ * 		+ if there are no enemies, regroup back with ships in the same faction
+ * 		+ if there are no ships, sit and contemplate the nature of solitude
+ * 
+ * - reference: 	scripts/TopDown/MECHANICS/ShipDefinitions.cs
+ */ 
 public class AIController : MonoBehaviour, ShipController
 {
     private ShipDefinitions.SState state = ShipDefinitions.SState.Searching;
@@ -70,6 +78,10 @@ public class AIController : MonoBehaviour, ShipController
         */
     }
 
+
+	/*
+	 * 
+	 */
     private void handleState()
     {
         if (state == ShipDefinitions.SState.Searching)
@@ -188,7 +200,11 @@ public class AIController : MonoBehaviour, ShipController
         }
     }
 
-    // Use this for initialization
+    
+
+	/*
+	 * initializes various variables
+	 */ 
     void Start()
     {
         faction = ShipDefinitions.stringToFaction(gameObject.tag);
@@ -196,18 +212,18 @@ public class AIController : MonoBehaviour, ShipController
         tag = gameObject.tag;
         tagReserve = tag;
         badVector = new Vector3(1e5f, 1e5f, 1e5f);
-        if (GetComponent<FiringModule>() == null)
-        {
-            gameObject.AddComponent<DummyFiringMod>();
-        }
 
-        if (GetComponent<TargetFinder>() == null)
-        {
+        if (GetComponent<FiringModule>() == null)
+            gameObject.AddComponent<DummyFiringMod>();
+
+		if (GetComponent<TargetFinder>() == null)
             gameObject.AddComponent<TargetFinder>();
-        }
     }
 
-    // Update is called once per frame
+
+	/*
+	 * 
+	 */
     void Update()
     {
         ship.setText(ship.getName() +
@@ -218,16 +234,20 @@ public class AIController : MonoBehaviour, ShipController
         getNextState();
     }
 
+
+	// returns ship faction
     public ShipDefinitions.Faction getFaction()
     {
         return faction;
     }
 
+	// sets ship faction
     public void setFaction(ShipDefinitions.Faction faction)
     {
         this.faction = faction;
     }
 
+	// 
     public void enable()
     {
         gameObject.tag = tagReserve;

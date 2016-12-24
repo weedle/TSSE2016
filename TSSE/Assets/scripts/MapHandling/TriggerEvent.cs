@@ -3,47 +3,54 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 
 
-
-
 public class TriggerEvent : MonoBehaviour {
     public GameObject PlayerShip;
-    // Use this for initialization
-    public string level = "Settings";
+	public string level;
 
-    // Use this for initialization
-    void OnTriggerEnter2D(Collider2D Colider)
+
+	/*
+	 * initialize variables 
+	 * ("Settings" is in: scenes/Menus/PersonalInfoMenu/Settings)
+	 */ 
+	void Start () {
+		level = "Settings";
+	}
+
+
+	/*
+	 * loads the scene assigned to 'level' on Start (?)
+	 * 
+	 * COMMENT: don't know where this is used
+	 */ 
+    void OnTriggerEnter2D(Collider2D Collider)
     {
-        if (Colider.gameObject.tag == "Player") 
-        SceneManager.LoadScene(level);
+        if (Collider.gameObject.tag == "Player") 
+        	SceneManager.LoadScene(level);
     }
+		
 
-
-
-
-    void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
+	/*
+	 * loads appropriate menu if the object we collided with has a
+	 *    Collider2D component enabled
+	 * 
+	 * COMMENT: the Collision2D 'coll' does not appear to be used
+	 */ 
     void OnCollisionEnter2D(Collision2D coll)
     {
         PlayerShip = GameObject.FindWithTag("Player");
-        // If the Collider2D component is enabled on the object we collided with
         if (PlayerShip)
         {
             SceneManager.LoadScene("Ships");
         }
     }
 
+
+	/*
+	 * loads 'Ships' scene from scenes/Menus/PersonalInfoMenu
+	 * COMMENT: the string 'Ships' does not appear to be used...
+	 */
     public void ShipsBtnLoad(string Ships)
     {
         SceneManager.LoadScene("Ships");
     }
-
-
-
 }

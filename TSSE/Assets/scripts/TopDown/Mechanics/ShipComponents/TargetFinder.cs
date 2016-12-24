@@ -26,6 +26,9 @@ public class TargetFinder : MonoBehaviour {
         if (gameObject.Equals(closest)) return null;
         return closest;
     }
+
+
+
     public GameObject getTarget(ShipDefinitions.Faction faction)
     {
         if (faction == ShipDefinitions.Faction.Enemy)
@@ -45,6 +48,8 @@ public class TargetFinder : MonoBehaviour {
         }
         return null;
     }
+
+
 
     public GameObject getFriendly(ShipDefinitions.Faction faction)
     {

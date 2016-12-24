@@ -1,11 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
+
+/*
+ * - used for laser particles/effect
+ * 
+ * - for reference: scripts/TopDown/INTF/Particle.cs 
+ * 				  : scripts/TopDown/MECHANICS/ShipDefinitions.cs
+ */ 
 public class PewPewLaser : Particle
 {
-    // Use this for initialization
-
-    // Update is called once per frame
+	/*
+	 * regulates particle movement (rotation) and handles the particle lifetime
+	 */ 
     void Update()
     {
         if (!active)
@@ -20,6 +28,14 @@ public class PewPewLaser : Particle
         }
     }
 
+
+	/*
+	 * when the particle collides with a ship, decreases the health of
+	 * the ship under appropriate circumstances (see below)
+	 * 
+	 * NOTE: a ship will be damaged only if the particle that hits it 
+	 * 		 is sent from a ship in the opposing faction!!!
+	 */
     public void OnTriggerEnter2D(Collider2D col)
     {
         if ((col.CompareTag("Enemy") &&

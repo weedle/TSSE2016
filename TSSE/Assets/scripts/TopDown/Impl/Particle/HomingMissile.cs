@@ -9,10 +9,7 @@ public class HomingMissile : Particle
     public float rotationSpeed = 10;
     public int damage = 16;
 
-    void Start()
-    {
-    }
-    // Update is called once per frame
+
     void Update()
     {
         if (!active)
@@ -25,6 +22,7 @@ public class HomingMissile : Particle
         {
             lifetime--;
         }
+
         if (target == null)
         {
             target = GetComponent<TargetFinder>().getTarget(faction);
@@ -78,6 +76,15 @@ public class HomingMissile : Particle
         temp = Vector3.zero;
     }
 
+
+
+	/*
+	 * when the particle collides with a ship, decreases the health of
+	 * the ship under appropriate circumstances (see below)
+	 * 
+	 * NOTE: a ship will be damaged only if the particle that hits it 
+	 * 		 is sent from a ship in the opposing faction!!!
+	 */ 
     public void OnTriggerEnter2D(Collider2D col)
     {
         if ((col.CompareTag("Enemy") &&

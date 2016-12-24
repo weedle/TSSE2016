@@ -1,7 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-// ParticleAbstract is the abstraction of any particle (eg, missiles)
+
+/*
+ * used as an abstraction of various particles (e.g.- missiles, flames)
+ * reference: see   scripts/TopDown/IMPL/PARTICLE
+ * 			: see	scripts/TopDown/MECHANICS/ShipComponents/ShipDefinitions.cs 
+ */ 
 public abstract class Particle : MonoBehaviour
 {
     public int lifetime;
@@ -9,18 +14,11 @@ public abstract class Particle : MonoBehaviour
     public bool active = true;
     public ShipDefinitions.Faction faction;
 
-    // Use this for initialization
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
-    // Pause makes this particle freeze, and record its current velocity
-    // to resume upon unpausing
+    
+	/*
+	 * allows the particle to freeze; records its current velocity
+	 * to resume upon unpausing
+	 */
     public void pause()
     {
         active = false;
@@ -32,7 +30,10 @@ public abstract class Particle : MonoBehaviour
             GetComponent<Animator>().Stop();
     }
 
-    // Unpause makes this particle resume activity
+
+	/*
+	 * allows the particule to resume its previous activity
+	 */ 
     public void unpause()
     {
         active = true;
@@ -43,6 +44,10 @@ public abstract class Particle : MonoBehaviour
             GetComponent<Animator>().StartPlayback();
     }
 
+
+	/*
+	 * sets the ship faction
+	 */ 
     public void setFaction(ShipDefinitions.Faction faction)
     {
         this.faction = faction;

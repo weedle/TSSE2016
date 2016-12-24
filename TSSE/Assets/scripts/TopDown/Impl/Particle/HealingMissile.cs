@@ -1,8 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-// HealingMissile is the projectile used by the healing
-// weapon mod that increases the health of other ships
+
+/*
+ * - used for healing missiles, which is a weapon mod that can increase
+ *   the health of the ships that the missile hits
+ * 
+ * - for reference: scripts/TopDown/INTF/Particle.cs 
+ * 				  : scripts/TopDown/MECHANICS/ShipDefinitions.cs
+ * 				  : 
+ */
 public class HealingMissile : Particle
 {
     public GameObject target = null;
@@ -10,17 +17,19 @@ public class HealingMissile : Particle
     public float rotationSpeed = 10;
     public int damage = 16;
 
-    void Start()
-    {
 
-    }
-    // Update is called once per frame
+	/*
+	 * regulates particle movement and handles particle lifetime
+	 * 
+	 * NOTE: refer to helper functions below!
+	 */ 
     void Update()
     {
         if (!active)
             return;
         if (target.transform.position == gameObject.transform.position)
             target = null;
+		
         if (lifetime <= 0)
         {
             Destroy(gameObject);
@@ -29,16 +38,14 @@ public class HealingMissile : Particle
         {
             lifetime--;
         }
+
         if (target == null)
-        {
             target = GetComponent<TargetFinder>().getFriendly(faction);
-        }
 
         Vector3 diff = target.transform.position - transform.position;
         if (diff == -transform.position)
-        {
             return;
-        }
+		
         float targetAngle = Mathf.Atan(diff.y / diff.x) * 180 / Mathf.PI + 90;
 
         if (diff.x > 0)
@@ -54,15 +61,22 @@ public class HealingMissile : Particle
         else
             rotate(-1);
 
-
         move(1);
     }
 
+
+	/*
+	 * 
+	 */ 
     public float getAngle()
     {
         return (transform.rotation.eulerAngles.z + 90) * Mathf.PI / 180;
     }
 
+
+	/*
+	 * 
+	 */ 
     public void move(float vertical)
     {
         Vector2 temp = new Vector2(Mathf.Cos(getAngle()),
@@ -73,6 +87,10 @@ public class HealingMissile : Particle
         temp = Vector3.zero;
     }
 
+
+	/*
+	 * 
+	 */ 
     public void rotate(float horizontal)
     {
         Vector3 temp = new Vector3(0, 0, -1 * rotationSpeed * horizontal);
@@ -81,6 +99,14 @@ public class HealingMissile : Particle
         temp = Vector3.zero;
     }
 
+
+	/*
+	 * when the particle collides with a ship, decreases the health of
+	 * the ship under appropriate circumstances (see below)
+	 * 
+	 * NOTE: the ship's health will change only with it is in the same
+	 *  	 faction as the ship that sent the particle!
+	 */ 
     public void OnTriggerEnter2D(Collider2D col)
     {
         if ((col.CompareTag("Enemy") &&
