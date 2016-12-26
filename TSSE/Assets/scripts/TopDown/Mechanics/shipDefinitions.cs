@@ -1,6 +1,13 @@
 ﻿using UnityEngine;
 using System;
 
+
+
+/*
+ * - currently used to define necessary settings, states,
+ *   and/or features that are part of a ship
+ * 
+ */ 
 public class ShipDefinitions
 {
     static string[] names = new string[] {
