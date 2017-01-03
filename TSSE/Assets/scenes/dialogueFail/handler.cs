@@ -8,14 +8,15 @@ public class handler : MonoBehaviour {
 	private int globalPos = 0;
     private int linePos = 0;
 	private float currentTime = 0;
-	private float speed1 = 0.4f; 		// use values between 0.2 - 1.0, with 1.0 being the max speed
-    private float speed2 = 1.2f;
-    private float currSpeed = 0.4f;
+	private float speed1 = 0.8f; 		// use values between 0.2 - 1.0, with 1.0 being the max speed
+    private float speed2 = 1.6f;
+    private float currSpeed = 0.8f;
     private int lineLength = 60;
     private int whichLine = 1;
     private int linesMax = 4;
     private string assignment; // the text we are currently displaying in the box
     private bool newAssignment; // this is used to prevent next skipping us ahead when we aren't done with the text
+    private Character chr;
     private string test = "She lay down beside me, towards dawn she pronounced for the " +
                           "first time the word 'death'. She too seemed to be weary " +
                           "beyond endurance of the task of being a human being; " +
@@ -37,11 +38,12 @@ public class handler : MonoBehaviour {
 
 
     void Start () {
+        chr = new CutterTheMerchant();
+        chr.initialize();
 		textThing = dialogueText.GetComponent<UnityEngine.UI.Text> ();
         textThing.text = "";
-        assignment = test;
+        assignment = chr.getRegularDialogue();
         newAssignment = true;
-
     }
 
     // Update is called once per frame
@@ -117,7 +119,6 @@ public class handler : MonoBehaviour {
     // if the box is full but we have more text, reset box and prepare
     // to display remaining text.
     // if we're done, do nothing.
-    // if we're still typing, speed up the text display rate.
     public void nextButton()
     {
         if (!newAssignment && globalPos < assignment.Length)
@@ -128,25 +129,28 @@ public class handler : MonoBehaviour {
             newAssignment = true;
             resetBox();
         }
-        else
-        {
-            // change speed
-            currSpeed = speed2;
-        }
+    }
+
+    // speed up the text display rate
+    public void speedUp()
+    {
+        currSpeed = speed2;
     }
 
     // if yes, do this
     // this should be updated to retrieving the correct data
     public void yesButton()
     {
-        assignment = test2;
+        assignment = chr.getYesDialogue();
         newAssignment = true;
         resetBox();
     }
 
     public void noButton()
     {
-
+        assignment = chr.getNoDialogue();
+        newAssignment = true;
+        resetBox();
     }
 
     // reset progress within dialogue box
