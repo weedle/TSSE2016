@@ -1,15 +1,25 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Xml;
+using System.Xml.Serialization;
+
+[XmlRoot("DialogueCollection")]
 public abstract class Character
 {
-    /*
-    public class Dialogue
+    public struct Dialogue
     {
+        [XmlAttribute("DialogueRegular")]
         public string dialogueRegular;
+        [XmlAttribute("DialogueYes")]
         public string dialogueYes;
+        [XmlAttribute("DialogueNo")]
         public string dialogueNo;
     };
-    */
+
+    [XmlArray("Dialogues")]
+    [XmlArrayItem("Dialogue")]
+    public List<Dialogue> dialogues = new List<Dialogue>();
+
     //public string Name;
     //private string factionRaw;
     //public ShipDefinitions.Faction Affiliation;
@@ -17,12 +27,19 @@ public abstract class Character
     //public int level;
     //public int dialogueLevel;
 
-
     public abstract void initialize();
 
-    public abstract string getRegularDialogue();
+    public string getRegularDialogue()
+    {
+        return dialogues[0].dialogueRegular;
+    }
 
-    public abstract string getYesDialogue();
-
-    public abstract string getNoDialogue();
+    public string getYesDialogue()
+    {
+        return dialogues[0].dialogueYes;
+    }
+    public string getNoDialogue()
+    {
+        return dialogues[0].dialogueNo;
+    }
 }
