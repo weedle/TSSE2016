@@ -1,0 +1,13 @@
+<DialogueCollection name="Motus">
+	<Dialogues>
+		<Dialogue
+			index = "0"
+		
+			DialogueRegular = "Why hello there! My name is Motus the wizard! I can cast magic spells and enchantments to weave chaos and order throughout the fabric of the universe. I then use the ensuing effects to create small magical stones that I sell for a pittance to power your laser beams. This is my life now. Selling magical rocks for pennies. Great wizard Motus."
+
+			DialogueYes = ""
+
+			DialogueNo = "">
+		</Dialogue>
+	</Dialogues>
+</DialogueCollection>

@@ -9,7 +9,7 @@ public class handler : MonoBehaviour {
     private int linePos = 0;
 	private float currentTime = 0;
 	private float speed1 = 0.8f; 		// use values between 0.2 - 1.0, with 1.0 being the max speed
-    private float speed2 = 1.6f;
+    private float speed2 = 2.4f;
     private float currSpeed = 0.8f;
     private int lineLength = 60;
     private int whichLine = 1;
@@ -38,10 +38,14 @@ public class handler : MonoBehaviour {
 
 
     void Start () {
-        chr = new CutterTheMerchant();
-        chr.initialize();
 		textThing = dialogueText.GetComponent<UnityEngine.UI.Text> ();
         textThing.text = "";
+        assignment = "";
+    }
+
+    public void setCharacter(Character character)
+    {
+        chr = character;
         assignment = chr.getRegularDialogue();
         newAssignment = true;
     }
@@ -96,7 +100,16 @@ public class handler : MonoBehaviour {
             {
                 // if not, add a new line and keep going
                 string text = assignment.Substring(globalPos, 1);
-                textThing.text += text;
+                if (text.Equals("/"))
+                {
+                    linePos = -1;
+                    whichLine++;
+                    textThing.text += "\n";
+                }
+                else
+                {
+                    textThing.text += text;
+                }
                 if (text == "\n")
                     whichLine++;
                 globalPos++;
@@ -106,7 +119,6 @@ public class handler : MonoBehaviour {
             {
                 // we're finished with this box's worth of text
                 newAssignment = false;
-                print("press next");
             }
         }
         if (globalPos == assignment.Length)
@@ -119,8 +131,13 @@ public class handler : MonoBehaviour {
     // if the box is full but we have more text, reset box and prepare
     // to display remaining text.
     // if we're done, do nothing.
-    public void nextButton()
+    // speed up the text display rate
+    public void speedUp()
     {
+        if (assignment == "")
+        {
+            return;
+        }
         if (!newAssignment && globalPos < assignment.Length)
         {
             assignment = assignment.Substring(globalPos,
@@ -129,18 +146,18 @@ public class handler : MonoBehaviour {
             newAssignment = true;
             resetBox();
         }
-    }
-
-    // speed up the text display rate
-    public void speedUp()
-    {
-        currSpeed = speed2;
+        else
+        {
+            currSpeed = speed2;
+        }
     }
 
     // if yes, do this
     // this should be updated to retrieving the correct data
     public void yesButton()
     {
+        if (assignment == "")
+            return;
         assignment = chr.getYesDialogue();
         newAssignment = true;
         resetBox();
@@ -148,6 +165,8 @@ public class handler : MonoBehaviour {
 
     public void noButton()
     {
+        if (assignment == "")
+            return;
         assignment = chr.getNoDialogue();
         newAssignment = true;
         resetBox();
@@ -162,5 +181,15 @@ public class handler : MonoBehaviour {
         whichLine = 1;
         globalPos = 0;
         linePos = 0;
+    }
+
+    public void nextButton()
+    {
+        Character chr;
+        //chr = new CutterTheMerchant();
+        chr = new MotusTheWizard();
+        GameObject.Find("GameLogic")
+            .GetComponent<DialogueManager>().
+            setCharacter(chr);
     }
 }

@@ -15,6 +15,8 @@ public abstract class Character
         [XmlAttribute("DialogueNo")]
         public string dialogueNo;
     };
+    [XmlAttribute("name")]
+    public string name;
 
     [XmlArray("Dialogues")]
     [XmlArrayItem("Dialogue")]
@@ -41,5 +43,10 @@ public abstract class Character
     public string getNoDialogue()
     {
         return dialogues[0].dialogueNo;
+    }
+
+    public string getName()
+    {
+        return name;
     }
 }

@@ -7,13 +7,13 @@ using System.Xml;
 using System.Xml.Serialization;
 
 [XmlRoot("DialogueCollection")]
-public class CutterTheMerchant : Character
+public class MotusTheWizard : Character
 {
     public override void initialize()
     {
-        var serializer = new XmlSerializer(typeof(CutterTheMerchant));
-        var stream = new FileStream("Assets/scenes/dialogueFail/CutterTheMerchant.xml", FileMode.Open);
-        var container = serializer.Deserialize(stream) as CutterTheMerchant;
+        var serializer = new XmlSerializer(typeof(MotusTheWizard));
+        var stream = new FileStream("Assets/scenes/dialogueFail/MotusTheWizard.xml", FileMode.Open);
+        var container = serializer.Deserialize(stream) as MotusTheWizard;
         stream.Close();
         dialogues = container.dialogues;
         name = container.name;

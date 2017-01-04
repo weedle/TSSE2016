@@ -7,10 +7,14 @@ public class DialogueManager : MonoBehaviour {
     private GameObject yesButton;
     private GameObject noButton;
     private GameObject nextButton;
+
+    handler hdr;
+
 	// Use this for initialization
 	void Start () {
-        foreach (Transform childT in 
-            gameObject.GetComponentInChildren<Transform>())
+        GameObject canvas = GameObject.Find("Canvas");
+        foreach (Transform childT in
+            canvas.GetComponentInChildren<Transform>())
         {
             switch(childT.gameObject.name)
             {
@@ -31,39 +35,43 @@ public class DialogueManager : MonoBehaviour {
                     break;
             }
         }
-        deactivate();
+        hdr = textbox.GetComponent<handler>();
+        toggleAllComps(true);
     }
 	
 	// Update is called once per frame
 	void Update () {
 	    if(Input.GetButtonUp("Fire2"))
         {
-            if(textbox.activeSelf == false)
-            {
-                activate();
-            }
-            else
-            {
-                deactivate();
-            }
         }
 	}
 
-    void activate()
+    public void setCharacter(Character chr)
     {
-        textbox.SetActive(true);
-        nameBox.SetActive(true);
-        noButton.SetActive(true);
-        yesButton.SetActive(true);
-        nextButton.SetActive(true);
+        chr.initialize();
+        nameBox.GetComponentInChildren<UnityEngine.UI.Text>().text
+            = chr.getName();
+        hdr.setCharacter(chr);
+        toggleYesNo(!chr.getYesDialogue().Equals(""));
     }
 
-    void deactivate()
+    public void toggleActivation()
     {
-        textbox.SetActive(false);
-        nameBox.SetActive(false);
-        noButton.SetActive(false);
-        yesButton.SetActive(false);
-        nextButton.SetActive(false);
+        toggleAllComps(!textbox.activeSelf);
+    }
+
+    public void toggleYesNo(bool toggle)
+    {
+        yesButton.SetActive(toggle);
+        noButton.SetActive(toggle);
+    }
+
+    public void toggleAllComps(bool toggle)
+    {
+        textbox.SetActive(toggle);
+        nameBox.SetActive(toggle);
+        noButton.SetActive(toggle);
+        yesButton.SetActive(toggle);
+        nextButton.SetActive(toggle);
     }
 }
