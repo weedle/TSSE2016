@@ -45,6 +45,7 @@ public class handler : MonoBehaviour {
 
     public void setCharacter(Character character)
     {
+        resetBox();
         chr = character;
         assignment = chr.getRegularDialogue();
         newAssignment = true;
@@ -174,7 +175,7 @@ public class handler : MonoBehaviour {
 
     // reset progress within dialogue box
     // also reset typing speed and clear existing text
-    private void resetBox()
+    public void resetBox()
     {
         currSpeed = speed1;
         textThing.text = "";
@@ -186,8 +187,8 @@ public class handler : MonoBehaviour {
     public void nextButton()
     {
         Character chr;
-        //chr = new CutterTheMerchant();
-        chr = new MotusTheWizard();
+        chr = new CutterTheMerchant();
+        //chr = new MotusTheWizard();
         GameObject.Find("GameLogic")
             .GetComponent<DialogueManager>().
             setCharacter(chr);
