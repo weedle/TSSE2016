@@ -46,9 +46,17 @@ public class handler : MonoBehaviour {
     public void setCharacter(Character character)
     {
         resetBox();
-        chr = character;
+        if (chr == null || !character.name.Equals(chr.name))
+        {
+            chr = character;
+        }
+        else
+        {
+            chr.handleIndex();
+        }
         assignment = chr.getRegularDialogue();
         newAssignment = true;
+        print(chr.index);
     }
 
     // Update is called once per frame
@@ -149,7 +157,14 @@ public class handler : MonoBehaviour {
         }
         else
         {
-            currSpeed = speed2;
+            if(!newAssignment)
+            {
+                GameObject.Find("GameLogic")
+                .GetComponent<DialogueManager>().
+                toggleAllComps(false);
+            }
+            else
+                currSpeed = speed2;
         }
     }
 
@@ -184,13 +199,20 @@ public class handler : MonoBehaviour {
         linePos = 0;
     }
 
+    Character chrNext = new CutterTheMerchant();
     public void nextButton()
     {
-        Character chr;
-        chr = new CutterTheMerchant();
+        if(chrNext.GetType().Equals(typeof(CutterTheMerchant)))
+        {
+            //chrNext = new MotusTheWizard();
+        }
+        else
+        {
+            chrNext = new CutterTheMerchant();
+        }
         //chr = new MotusTheWizard();
         GameObject.Find("GameLogic")
             .GetComponent<DialogueManager>().
-            setCharacter(chr);
+            setCharacter(chrNext);
     }
 }

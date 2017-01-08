@@ -6,8 +6,11 @@ using System.Xml.Serialization;
 [XmlRoot("DialogueCollection")]
 public abstract class Character
 {
+    public int index = 0;
     public struct Dialogue
     {
+        [XmlAttribute("level")]
+        public int level;
         [XmlAttribute("DialogueRegular")]
         public string dialogueRegular;
         [XmlAttribute("DialogueYes")]
@@ -16,7 +19,7 @@ public abstract class Character
         public string dialogueNo;
     };
     [XmlAttribute("name")]
-    public string name;
+    public string name = "";
 
     [XmlArray("Dialogues")]
     [XmlArrayItem("Dialogue")]
@@ -33,20 +36,23 @@ public abstract class Character
 
     public string getRegularDialogue()
     {
-        return dialogues[0].dialogueRegular;
+        return dialogues[index].dialogueRegular;
     }
 
     public string getYesDialogue()
     {
-        return dialogues[0].dialogueYes;
+        return dialogues[index].dialogueYes;
     }
     public string getNoDialogue()
     {
-        return dialogues[0].dialogueNo;
+        return dialogues[index].dialogueNo;
     }
 
     public string getName()
     {
         return name;
     }
+
+    // Each character needs to handle the index value in their own special way
+    public abstract void handleIndex();
 }

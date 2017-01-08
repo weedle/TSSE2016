@@ -18,4 +18,10 @@ public class MotusTheWizard : Character
         dialogues = container.dialogues;
         name = container.name;
     }
+
+    public override void handleIndex()
+    {
+        if (index < 2)
+            index++;
+    }
 }

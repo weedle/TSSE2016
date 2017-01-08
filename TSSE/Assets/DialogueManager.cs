@@ -36,7 +36,7 @@ public class DialogueManager : MonoBehaviour {
             }
         }
         hdr = textbox.GetComponent<handler>();
-        toggleAllComps(true);
+        toggleAllComps(false);
     }
 	
 	// Update is called once per frame
@@ -48,6 +48,7 @@ public class DialogueManager : MonoBehaviour {
 
     public void setCharacter(Character chr)
     {
+        toggleAllComps(true);
         chr.initialize();
         nameBox.GetComponentInChildren<UnityEngine.UI.Text>().text
             = chr.getName();
@@ -72,6 +73,6 @@ public class DialogueManager : MonoBehaviour {
         nameBox.SetActive(toggle);
         noButton.SetActive(toggle);
         yesButton.SetActive(toggle);
-        nextButton.SetActive(toggle);
+        //nextButton.SetActive(toggle);
     }
 }
