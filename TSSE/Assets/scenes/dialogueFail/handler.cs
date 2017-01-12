@@ -12,8 +12,10 @@ public class handler : MonoBehaviour {
     private float speed2 = 2.4f;
     private float currSpeed = 0.8f;
     private int lineLength = 60;
-    private int whichLine = 1;
+    private int whichLine = 1; 
     private int linesMax = 4;
+    private int currCallbackType = 0;
+    private int currentTrack = 0;
     private string assignment; // the text we are currently displaying in the box
     private bool newAssignment; // this is used to prevent next skipping us ahead when we aren't done with the text
     private Character chr;
@@ -55,8 +57,9 @@ public class handler : MonoBehaviour {
             chr.handleIndex();
         }
         assignment = chr.getRegularDialogue();
+        currCallbackType = chr.getCallbackType();
+        currentTrack = 1;
         newAssignment = true;
-        print(chr.index);
     }
 
     // Update is called once per frame
@@ -162,6 +165,13 @@ public class handler : MonoBehaviour {
                 GameObject.Find("GameLogic")
                 .GetComponent<DialogueManager>().
                 toggleAllComps(false);
+                if(currCallbackType == currentTrack)
+                {
+                    if(currentTrack != 0)
+                        GameObject.Find("GameLogic").
+                            GetComponent<GameEventHandler>().
+                            callEvent(chr.getCallback());
+                }
             }
             else
                 currSpeed = speed2;
@@ -176,6 +186,7 @@ public class handler : MonoBehaviour {
             return;
         assignment = chr.getYesDialogue();
         newAssignment = true;
+        currentTrack = 2;
         resetBox();
     }
 
@@ -185,6 +196,7 @@ public class handler : MonoBehaviour {
             return;
         assignment = chr.getNoDialogue();
         newAssignment = true;
+        currentTrack = 3;
         resetBox();
     }
 
@@ -203,7 +215,7 @@ public class handler : MonoBehaviour {
     public void nextButton()
     {
         if(chrNext.GetType().Equals(typeof(CutterTheMerchant)))
-        {
+        { 
             //chrNext = new MotusTheWizard();
         }
         else
