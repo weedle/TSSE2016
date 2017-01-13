@@ -65,6 +65,7 @@ public class targettingDefaulltAnim : MonoBehaviour
         (pos.y <= -maxDisplacement && dir.y < 0))
         {
             dir.y *= -1;
+        }
 
         transform.position =
                 new Vector3(pos.x + speed * maxDisplacement * Time.deltaTime * dir.x,
