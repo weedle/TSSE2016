@@ -7,6 +7,7 @@ using System.Xml.Serialization;
 public abstract class Character
 {
     public int index = 0;
+
     public struct Dialogue
     {
         // what level to display this one
@@ -38,6 +39,8 @@ public abstract class Character
         [XmlAttribute("Callback")]
         public string callback;
     };
+		
+
     [XmlAttribute("name")]
     public string name = "";
 
