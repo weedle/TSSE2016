@@ -100,5 +100,10 @@ public class PewPewLaserMod : MonoBehaviour, FiringModule
     {
         return (float)ammunition / ammoMax;
     }
+
+    public void applyBuff(Inventory.Item item)
+    {
+
+    }
 }
 

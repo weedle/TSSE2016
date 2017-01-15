@@ -7,7 +7,9 @@ public class FlameMod : MonoBehaviour, FiringModule
 {
     public int counter = 0;
     private GameObject projectile;
-    public float projectileSpeed = 20;
+    private float projectileSpeed = 20;
+    private float spread = 0.03f;
+    private int fireRate = 3;
     public int ammoMax = 15;
     public int ammunition = 15;
     public int ammoCooldown = 80;
@@ -20,9 +22,6 @@ public class FlameMod : MonoBehaviour, FiringModule
             projectile = GameObject.Find("GameLogic").GetComponent<PrefabHost>().getRedFlames();
         else
             projectile = GameObject.Find("GameLogic").GetComponent<PrefabHost>().getBlueFlames();
-        projectileSpeed += Random.Range(-4, 4);
-        ammoMax += Random.Range(-4, 4);
-        ammoCooldown += Random.Range(-20, 20);
 
         GameObject firingSprite = GameObject.Find("GameLogic")
             .GetComponent<PrefabHost>().getFiringSpriteObject();
@@ -59,7 +58,7 @@ public class FlameMod : MonoBehaviour, FiringModule
             GameObject proj;
             vec = new Vector3(0, (float)0.25, 0);
             vec = transform.rotation * vec;
-            for (int i = 0; i <= 3; i++)
+            for (int i = 0; i <= fireRate; i++)
             {
                 temp = new Vector3(transform.position.x, transform.position.y);
                 proj = (GameObject)Instantiate(projectile,
@@ -68,8 +67,8 @@ public class FlameMod : MonoBehaviour, FiringModule
                     ShipDefinitions.stringToFaction(
                         gameObject.GetComponent<ShipController>().getFaction().ToString()));
                 temp = new Vector3(projectileSpeed * 
-                    (vec.x + Random.Range(-0.03f, 0.03f)), projectileSpeed * 
-                    (vec.y + Random.Range(-0.03f, 0.03f)), 0);
+                    (vec.x + Random.Range(-spread, spread)), projectileSpeed * 
+                    (vec.y + Random.Range(-spread, spread)), 0);
                 proj.GetComponent<Rigidbody2D>().velocity = temp;
                 //proj.MoveRotation(proj.transform.rotation.eulerAngles.z
                 //    + Random.Range(-15, 15));
@@ -102,6 +101,25 @@ public class FlameMod : MonoBehaviour, FiringModule
     public float getAmmoPerc()
     {
         return (float)ammunition / ammoMax;
+    }
+
+    public void applyBuff(Inventory.Item item)
+    {
+        if(item.Equals(Inventory.Item.FlameModDamage))
+        {
+            float newDamage = projectile.GetComponent<Particle>().damage;
+            newDamage *= 1.5f;
+            projectile.GetComponent<Particle>().damage =
+                (int) Mathf.Floor(newDamage);
+        }
+        else if(item.Equals(Inventory.Item.FlameModeSpread))
+        {
+            spread *= 1.5f;
+        }
+        else if (item.Equals(Inventory.Item.FlameModFireRate))
+        {
+            fireRate *= 2;
+        }
     }
 }
 

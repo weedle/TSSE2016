@@ -22,6 +22,8 @@ public class PrefabHost : MonoBehaviour
 
     public GameObject firingSprite;
 
+    public GameObject item;
+
     public GameObject getHealthObject()
     {
         GameObject obj = (GameObject)Instantiate(healthBar, Vector3.zero, Quaternion.Euler(0, 0, 0));
@@ -87,6 +89,11 @@ public class PrefabHost : MonoBehaviour
         GameObject obj = (GameObject)Instantiate(firingSprite, Vector3.zero, Quaternion.Euler(0, 0, 0));
         return obj;
     }
+    public GameObject getMerchantItem()
+    {
+        GameObject obj = (GameObject)Instantiate(item, Vector3.zero, Quaternion.Euler(0, 0, 0));
+        return obj;
+    }
 
     // Do not instantiate temporary objects here
     public GameObject getMissileObject()
@@ -108,7 +115,6 @@ public class PrefabHost : MonoBehaviour
 
     public GameObject getLaser()
     {
-        //GameObject obj = (GameObject)Instantiate(particleRedFire, Vector3.zero, Quaternion.Euler(0, 0, 0));
         return laser;
     }
 }

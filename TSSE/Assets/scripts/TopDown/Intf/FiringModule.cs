@@ -23,4 +23,6 @@ public interface FiringModule {
     bool canFire();
 
     float getAmmoPerc();
+
+    void applyBuff(Inventory.Item buff);
 }

@@ -99,4 +99,9 @@ public class MissileMod : MonoBehaviour, FiringModule
     {
         return (float)ammunition / ammoMax;
     }
+
+    public void applyBuff(Inventory.Item item)
+    {
+
+    }
 }
