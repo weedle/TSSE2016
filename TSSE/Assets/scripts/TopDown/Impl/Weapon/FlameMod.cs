@@ -103,20 +103,20 @@ public class FlameMod : MonoBehaviour, FiringModule
         return (float)ammunition / ammoMax;
     }
 
-    public void applyBuff(Inventory.Item item)
+    public void applyBuff(ShipDefinitions.Item item)
     {
-        if(item.Equals(Inventory.Item.FlameModDamage))
+        if(item.Equals(ShipDefinitions.Item.FlameModDamage))
         {
             float newDamage = projectile.GetComponent<Particle>().damage;
             newDamage *= 1.5f;
             projectile.GetComponent<Particle>().damage =
                 (int) Mathf.Floor(newDamage);
         }
-        else if(item.Equals(Inventory.Item.FlameModeSpread))
+        else if(item.Equals(ShipDefinitions.Item.FlameModeSpread))
         {
             spread *= 1.5f;
         }
-        else if (item.Equals(Inventory.Item.FlameModFireRate))
+        else if (item.Equals(ShipDefinitions.Item.FlameModFireRate))
         {
             fireRate *= 2;
         }

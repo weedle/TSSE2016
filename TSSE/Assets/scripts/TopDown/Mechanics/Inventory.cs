@@ -2,25 +2,49 @@
 using System.Collections.Generic;
 
 public class Inventory : MonoBehaviour {
-    public enum Item
+
+    private List<ShipDefinitions.Item> myInventory = new List<ShipDefinitions.Item>();
+    private int[] numOfEachItem = new int[3];
+    public GameObject inventoryDisplay;
+    public string inventoryType;
+    void Start()
     {
-        FlameModDamage, FlameModFireRate, FlameModeSpread
+        if (inventoryType == "Player")
+        {
+            print("printing player stuff");
+            inventoryDisplay.GetComponent<ItemListHandler>().
+                addItem("playerItem1");
+            inventoryDisplay.GetComponent<ItemListHandler>().
+                addItem("playerItem2");
+        }
+        {
+            if (inventoryType == "Merchant")
+            {
+                inventoryDisplay.GetComponent<ItemListHandler>().
+                    addItem("merchantItem1");
+                inventoryDisplay.GetComponent<ItemListHandler>().
+                    addItem("merchantItem2");
+            }
+        }
     }
 
-    private List<Item> playerInventory = new List<Item>();
-
-    public List<Item> getPlayerInventory()
+    public List<ShipDefinitions.Item> getPlayerInventory()
     {
-        return playerInventory;
+        return myInventory;
     }
 
-    public void addItem(Item item)
+    public void addItem(ShipDefinitions.Item item)
     {
-        playerInventory.Add(item);
+        myInventory.Add(item);
     }
 
-    public void removeItem(Item item)
+    public void removeItem(ShipDefinitions.Item item)
     {
-        playerInventory.Remove(item);
+        myInventory.Remove(item);
+    }
+
+    public bool findItem(ShipDefinitions.Item item)
+    {
+        return myInventory.Contains(item);
     }
 }

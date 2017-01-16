@@ -6,6 +6,8 @@ public class ItemListHandler : MonoBehaviour {
     {
         GameObject newItem = GameObject.Find("GameLogic").
             GetComponent<PrefabHost>().getMerchantItem();
+        newItem.transform.GetChild(0).GetComponent<UnityEngine.UI.Text>().
+            text = text;
         newItem.transform.SetParent(transform.GetChild(0).transform, false);
     }
 

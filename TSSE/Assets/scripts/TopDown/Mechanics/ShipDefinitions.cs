@@ -127,4 +127,14 @@ public class ShipDefinitions
         else
             return prefix + "00" + x.ToString();
     }
+
+    // ITEM DEFINITIONS
+    // here we declare all the possible items and set all the data for them
+
+    public enum Item
+    {
+        FlameModDamage, FlameModFireRate, FlameModeSpread
+    }
+
+    public static int numberOfItemTypes = 3;
 }
