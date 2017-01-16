@@ -131,10 +131,91 @@ public class ShipDefinitions
     // ITEM DEFINITIONS
     // here we declare all the possible items and set all the data for them
 
+        // Item types
     public enum Item
     {
-        FlameModDamage, FlameModFireRate, FlameModeSpread
+        FlameModDamage, FlameModFireRate, FlameModeSpread,
+        LaserDamage, LaserModFireRate, LaserModeSpeed
     }
 
-    public static int numberOfItemTypes = 3;
+    // Used for display purposes
+    public static string itemToString(Item item)
+    {
+        switch(item)
+        {
+            case Item.FlameModDamage:
+                return "FlameModDamage";
+            case Item.FlameModFireRate:
+                return "FlameModFireRate";
+            case Item.FlameModeSpread:
+                return "FlameModeSpread";
+            case Item.LaserDamage:
+                return "LaserDamage";
+            case Item.LaserModFireRate:
+                return "LaserModFireRate";
+            case Item.LaserModeSpeed:
+                return "LaserModeSpeed";
+            default:
+                return "unknown";
+        }
+    }
+
+    // Used to figure out what item an object is displaying
+    public static Item stringToItem(String str)
+    {
+        switch (str)
+        {
+            case "FlameModDamage":
+                return Item.FlameModDamage;
+            case "FlameModFireRate":
+                return Item.FlameModFireRate;
+            case "FlameModeSpread":
+                return Item.FlameModeSpread;
+            case "LaserDamage":
+                return Item.LaserDamage;
+            case "LaserModFireRate":
+                return Item.LaserModFireRate;
+            case "LaserModeSpeed":
+                return Item.LaserModeSpeed;
+            default:
+                return Item.FlameModDamage;
+        }
+    }
+
+    // used for indexing item quantities
+    public static int itemToInt(Item item)
+    {
+        switch (item)
+        {
+            case Item.FlameModDamage:
+                return 0;
+            case Item.FlameModFireRate:
+                return 1;
+            case Item.FlameModeSpread:
+                return 2;
+            case Item.LaserDamage:
+                return 3;
+            case Item.LaserModFireRate:
+                return 4;
+            case Item.LaserModeSpeed:
+                return 5;
+            default:
+                return -1;
+        }
+    }
+
+    // this is if we ever need to iterate through every item
+    public static int numberOfItemTypes = 6;
+
+    // This is how we get the price value when buying or selling something
+    // Item is the item to be bought or sold, inventoryId is something like
+    // "Player" or "MerchantXYZ", and buying is true if we want a purchase 
+    // price, and false if we want a selling price
+    public static int getCost(Item item, String inventoryId, bool buying)
+    {
+        // Here we cleverly utilize all three parameters to determine a 
+        // dynamic price
+        return 10;
+        // wow hardcoded placeholder value, much clever
+    }
 }
