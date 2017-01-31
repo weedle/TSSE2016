@@ -14,8 +14,8 @@ public class handler : MonoBehaviour {
     private int whichLine = 1; 
     private int linesMax = 4;
     private int currCallbackType = 0;
-    private int currentTrack = 0;
-    private string assignment; // the text we are currently displaying in the box
+    private int currentTrack = 0; // reg=1, yes=2, no=3, 
+    private string assignment = ""; // the text we are currently displaying in the box
     private bool newAssignment; // this is used to prevent next skipping us ahead when we aren't done with the text
     private Character chr;
     private string test = "She lay down beside me, towards dawn she pronounced for the " +
@@ -58,12 +58,10 @@ public class handler : MonoBehaviour {
         currCallbackType = chr.getCallbackType();
         currentTrack = 1;
         newAssignment = true;
-        print("set to true");
     }
 
     // Update is called once per frame
     void Update() {
-        print(newAssignment);
         if (newAssignment)
         {
             printer();
@@ -131,14 +129,12 @@ public class handler : MonoBehaviour {
             {
                 // we're finished with this box's worth of text
                 newAssignment = false;
-                print("ran out of text");
             }
         }
         if (globalPos == assignment.Length)
         {
             // we're out of letters, so still done with this box's worth of text
             newAssignment = false;
-            print("finished assigment");
         }
     }
 
@@ -184,7 +180,6 @@ public class handler : MonoBehaviour {
     // this should be updated to retrieving the correct data
     public void yesButton()
     {
-        print("clicked yes");
         if (assignment == "")
             return;
         assignment = chr.getYesDialogue();
@@ -217,17 +212,6 @@ public class handler : MonoBehaviour {
     Character chrNext = new CutterTheMerchant();
     public void nextButton()
     {
-        if(chrNext.GetType().Equals(typeof(CutterTheMerchant)))
-        { 
-            //chrNext = new MotusTheWizard();
-        }
-        else
-        {
-            chrNext = new CutterTheMerchant();
-        }
-        //chr = new MotusTheWizard();
-        GameObject.Find("GameLogic")
-            .GetComponent<DialogueManager>().
-            setCharacter(chrNext);
+        speedUp();
     }
 }

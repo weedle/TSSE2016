@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class GameEventHandler : MonoBehaviour {
 
@@ -20,12 +21,26 @@ public class GameEventHandler : MonoBehaviour {
                 }
                 dialogue(full[1]);
                 break;
+            case "loadScene":
+                if (full.Length != 2)
+                {
+                    print("ERROR: loadScene called but no scene given!");
+                    return;
+                }
+                loadScene(full[1]);
+                break;
         }
     }
 
     private void printTest()
     {
         print("printTest called!");
+    }
+
+    private void loadScene(string scene)
+    {
+        print("loading scene: " + scene);
+        //SceneManager.LoadScene(scene, LoadSceneMode.Additive);
     }
 
     private void dialogue(string character)

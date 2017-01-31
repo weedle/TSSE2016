@@ -9,9 +9,9 @@
 
 			DialogueNo = "oh no am sad com bak l8trz"
 			
-			CallbackType = "0"
+			CallbackType = "2"
 			
-			Callback = "">
+			Callback = "loadScene SceneX">
 		</Dialogue>
 		<Dialogue
 			level = "0"
@@ -22,9 +22,9 @@
 
 			DialogueNo = "oh no am sad com bak l8trz"
 			
-			CallbackType = "1"
+			CallbackType = "2"
 			
-			Callback = "merchant">>
+			Callback = "loadScene SceneX">>
 		</Dialogue>
 	</Dialogues>
 </DialogueCollection>
