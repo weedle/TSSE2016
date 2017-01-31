@@ -14,8 +14,8 @@ public class Bounds : MonoBehaviour
     {
         vertExtent = Camera.main.orthographicSize;
         horzExtent = vertExtent * Screen.width / Screen.height;
-        xbound = horzExtent * 0.9f;
-        ybound = vertExtent * 0.9f;
+        xbound = horzExtent * 0.98f;
+        ybound = vertExtent * 0.98f;
 
         Vector3 bottomLeft = new Vector3(-xbound, -ybound);
         Vector3 topRight = new Vector3(xbound, ybound);

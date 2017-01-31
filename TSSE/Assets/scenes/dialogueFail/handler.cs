@@ -3,8 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class handler : MonoBehaviour {
-	public GameObject dialogueText;
-	private UnityEngine.UI.Text textThing;
+    public Text textThing;
 	private int globalPos = 0;
     private int linePos = 0;
 	private float currentTime = 0;
@@ -40,9 +39,8 @@ public class handler : MonoBehaviour {
 
 
     void Start () {
-		textThing = dialogueText.GetComponent<UnityEngine.UI.Text> ();
-        textThing.text = "";
-        assignment = "";
+        //textThing.text = "";
+        //assignment = "";
     }
 
     public void setCharacter(Character character)
@@ -60,10 +58,12 @@ public class handler : MonoBehaviour {
         currCallbackType = chr.getCallbackType();
         currentTrack = 1;
         newAssignment = true;
+        print("set to true");
     }
 
     // Update is called once per frame
     void Update() {
+        print(newAssignment);
         if (newAssignment)
         {
             printer();
@@ -131,12 +131,14 @@ public class handler : MonoBehaviour {
             {
                 // we're finished with this box's worth of text
                 newAssignment = false;
+                print("ran out of text");
             }
         }
         if (globalPos == assignment.Length)
         {
             // we're out of letters, so still done with this box's worth of text
             newAssignment = false;
+            print("finished assigment");
         }
     }
 
@@ -182,6 +184,7 @@ public class handler : MonoBehaviour {
     // this should be updated to retrieving the correct data
     public void yesButton()
     {
+        print("clicked yes");
         if (assignment == "")
             return;
         assignment = chr.getYesDialogue();

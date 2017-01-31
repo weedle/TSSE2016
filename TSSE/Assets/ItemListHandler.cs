@@ -94,4 +94,13 @@ public class ItemListHandler : MonoBehaviour {
             }
         }
     }
+
+    // reduce quantity if present, otherwise remove item
+    public void removeAllItems()
+    {
+        for (int i = 0; i < transform.GetChild(0).childCount; i++)
+        {
+            GameObject.Destroy(transform.GetChild(0).GetChild(i).gameObject);
+        }
+    }
 }

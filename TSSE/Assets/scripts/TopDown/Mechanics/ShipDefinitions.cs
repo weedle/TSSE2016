@@ -204,6 +204,26 @@ public class ShipDefinitions
         }
     }
 
+    public static Item intToItem(int index)
+    {
+        switch (index)
+        {
+            case 0:
+                return Item.FlameModDamage;
+            case 1:
+                return Item.FlameModFireRate;
+            case 2:
+                return Item.FlameModeSpread;
+            case 3:
+                return Item.LaserDamage;
+            case 4:
+                return Item.LaserModFireRate;
+            case 5:
+                return Item.LaserModeSpeed;
+            default:
+                return Item.LaserModeSpeed;
+        }
+    }
     // this is if we ever need to iterate through every item
     public static int numberOfItemTypes = 6;
 

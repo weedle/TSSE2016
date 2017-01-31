@@ -7,9 +7,6 @@ using System.Collections.Generic;
 // I DON'T KNOW YOU FIGURE IT OUT BLAHH
 public class Inventory : MonoBehaviour {
 
-    // the list of items in this entity's possession
-    private List<ShipDefinitions.Item> myInventory = new List<ShipDefinitions.Item>();
-
     // number of each item we have
     private int[] numOfEachItem = new int[ShipDefinitions.numberOfItemTypes];
 
@@ -61,15 +58,14 @@ public class Inventory : MonoBehaviour {
     // it's mostly encapsulated for sake of consistency, we don't really
     // care if people hack this imo
     // it's not multiplayer, right?
-    public List<ShipDefinitions.Item> getPlayerInventory()
+    public int[] getPlayerInventory()
     {
-        return myInventory;
+        return numOfEachItem;
     }
 
     // add an item, if we already have it just increase the quantity
     public void addItem(ShipDefinitions.Item item)
     {
-        myInventory.Add(item);
         inventoryDisplay.GetComponent<ItemListHandler>().
             addItem(item);
         numOfEachItem[ShipDefinitions.itemToInt(item)] += 1;
@@ -80,7 +76,6 @@ public class Inventory : MonoBehaviour {
     {
         if (numOfEachItem[ShipDefinitions.itemToInt(item)] == 0)
             return;
-        myInventory.Remove(item);
         inventoryDisplay.GetComponent<ItemListHandler>().
             removeItem(item);
         numOfEachItem[ShipDefinitions.itemToInt(item)] -= 1;
@@ -89,17 +84,55 @@ public class Inventory : MonoBehaviour {
     // do we have the item? maybeeee
     public bool findItem(ShipDefinitions.Item item)
     {
-        return myInventory.Contains(item);
+        return (numOfEachItem[ShipDefinitions.itemToInt(item)] != 0);
     }
 
-    public void saveInventory(List<ShipDefinitions.Item> toSave)
+    public void saveInventory()
     {
-
+        string invSlotLabel = uniqueId + "InventorySlotLabel";
+        for (int i = 0; i < ShipDefinitions.numberOfItemTypes; i++)
+        {
+            string currLabel = invSlotLabel + i.ToString();
+            print("Saving item: " + i + " and num = " + numOfEachItem[i]);
+            UnityEngine.PlayerPrefs.SetInt(currLabel, numOfEachItem[i]);
+        }
     }
 
     public void loadInventory()
     {
+        clearInventory();
+        string invSlotLabel = uniqueId + "InventorySlotLabel";
+        for (int i = 0; i < ShipDefinitions.numberOfItemTypes; i++)
+        {
+            string currLabel = invSlotLabel + i.ToString();
+            numOfEachItem[i] = 0;
+            if (UnityEngine.PlayerPrefs.HasKey(currLabel))
+            {
+                numOfEachItem[i] = UnityEngine.PlayerPrefs.GetInt(currLabel);
+            }
+            else
+            {
+                continue;
+            }
+        }
 
+        for (int i = 0; i < ShipDefinitions.numberOfItemTypes; i++)
+        {
+            for (int j = 0; j < numOfEachItem[i]; j++)
+            {
+                print("adding item: " + i + " and num = " + numOfEachItem[i]);
+                inventoryDisplay.GetComponent<ItemListHandler>().addItem(ShipDefinitions.intToItem(i));
+            }
+        }
+    }
+
+    public void clearInventory()
+    {
+        for (int i = 0; i < ShipDefinitions.numberOfItemTypes; i++)
+        {
+                numOfEachItem[i] = 0;
+        }
+        inventoryDisplay.GetComponent<ItemListHandler>().removeAllItems();
     }
 
     // just use a negative param to remove from currency

@@ -1,0 +1,30 @@
+<DialogueCollection name="Merchant">
+	<Dialogues>
+		<Dialogue
+			level = "0"
+			
+			DialogueRegular = "hi am merchant fur testin porpoises pls clik yes for merchant testin"
+
+			DialogueYes = "Excellent, now hand over all your hard-earned cash."
+
+			DialogueNo = "oh no am sad com bak l8trz"
+			
+			CallbackType = "0"
+			
+			Callback = "">
+		</Dialogue>
+		<Dialogue
+			level = "0"
+			
+			DialogueRegular = "u cam bak wanna giv meh monies?"
+			
+			DialogueYes = "Ahahaha you have finally fallen prey to your curiosity. Your regret will no doubt be delectable."
+
+			DialogueNo = "oh no am sad com bak l8trz"
+			
+			CallbackType = "1"
+			
+			Callback = "merchant">>
+		</Dialogue>
+	</Dialogues>
+</DialogueCollection>
