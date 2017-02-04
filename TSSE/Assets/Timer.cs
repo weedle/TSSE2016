@@ -38,7 +38,6 @@ public class Timer : MonoBehaviour {
         {
             if (timers.ContainsKey(timerId))
             {
-                print(currTime + " - " + timers[timerId] + " = " + (currTime- timers[timerId]));
                 if ((currTime - timers[timerId]) >= duration)
                 {
                     addTimer(timerId);

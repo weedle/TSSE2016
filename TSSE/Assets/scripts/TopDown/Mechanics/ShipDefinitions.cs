@@ -132,97 +132,70 @@ public class ShipDefinitions
     // here we declare all the possible items and set all the data for them
 
         // Item types
-    public enum Item
+    public enum ItemType
     {
-        FlameModDamage, FlameModFireRate, FlameModeSpread,
-        LaserDamage, LaserModFireRate, LaserModeSpeed
+        FlameModDamage,
+        FlameModFireRate,
+        FlameModSpread,
+        FlameModAmmoCap,
+        FlameModRechargeRate,
+        FlameModSpeed,
+        FlameModRange,
+        LaserModDamage,
+        LaserModFireRate,
+        LaserModSpeed,
+        LaserModAmmoCap,
+        LaserModRechargeRate,
+        LaserModRange,
+        MissileModDamage,
+        MissileModFireRate,
+        MissileModAmmoCap,
+        MissileModRechargeRate,
+        MissileModSpeed,
+        MissileModRange,
+        CrownModDamage,
+        CrownModRechargeRate,
+        CrownModRange,
+        Error
+    }
+
+    public struct Item
+    {
+        public ItemType type;
+        public int tier;
+        public Item(ItemType type, int tier)
+        {
+            this.type = type;
+            this.tier = tier;
+        }
+        public Item(ItemType type)
+        {
+            this.type = type;
+            this.tier = 0;
+        }
     }
 
     // Used for display purposes
     public static string itemToString(Item item)
     {
-        switch(item)
-        {
-            case Item.FlameModDamage:
-                return "FlameModDamage";
-            case Item.FlameModFireRate:
-                return "FlameModFireRate";
-            case Item.FlameModeSpread:
-                return "FlameModeSpread";
-            case Item.LaserDamage:
-                return "LaserDamage";
-            case Item.LaserModFireRate:
-                return "LaserModFireRate";
-            case Item.LaserModeSpeed:
-                return "LaserModeSpeed";
-            default:
-                return "unknown";
-        }
+        return item.type.ToString();
     }
 
     // Used to figure out what item an object is displaying
     public static Item stringToItem(String str)
     {
-        switch (str)
-        {
-            case "FlameModDamage":
-                return Item.FlameModDamage;
-            case "FlameModFireRate":
-                return Item.FlameModFireRate;
-            case "FlameModeSpread":
-                return Item.FlameModeSpread;
-            case "LaserDamage":
-                return Item.LaserDamage;
-            case "LaserModFireRate":
-                return Item.LaserModFireRate;
-            case "LaserModeSpeed":
-                return Item.LaserModeSpeed;
-            default:
-                return Item.FlameModDamage;
-        }
+        return new Item((ItemType) Enum.Parse(typeof(ItemType), str));
     }
 
     // used for indexing item quantities
     public static int itemToInt(Item item)
     {
-        switch (item)
-        {
-            case Item.FlameModDamage:
-                return 0;
-            case Item.FlameModFireRate:
-                return 1;
-            case Item.FlameModeSpread:
-                return 2;
-            case Item.LaserDamage:
-                return 3;
-            case Item.LaserModFireRate:
-                return 4;
-            case Item.LaserModeSpeed:
-                return 5;
-            default:
-                return -1;
-        }
+        return (int) item.type;
     }
 
     public static Item intToItem(int index)
     {
-        switch (index)
-        {
-            case 0:
-                return Item.FlameModDamage;
-            case 1:
-                return Item.FlameModFireRate;
-            case 2:
-                return Item.FlameModeSpread;
-            case 3:
-                return Item.LaserDamage;
-            case 4:
-                return Item.LaserModFireRate;
-            case 5:
-                return Item.LaserModeSpeed;
-            default:
-                return Item.LaserModeSpeed;
-        }
+        return new Item((ItemType) Enum.Parse(typeof(ItemType), index.ToString()));
     }
     // this is if we ever need to iterate through every item
     public static int numberOfItemTypes = 6;

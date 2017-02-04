@@ -30,19 +30,19 @@ public class Inventory : MonoBehaviour {
     {
         if (inventoryType == "Player")
         {  
-            addItem(ShipDefinitions.Item.FlameModDamage);
-            addItem(ShipDefinitions.Item.FlameModeSpread);
-            addItem(ShipDefinitions.Item.FlameModFireRate);
-            addItem(ShipDefinitions.Item.FlameModDamage);
+            addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.FlameModDamage));
+            addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.FlameModSpread));
+            addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.FlameModFireRate));
+            addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.FlameModDamage));
         }
         if (inventoryType == "Merchant")
         {
-            addItem(ShipDefinitions.Item.LaserDamage);
-            addItem(ShipDefinitions.Item.LaserModeSpeed);
-            addItem(ShipDefinitions.Item.LaserModFireRate);
-            addItem(ShipDefinitions.Item.LaserDamage);
-            addItem(ShipDefinitions.Item.LaserModeSpeed);
-            addItem(ShipDefinitions.Item.LaserModFireRate);
+            addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.LaserModDamage));
+            addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.LaserModSpeed));
+            addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.LaserModFireRate));
+            addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.LaserModDamage));
+            addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.LaserModSpeed));
+            addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.LaserModFireRate));
         }
         updateCurrency();
     }
