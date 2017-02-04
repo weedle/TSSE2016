@@ -4,12 +4,12 @@ using System.Collections;
 // space game need laser gun
 public class PewPewLaserMod : MonoBehaviour, FiringModule
 {
-    private int counter = 0;
     private GameObject projectile;
     public float projectileSpeed = 40;
     public int ammoMax = 4;
     public int ammunition = 4;
     public int ammoCooldown = 30;
+    private Timer timer;
 
     // Use this for initialization
     void Start()
@@ -29,18 +29,18 @@ public class PewPewLaserMod : MonoBehaviour, FiringModule
             gameObject.transform.position.z);
         firingSprite.GetComponent<FiringSprite>()
             .setSprite(faction, "laser");
+        timer = GameObject.Find("GameLogic").GetComponent<Timer>();
+        timer.addTimer(this.GetInstanceID());
     }
 
     // Update is called once per frame
     void Update()
     {
-        counter++;
-        if (counter >= ammoCooldown)
+        if (ammunition < ammoMax)
         {
-            if (ammunition < ammoMax)
+            if (timer.checkTimer(this.GetInstanceID(), ammoCooldown))
             {
                 ammunition = ammoMax;
-                counter = 0;
             }
         }
     }

@@ -4,14 +4,13 @@ using System.Collections;
 // Firing Module that shoots damaging homing missiles
 public class MissileMod : MonoBehaviour, FiringModule
 {
-    public int counter = 0;
     private GameObject projectile;
     public float projectileSpeed = 20;
     public int ammoMax = 3;
     public int ammunition = 3;
-    public int ammoCooldown = 120;
-    public int immediateCooldown = 30;
-    public int immediateCooldownMax = 30;
+    public int ammoCooldown = 3;
+    public int immediateCooldownMax = 1;
+    private Timer timer;
 
     // Use this for initialization
     void Start()
@@ -31,18 +30,19 @@ public class MissileMod : MonoBehaviour, FiringModule
             gameObject.transform.position.z);
         firingSprite.GetComponent<FiringSprite>()
             .setSprite(faction, "crown");
+        timer = GameObject.Find("GameLogic").GetComponent<Timer>();
+        timer.addTimer(this.GetInstanceID());
+        timer.addTimer(this.GetInstanceID()+1);
     }
 
     // Update is called once per frame
     void Update()
     {
-        counter++;
-        if (counter >= ammoCooldown)
+        if (ammunition < ammoMax)
         {
-            if (ammunition < ammoMax)
+            if (timer.checkTimer(this.GetInstanceID(), ammoCooldown))
             {
                 ammunition = ammoMax;
-                counter = 0;
             }
         }
     }
@@ -52,27 +52,23 @@ public class MissileMod : MonoBehaviour, FiringModule
     {
         if (ammunition > 0)
         {
-            if (immediateCooldown <= immediateCooldownMax)
+            if (timer.checkTimer(this.GetInstanceID()+1, immediateCooldownMax))
             {
-                immediateCooldown++;
-                return;
+                Vector3 vec;
+                Vector3 temp;
+                Rigidbody2D proj;
+                vec = new Vector3(0, (float)0.25, 0);
+                vec = transform.rotation * vec;
+                temp = new Vector3(transform.position.x, transform.position.y);
+                proj = (Rigidbody2D)Instantiate(projectile.GetComponent<Rigidbody2D>(),
+                    temp + vec, Quaternion.Euler(0, 0, 90));
+                temp = new Vector3(projectileSpeed * vec.x, projectileSpeed * vec.y, 0);
+                proj.velocity = temp;
+                proj.MoveRotation(transform.rotation.eulerAngles.z);
+                proj.GetComponent<Particle>().setFaction(ShipDefinitions.stringToFaction(gameObject.tag));
+
+                ammunition--;
             }
-
-            immediateCooldown = 0;
-            Vector3 vec;
-            Vector3 temp;
-            Rigidbody2D proj;
-            vec = new Vector3(0, (float)0.25, 0);
-            vec = transform.rotation * vec;
-            temp = new Vector3(transform.position.x, transform.position.y); 
-            proj = (Rigidbody2D)Instantiate(projectile.GetComponent<Rigidbody2D>(),
-                temp + vec, Quaternion.Euler(0, 0, 90));
-            temp = new Vector3(projectileSpeed * vec.x, projectileSpeed * vec.y, 0);
-            proj.velocity = temp;
-            proj.MoveRotation(transform.rotation.eulerAngles.z);
-            proj.GetComponent<Particle>().setFaction(ShipDefinitions.stringToFaction(gameObject.tag));
-
-            ammunition--;
         }
     }
 

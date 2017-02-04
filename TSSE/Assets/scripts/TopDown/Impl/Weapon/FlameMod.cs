@@ -5,14 +5,14 @@ using System.Collections;
 // since that's initially what it was based on
 public class FlameMod : MonoBehaviour, FiringModule
 {
-    public int counter = 0;
     private GameObject projectile;
     private float projectileSpeed = 20;
     private float spread = 0.03f;
     private int fireRate = 3;
     public int ammoMax = 15;
     public int ammunition = 15;
-    public int ammoCooldown = 80;
+    public int ammoCooldown = 2;
+    private Timer timer;
 
     // Use this for initialization
     void Start()
@@ -32,18 +32,18 @@ public class FlameMod : MonoBehaviour, FiringModule
             gameObject.transform.position.z);
         firingSprite.GetComponent<FiringSprite>()
             .setSprite(faction, "flame");
+        timer = GameObject.Find("GameLogic").GetComponent<Timer>();
+        timer.addTimer(this.GetInstanceID());
     }
 
     // Update is called once per frame
     void Update()
     {
-        counter++;
-        if (counter >= ammoCooldown)
+        if (ammunition < ammoMax)
         {
-            if (ammunition < ammoMax)
+            if (timer.checkTimer(this.GetInstanceID(), ammoCooldown))
             {
                 ammunition = ammoMax;
-                counter = 0;
             }
         }
     }
