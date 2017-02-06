@@ -5,21 +5,24 @@ using System.Collections;
 public class MissileMod : MonoBehaviour, FiringModule
 {
     private GameObject projectile;
-    public float projectileSpeed = 20;
-    public int ammoMax = 3;
-    public int ammunition = 3;
-    public int ammoCooldown = 3;
-    public int immediateCooldownMax = 1;
+    private int ammoMax = 3;
+    private int ammunition = 3;
+    private float ammoCooldown = 3;
+    private float immediateCooldownMax = 1;
     private Timer timer;
+    public string testItem;
 
     // Use this for initialization
     void Start()
     {
         ShipDefinitions.Faction faction = ShipDefinitions.stringToFaction(gameObject.tag);
         projectile = GameObject.Find("GameLogic").GetComponent<PrefabHost>().getMissileObject();
-        projectileSpeed += Random.Range(-5, 5);
-        ammoMax += Random.Range(-1, 1);
-        ammoCooldown += Random.Range(-20, 20);
+
+        projectile.GetComponent<HomingMissile>().setDamage(20);
+        projectile.GetComponent<HomingMissile>().setLifetime(25);
+
+        ShipDefinitions.Item testThing = ShipDefinitions.stringToItem(testItem);
+        applyBuff(testThing);
 
         GameObject firingSprite = GameObject.Find("GameLogic")
             .GetComponent<PrefabHost>().getFiringSpriteObject();
@@ -38,11 +41,13 @@ public class MissileMod : MonoBehaviour, FiringModule
     // Update is called once per frame
     void Update()
     {
-        if (ammunition < ammoMax)
+        if (!timer)
+            return;
+        if (timer.checkTimer(this.GetInstanceID(), ammoCooldown))
         {
-            if (timer.checkTimer(this.GetInstanceID(), ammoCooldown))
+            if (ammunition < ammoMax)
             {
-                ammunition = ammoMax;
+                ammunition++;
             }
         }
     }
@@ -62,7 +67,7 @@ public class MissileMod : MonoBehaviour, FiringModule
                 temp = new Vector3(transform.position.x, transform.position.y);
                 proj = (Rigidbody2D)Instantiate(projectile.GetComponent<Rigidbody2D>(),
                     temp + vec, Quaternion.Euler(0, 0, 90));
-                temp = new Vector3(projectileSpeed * vec.x, projectileSpeed * vec.y, 0);
+                temp = new Vector3(vec.x, vec.y, 0);
                 proj.velocity = temp;
                 proj.MoveRotation(transform.rotation.eulerAngles.z);
                 proj.GetComponent<Particle>().setFaction(ShipDefinitions.stringToFaction(gameObject.tag));
@@ -98,6 +103,69 @@ public class MissileMod : MonoBehaviour, FiringModule
 
     public void applyBuff(ShipDefinitions.Item item)
     {
-
+        print("Item is: " + ShipDefinitions.itemToString(item));
+        if (item.tier == 0)
+            return;
+        switch (item.type)
+        {
+            case ShipDefinitions.ItemType.MissileModDamage:
+                // damage is 20 by default
+                // damage is 30 with tier 1 upgrade
+                // damage is 40 with tier 2 upgrade
+                // damage is 50 with tier 3 upgrade
+                int damage = 20;
+                damage += item.tier * 10;
+                projectile.GetComponent<HomingMissile>().
+                    setDamage(damage);
+                break;
+            case ShipDefinitions.ItemType.MissileModFireRate:
+                // rate is 1 by default
+                // rate is 0.75 with tier 1 upgrade
+                // rate is 0.5 with tier 2 upgrade
+                // rate is 0.25 with tier 3 upgrade
+                immediateCooldownMax = 1;
+                immediateCooldownMax -= item.tier * 0.25f;
+                break;
+            case ShipDefinitions.ItemType.MissileModAmmoCap:
+                // rate is 2 by default
+                // rate is 3 with tier 1 upgrade (1^1 = 1, ceil(1/2) = 1, 2+1 = 3)
+                // rate is 4 with tier 2 upgrade (2^1 = 4, ceil(4/2) = 2, 2+2 = 4)
+                // rate is 7 with tier 3 upgrade (3^1 = 9, ceil(9/2) = 5, 2+5 = 7)
+                ammoMax = 3 + (int)Mathf.Ceil((item.tier * item.tier) / 2);
+                ammunition = ammoMax;
+                break;
+            case ShipDefinitions.ItemType.MissileModRechargeRate:
+                // cooldown is 3 by default
+                // cooldown is 2.5 with tier 1 upgrade
+                // cooldown is 2 with tier 2 upgrade
+                // cooldown is 1.5 with tier 3 upgrade
+                ammoCooldown = 3;
+                ammoCooldown -= item.tier * 0.5f;
+                break;
+            case ShipDefinitions.ItemType.MissileModSpeed:
+                // proj speed is 3 by default
+                // proj speed is 4 with tier 1 upgrade
+                // proj speed is 5 with tier 2 upgrade
+                // proj speed is 6 with tier 3 upgrade
+                int newSpeed = 3;
+                newSpeed += item.tier;
+                projectile.GetComponent<HomingMissile>().setMoveSpeed(newSpeed);
+                break;
+            case ShipDefinitions.ItemType.MissileModRange:
+                // lifetime is 25 by default
+                // lifetime is 35 with tier 1 upgrade
+                // lifetime is 45 with tier 2 upgrade
+                // lifetime is 60 with tier 3 upgrade
+                int newLifetime = 25;
+                newLifetime += 10;
+                if (item.tier == 2)
+                    newLifetime += 10;
+                else if (item.tier == 3)
+                    newLifetime += 25;
+                projectile.GetComponent<HomingMissile>().setLifetime(newLifetime);
+                break;
+            default:
+                return;
+        }
     }
 }

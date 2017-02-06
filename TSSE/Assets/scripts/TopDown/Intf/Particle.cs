@@ -13,7 +13,7 @@ public abstract class Particle : MonoBehaviour
     private float lifetimeCount;
     private Vector2 velKeep;
     public bool active = true;
-    public int damage;
+    public float damage;
     public ShipDefinitions.Faction faction;
 
     
@@ -96,5 +96,15 @@ public abstract class Particle : MonoBehaviour
         {
             lifetime--;
         }
+    }
+
+    public void setDamage(float newDamage)
+    {
+        damage = newDamage;
+    }
+
+    public void setLifetime(int newLifetime)
+    {
+        lifetime = newLifetime;
     }
 }

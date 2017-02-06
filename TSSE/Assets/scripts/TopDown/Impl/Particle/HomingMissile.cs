@@ -78,4 +78,9 @@ public class HomingMissile : Particle
             transform.Rotate(temp);
         temp = Vector3.zero;
     }
+
+    public void setMoveSpeed(int newSpeed)
+    {
+        moveSpeed = newSpeed;
+    }
 }

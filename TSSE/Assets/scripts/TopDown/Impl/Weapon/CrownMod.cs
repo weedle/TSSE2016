@@ -9,10 +9,13 @@ public class CrownMod : MonoBehaviour, FiringModule
     public Color color1 = Color.blue;
     public Color color2 = Color.cyan;
     private ShipDefinitions.Faction faction;
-    public int ammoMax = 15;
-    public int ammunition = 15;
-    public int ammoCooldown = 3;
+    private int ammoMax = 15;
+    private int ammunition = 15;
+    private float ammoCooldown = 3;
+    private float damage = 2;
+    private float distance = 2;
     Timer timer;
+    public string testItem;
 
     // Use this for initialization
     void Start()
@@ -27,8 +30,8 @@ public class CrownMod : MonoBehaviour, FiringModule
             color2 = Color.yellow;
         }
 
-        ammoMax += Random.Range(-4, 4);
-        ammoCooldown += Random.Range(-20, 20);
+        ShipDefinitions.Item testThing = ShipDefinitions.stringToItem(testItem);
+        applyBuff(testThing);
 
         GameObject firingSprite = GameObject.Find("GameLogic")
             .GetComponent<PrefabHost>().getFiringSpriteObject();
@@ -46,6 +49,8 @@ public class CrownMod : MonoBehaviour, FiringModule
     // Update is called once per frame
     void Update()
     {
+        if (!timer)
+            return;
         if (ammunition < ammoMax)
         {
             if (timer.checkTimer(this.GetInstanceID(), ammoCooldown))
@@ -79,7 +84,7 @@ public class CrownMod : MonoBehaviour, FiringModule
             ShipDefinitions.DrawLine(firePoint, target.transform.position, color2, 0.12f);
             ShipDefinitions.DrawLine(firePoint, target.transform.position, color1, 0.14f);
             ShipDefinitions.DrawLine(firePoint, target.transform.position, color2, 0.1f);
-            target.GetComponent<ShipIntf>().isHit(4);
+            target.GetComponent<ShipIntf>().isHit(damage);
             ammunition--;
         }
         target = null;
@@ -89,7 +94,7 @@ public class CrownMod : MonoBehaviour, FiringModule
     // Note that given the way this works, this is also the actual range of the weapon
     public float getEffectiveDistance()
     {
-        return 3;
+        return distance;
     }
     
     // Ship should vaguely point towards target before firing
@@ -112,6 +117,59 @@ public class CrownMod : MonoBehaviour, FiringModule
 
     public void applyBuff(ShipDefinitions.Item item)
     {
-
+        if (item.tier == 0)
+            return;
+        switch (item.type)
+        {
+            case ShipDefinitions.ItemType.CrownModDamage:
+                // damage is 2 by default
+                // damage is 3 with tier 1 upgrade
+                // damage is 4 with tier 2 upgrade
+                // damage is 6 with tier 3 upgrade
+                float bonusDamage = 0;
+                switch (item.tier)
+                {
+                    case 1:
+                        bonusDamage = 1;
+                        break;
+                    case 2:
+                        bonusDamage = 2;
+                        break;
+                    case 3:
+                        bonusDamage = 4;
+                        break;
+                }
+                damage = 2 + bonusDamage;
+                break;
+            case ShipDefinitions.ItemType.CrownModAmmoCap:
+                // cap is 15 by default
+                // cap is 20 with tier 1 upgrade
+                // cap is 25 with tier 2 upgrade
+                // cap is 30 with tier 3 upgrade
+                ammoMax = 15;
+                ammoMax += item.tier * 5;
+                ammunition = ammoMax;
+                break;
+            case ShipDefinitions.ItemType.CrownModRechargeRate:
+                // cooldown is 3 by default
+                // cooldown is 2.5 with tier 1 upgrade
+                // cooldown is 2 with tier 2 upgrade
+                // cooldown is 1 with tier 3 upgrade
+                ammoCooldown = 3;
+                ammoCooldown -= 0.5f * item.tier;
+                break;
+            case ShipDefinitions.ItemType.CrownModRange:
+                // range is 2 by default
+                // range is 2.5 with tier 1 upgrade
+                // range is 3 with tier 2 upgrade
+                // range is 4 with tier 3 upgrade
+                float newDistance = 2.5f;
+                if (item.tier == 2 || item.tier == 3)
+                    newDistance = item.tier + 1;
+                distance = newDistance;
+                break;
+            default:
+                return;
+        }
     }
 }

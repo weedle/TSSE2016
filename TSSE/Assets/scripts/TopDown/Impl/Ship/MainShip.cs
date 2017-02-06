@@ -13,8 +13,8 @@ public class MainShip : MonoBehaviour, ShipIntf
     private GameObject health;
     private GameObject ammo;
     private GameObject text;
-    public float healthPoints = 10;
-    public float maxHealth = 10;
+    public float healthPoints = 100;
+    public float maxHealth = 100;
     private Vector2 velKeep;
     public int shipType;
     public bool initialized = false;

@@ -154,6 +154,7 @@ public class ShipDefinitions
         MissileModSpeed,
         MissileModRange,
         CrownModDamage,
+        CrownModAmmoCap,
         CrownModRechargeRate,
         CrownModRange,
         Error
@@ -178,13 +179,28 @@ public class ShipDefinitions
     // Used for display purposes
     public static string itemToString(Item item)
     {
-        return item.type.ToString();
+        return item.type.ToString() + ":" + item.tier;
     }
 
     // Used to figure out what item an object is displaying
     public static Item stringToItem(String str)
     {
-        return new Item((ItemType) Enum.Parse(typeof(ItemType), str));
+        ItemType itemType;
+
+        string[] split = str.Split(':');
+        try
+        {
+            itemType = (ItemType)Enum.Parse(typeof(ItemType), split[0]);
+        }
+        catch (ArgumentException err)
+        {
+            itemType = ItemType.Error;
+        }
+
+        int tier = 0;
+        if (split.Length == 2)
+            tier = int.Parse(split[1]);
+        return new Item(itemType, tier);
     }
 
     // used for indexing item quantities
