@@ -77,7 +77,8 @@ public class merchantBuySellButtonScript : MonoBehaviour {
         Regex regex = new Regex(@"\w+");
         MatchCollection matches = regex.Matches(indexItem.text);
 
-        item = ShipDefinitions.stringToItem(matches[0].ToString());
+        item = ShipDefinitions.stringToItem(matches[0].ToString() + ":" + 
+            matches[1].ToString());
 
         int cost;
 

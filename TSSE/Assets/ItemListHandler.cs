@@ -30,13 +30,13 @@ public class ItemListHandler : MonoBehaviour {
                 GetComponent<UnityEngine.UI.Text>();
             Regex regex = new Regex(@"\w+");
             MatchCollection matches = regex.Matches(indexItem.text);
-
             // if this is the item:
-            if(matches[0].ToString() == itemText)
+            if (matches[0].ToString() + ":" + matches[1].ToString() == itemText)
             {
                 // increase the quantity and update the label
                 // then return cause we're done
-                int x = int.Parse(matches[1].ToString());
+                print(matches[1]);
+                int x = int.Parse(matches[2].ToString());
                 x++;
 
                 indexItem.text = itemText + " (" + x + ")";
@@ -73,12 +73,14 @@ public class ItemListHandler : MonoBehaviour {
                 GetComponent<UnityEngine.UI.Text>();
             Regex regex = new Regex(@"\w+");
             MatchCollection matches = regex.Matches(indexItem.text);
-
+            print(matches[0].ToString() + " - " + matches[1].ToString());
+            print("Text: " + itemText);
             // if it matches, we found it
-            if (matches[0].ToString() == itemText)
+            if (matches[0].ToString() + ":" + matches[1].ToString() == itemText)
             {
                 // first figure out how many we now have
-                int x = int.Parse(matches[1].ToString());
+                int x = int.Parse(matches[2].ToString());
+                print(x);
                 x--;
 
                 // we have none left, so remove this item

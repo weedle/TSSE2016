@@ -51,7 +51,7 @@ public class Inventory : MonoBehaviour {
     private void updateCurrency()
     {
         currencyDisplay.GetComponent<UnityEngine.UI.Text>().text
-            = currency + " QUIDS";
+            = uniqueId + ": " + currency + " QUIDS";
     }
 
     // returns the list of items

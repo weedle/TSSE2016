@@ -134,6 +134,7 @@ public class ShipDefinitions
         // Item types
     public enum ItemType
     {
+        Error,
         FlameModDamage,
         FlameModFireRate,
         FlameModSpread,
@@ -156,8 +157,7 @@ public class ShipDefinitions
         CrownModDamage,
         CrownModAmmoCap,
         CrownModRechargeRate,
-        CrownModRange,
-        Error
+        CrownModRange
     }
 
     public struct Item
@@ -172,7 +172,7 @@ public class ShipDefinitions
         public Item(ItemType type)
         {
             this.type = type;
-            this.tier = 0;
+            this.tier = 1;
         }
     }
 
@@ -206,15 +206,31 @@ public class ShipDefinitions
     // used for indexing item quantities
     public static int itemToInt(Item item)
     {
-        return (int) item.type;
+        if (item.type == ItemType.Error)
+            return 0;
+        return (3 * (int) item.type) - 2 + item.tier;
     }
 
     public static Item intToItem(int index)
     {
-        return new Item((ItemType) Enum.Parse(typeof(ItemType), index.ToString()));
+        if (index == 0)
+            return new Item(ItemType.Error);
+        Item item;
+        try
+        {
+            ItemType type = (ItemType)Enum.Parse(typeof(ItemType),
+            (index / 3).ToString());
+            int tier = index % 3 + 1;
+            item = new Item(type, tier);
+        }
+        catch (ArgumentException err)
+        {
+            item = new Item(ItemType.Error);
+        }
+        return item;
     }
     // this is if we ever need to iterate through every item
-    public static int numberOfItemTypes = 6;
+    public static int numberOfItemTypes = 70;
 
     // This is how we get the price value when buying or selling something
     // Item is the item to be bought or sold, inventoryId is something like
