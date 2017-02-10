@@ -10,7 +10,7 @@ public class MissileMod : MonoBehaviour, FiringModule
     private float ammoCooldown = 3;
     private float immediateCooldownMax = 1;
     private Timer timer;
-    public string testItem;
+    public string testItem = "";
 
     // Use this for initialization
     void Start()
@@ -21,9 +21,13 @@ public class MissileMod : MonoBehaviour, FiringModule
         projectile.GetComponent<HomingMissile>().setDamage(20);
         projectile.GetComponent<HomingMissile>().setLifetime(25);
 
-        ShipDefinitions.Item testThing = ShipDefinitions.stringToItem(testItem);
-        applyBuff(testThing);
+        if (testItem != "")
+        {
+            ShipDefinitions.Item testThing = ShipDefinitions.stringToItem(testItem);
+            applyBuff(testThing);
+        }
 
+        /*
         GameObject firingSprite = GameObject.Find("GameLogic")
             .GetComponent<PrefabHost>().getFiringSpriteObject();
         firingSprite.transform.parent = gameObject.transform;
@@ -33,6 +37,8 @@ public class MissileMod : MonoBehaviour, FiringModule
             gameObject.transform.position.z);
         firingSprite.GetComponent<FiringSprite>()
             .setSprite(faction, "crown");
+        */
+
         timer = GameObject.Find("GameLogic").GetComponent<Timer>();
         timer.addTimer(this.GetInstanceID());
         timer.addTimer(this.GetInstanceID()+1);

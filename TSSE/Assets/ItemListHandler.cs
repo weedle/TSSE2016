@@ -28,15 +28,14 @@ public class ItemListHandler : MonoBehaviour {
         {
             UnityEngine.UI.Text indexItem = transform.GetChild(0).GetChild(i).GetChild(0).
                 GetComponent<UnityEngine.UI.Text>();
-            Regex regex = new Regex(@"\w+");
-            MatchCollection matches = regex.Matches(indexItem.text);
+            string labelItemText = indexItem.text.Substring(0, indexItem.text.Length-4);
+            int numItems = int.Parse(indexItem.text.Substring(indexItem.text.Length - 2, 1));
             // if this is the item:
-            if (matches[0].ToString() + ":" + matches[1].ToString() == itemText)
+            if (labelItemText == itemText)
             {
                 // increase the quantity and update the label
                 // then return cause we're done
-                print(matches[1]);
-                int x = int.Parse(matches[2].ToString());
+                int x = numItems;
                 x++;
 
                 indexItem.text = itemText + " (" + x + ")";
@@ -71,16 +70,13 @@ public class ItemListHandler : MonoBehaviour {
         {
             UnityEngine.UI.Text indexItem = transform.GetChild(0).GetChild(i).GetChild(0).
                 GetComponent<UnityEngine.UI.Text>();
-            Regex regex = new Regex(@"\w+");
-            MatchCollection matches = regex.Matches(indexItem.text);
-            print(matches[0].ToString() + " - " + matches[1].ToString());
-            print("Text: " + itemText);
+            string labelItemText = indexItem.text.Substring(0, indexItem.text.Length - 4);
+            int numItems = int.Parse(indexItem.text.Substring(indexItem.text.Length - 2, 1));
             // if it matches, we found it
-            if (matches[0].ToString() + ":" + matches[1].ToString() == itemText)
+            if (labelItemText == itemText)
             {
                 // first figure out how many we now have
-                int x = int.Parse(matches[2].ToString());
-                print(x);
+                int x = numItems;
                 x--;
 
                 // we have none left, so remove this item

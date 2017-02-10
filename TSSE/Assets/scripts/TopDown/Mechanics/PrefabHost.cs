@@ -24,6 +24,16 @@ public class PrefabHost : MonoBehaviour
 
     public GameObject item;
 
+    public Sprite shipRubyPirateSprite;
+    public Sprite shipPeacockPirateSprite;
+    public Sprite shipRubySprite;
+    public Sprite shipPeacockSprite;
+
+    public RuntimeAnimatorController shipRubyPirateAnimator;
+    public RuntimeAnimatorController shipPeacockPirateAnimator;
+    public RuntimeAnimatorController shipRubyAnimator;
+    public RuntimeAnimatorController shipPeacockAnimator;
+
     public GameObject getHealthObject()
     {
         GameObject obj = (GameObject)Instantiate(healthBar, Vector3.zero, Quaternion.Euler(0, 0, 0));

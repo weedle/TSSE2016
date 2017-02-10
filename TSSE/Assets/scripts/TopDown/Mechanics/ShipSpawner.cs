@@ -272,17 +272,23 @@ public class ShipSpawner : MonoBehaviour
     // equip this ship with a lvl 1 engine
     void equipEngineLvl1(GameObject ship)
     {
+        /*
         GameObject engine = GameObject.Find("GameLogic")
                 .GetComponent<PrefabHost>().getEngineLvl1Object();
         engine.transform.parent = ship.transform;
+        */
+        ship.GetComponent<MainShip>().setEngineType(ShipDefinitions.EngineType.Engine1);
     }
 
     // equip this ship with a lvl 2 engine
     void equipEngineLvl2(GameObject ship)
     {
+        /*
         GameObject engine = GameObject.Find("GameLogic")
                 .GetComponent<PrefabHost>().getEngineLvl2Object();
         engine.transform.parent = ship.transform;
+        */
+        ship.GetComponent<MainShip>().setEngineType(ShipDefinitions.EngineType.Engine2);
     }
 
     // get a ship of a certain faction, small probability of higher level
@@ -309,25 +315,25 @@ public class ShipSpawner : MonoBehaviour
     // equip this ship with a flamethrower
     void equipFire(GameObject ship)
     {
-        ship.AddComponent<FlameMod>();
+        ship.GetComponent<MainShip>().setWeaponType(ShipDefinitions.WeaponType.Flame);
     }
 
     // equip this ship with a short-range auto-targeting laser
     void equipCrown(GameObject ship)
     {
-        ship.AddComponent<CrownMod>();
+        ship.GetComponent<MainShip>().setWeaponType(ShipDefinitions.WeaponType.Crown);
     }
 
     // equip this ship with a short range missile launcher
     void equipMissile(GameObject ship)
     {
-        ship.AddComponent<MissileMod>();
+        ship.GetComponent<MainShip>().setWeaponType(ShipDefinitions.WeaponType.Missile);
     }
 
     // equip this ship with a long range laser cannon
     void equipLaser(GameObject ship)
     {
-        ship.AddComponent<PewPewLaserMod>();
+        ship.GetComponent<MainShip>().setWeaponType(ShipDefinitions.WeaponType.Laser);
     }
 
     // spawn a firethrower ship

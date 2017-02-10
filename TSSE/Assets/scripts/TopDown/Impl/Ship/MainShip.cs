@@ -16,8 +16,12 @@ public class MainShip : MonoBehaviour, ShipIntf
     public float healthPoints = 100;
     public float maxHealth = 100;
     private Vector2 velKeep;
-    public int shipType;
     public bool initialized = false;
+    public ShipDefinitions.EngineType engType;
+    public ShipDefinitions.WeaponType weapType;
+    public ShipDefinitions.ShipType shipType;
+    private EngineModule engine;
+    private FiringModule weapon;
 
     // Use this for initialization
     void Start()
@@ -36,6 +40,95 @@ public class MainShip : MonoBehaviour, ShipIntf
         health.GetComponent<HealthBar>().setTarget(gameObject);
         ammo.GetComponent<AmmoBar>().setTarget(gameObject);
         text.GetComponent<ShipLabel>().setTarget(gameObject);
+
+        GameObject engineObj;
+        if (engType == ShipDefinitions.EngineType.Engine1)
+        {
+            engineObj = GameObject.Find("GameLogic").GetComponent<PrefabHost>()
+                .getEngineLvl1Object();
+        }
+        else
+        {
+            engineObj = GameObject.Find("GameLogic").GetComponent<PrefabHost>()
+                .getEngineLvl2Object();
+        }
+        engineObj.transform.parent = gameObject.transform;
+        engineObj.transform.position = gameObject.transform.position;
+        engineObj.transform.localScale = new Vector3(1.5f, 1.5f, 0);
+
+        engine = engineObj.GetComponent<EngineModule>();
+
+        switch (weapType)
+        {
+            case ShipDefinitions.WeaponType.Crown:
+                weapon = gameObject.AddComponent<CrownMod>();
+                break;
+            case ShipDefinitions.WeaponType.Laser:
+                weapon = gameObject.AddComponent<PewPewLaserMod>();
+                break;
+            case ShipDefinitions.WeaponType.Missile:
+                weapon = gameObject.AddComponent<MissileMod>();
+                break;
+            case ShipDefinitions.WeaponType.Flame:
+                weapon = gameObject.AddComponent<FlameMod>();
+                break;
+            default:
+                weapon = gameObject.AddComponent<DummyFiringMod>();
+                break;
+        }
+
+
+        ShipDefinitions.Faction faction = ShipDefinitions.stringToFaction(gameObject.tag);
+        if (faction == ShipDefinitions.Faction.Enemy)
+        {
+            if (shipType == ShipDefinitions.ShipType.Ruby)
+            {
+                SpriteRenderer spr = gameObject.GetComponent<SpriteRenderer>();
+                if(spr == null)
+                    spr = gameObject.AddComponent<SpriteRenderer>();
+                    spr.sprite = GameObject.Find("GameLogic").GetComponent<PrefabHost>().
+                    shipRubyPirateSprite;
+                gameObject.AddComponent<Animator>().runtimeAnimatorController
+                    = GameObject.Find("GameLogic").GetComponent<PrefabHost>().
+                    shipRubyPirateAnimator;
+            }
+            else
+            {
+                SpriteRenderer spr = gameObject.GetComponent<SpriteRenderer>();
+                if (spr == null)
+                    spr = gameObject.AddComponent<SpriteRenderer>();
+                spr.sprite = GameObject.Find("GameLogic").GetComponent<PrefabHost>().
+                    shipPeacockPirateSprite;
+                gameObject.AddComponent<Animator>().runtimeAnimatorController
+                    = GameObject.Find("GameLogic").GetComponent<PrefabHost>().
+                    shipPeacockPirateAnimator;
+            }
+        }
+        else
+        {
+            if (shipType == ShipDefinitions.ShipType.Ruby)
+            {
+                SpriteRenderer spr = gameObject.GetComponent<SpriteRenderer>();
+                if (spr == null)
+                    spr = gameObject.AddComponent<SpriteRenderer>();
+                spr.sprite = GameObject.Find("GameLogic").GetComponent<PrefabHost>().
+                    shipRubySprite;
+                gameObject.AddComponent<Animator>().runtimeAnimatorController
+                    = GameObject.Find("GameLogic").GetComponent<PrefabHost>().
+                    shipRubyAnimator;
+            }
+            else
+            {
+                SpriteRenderer spr = gameObject.GetComponent<SpriteRenderer>();
+                if (spr == null)
+                    spr = gameObject.AddComponent<SpriteRenderer>();
+                spr.sprite = GameObject.Find("GameLogic").GetComponent<PrefabHost>().
+                    shipPeacockSprite;
+                gameObject.AddComponent<Animator>().runtimeAnimatorController
+                    = GameObject.Find("GameLogic").GetComponent<PrefabHost>().
+                    shipPeacockAnimator;
+            }
+        }
 
         gameObject.AddComponent<BoxCollider2D>();
         gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
@@ -80,35 +173,38 @@ public class MainShip : MonoBehaviour, ShipIntf
 
     public void move(float vertical)
     {
-        if (gameObject.GetComponentInChildren<EngineModule>() != null)
-            gameObject.GetComponentInChildren<EngineModule>().move(vertical);
+        if (engine == null)
+            return;
+        engine.move(vertical);
     }
 
     public void rotate(float horizontal)
     {
-        if (gameObject.GetComponentInChildren<EngineModule>() != null)
-            gameObject.GetComponentInChildren<EngineModule>().rotate(horizontal);
+        if (engine == null)
+            return;
+        engine.rotate(horizontal);
     }
 
 
     public void fire()
     {
-        if(GetComponent<FiringModule>() != null)
-            GetComponent<FiringModule>().fire();
+        if (weapon == null)
+            return;
+        weapon.fire();
     }
 
     public float getEffectiveDistance()
     {
-        if (GetComponent<FiringModule>() != null)
-            return GetComponent<FiringModule>().getEffectiveDistance();
-        return 0;
+        if (weapon == null)
+            return 0;
+        return weapon.getEffectiveDistance();
     }
 
     public float getEffectiveAngle()
     {
-        if (GetComponent<FiringModule>() != null)
-            return GetComponent<FiringModule>().getEffectiveAngle();
-        return 0;
+        if (weapon == null)
+            return 0;
+        return weapon.getEffectiveAngle();
     }
 
     public void start()
@@ -178,8 +274,23 @@ public class MainShip : MonoBehaviour, ShipIntf
         rbody.velocity = velKeep;
     }
 
-    public int getShipType()
+    public ShipDefinitions.ShipType getShipType()
     {
         return shipType;
+    }
+
+    public void setEngineType(ShipDefinitions.EngineType type)
+    {
+        engType = type;
+    }
+
+    public void setWeaponType(ShipDefinitions.WeaponType type)
+    {
+        weapType = type;
+    }
+
+    public void setShipType(ShipDefinitions.ShipType type)
+    {
+        shipType = type;
     }
 }

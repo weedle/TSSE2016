@@ -14,7 +14,7 @@ public class FlameMod : MonoBehaviour, FiringModule
     private int ammunition = 15;
     private float ammoCooldown = 2;
     private Timer timer;
-    public string testItem;
+    public string testItem = "";
 
     // Use this for initialization
     void Start()
@@ -31,6 +31,7 @@ public class FlameMod : MonoBehaviour, FiringModule
         ShipDefinitions.Item testThing = ShipDefinitions.stringToItem(testItem);
         applyBuff(testThing);
 
+        /*
         GameObject firingSprite = GameObject.Find("GameLogic")
             .GetComponent<PrefabHost>().getFiringSpriteObject();
         firingSprite.transform.parent = gameObject.transform;
@@ -39,7 +40,8 @@ public class FlameMod : MonoBehaviour, FiringModule
             gameObject.transform.position.y - 0.07f,
             gameObject.transform.position.z);
         firingSprite.GetComponent<FiringSprite>()
-            .setSprite(faction, "flame");
+            .setSprite(faction, "crown");
+        */
         timer = GameObject.Find("GameLogic").GetComponent<Timer>();
         timer.addTimer(this.GetInstanceID());
     }

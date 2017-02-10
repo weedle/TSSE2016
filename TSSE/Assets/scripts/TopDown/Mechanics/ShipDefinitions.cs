@@ -243,4 +243,26 @@ public class ShipDefinitions
         return 10;
         // wow hardcoded placeholder value, much clever
     }
+
+    public enum EngineType
+    {
+        Engine1, Engine2
+    }
+
+    public enum WeaponType
+    {
+        Crown, Laser, Flame, Missile, None
+    }
+
+    public enum ShipType
+    {
+        Ruby, Peacock
+    }
+
+    public struct ShipEntity
+    {
+        public EngineType engType;
+        public WeaponType weapType;
+        public MainShip ship;
+    }
 }

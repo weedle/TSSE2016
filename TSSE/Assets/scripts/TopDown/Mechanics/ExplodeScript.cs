@@ -29,7 +29,7 @@ public class ExplodeScript : StateMachineBehaviour
         if (ShipDefinitions.stringToFaction(animator.transform.tag) == ShipDefinitions.Faction.Enemy)
         {
             int score = PlayerPrefs.GetInt("score");
-            if (animator.transform.GetComponent<ShipIntf>().getShipType() == 0)
+            if (animator.transform.GetComponent<ShipIntf>().getShipType() == ShipDefinitions.ShipType.Ruby)
                 score += 100;
             else
                 score += 200;

@@ -15,7 +15,7 @@ public class CrownMod : MonoBehaviour, FiringModule
     private float damage = 2;
     private float distance = 2;
     Timer timer;
-    public string testItem;
+    public string testItem = "";
 
     // Use this for initialization
     void Start()
@@ -30,9 +30,13 @@ public class CrownMod : MonoBehaviour, FiringModule
             color2 = Color.yellow;
         }
 
-        ShipDefinitions.Item testThing = ShipDefinitions.stringToItem(testItem);
-        applyBuff(testThing);
+        if (testItem != "")
+        {
+            ShipDefinitions.Item testThing = ShipDefinitions.stringToItem(testItem);
+            applyBuff(testThing);
+        }
 
+        /*
         GameObject firingSprite = GameObject.Find("GameLogic")
             .GetComponent<PrefabHost>().getFiringSpriteObject();
         firingSprite.transform.parent = gameObject.transform;
@@ -42,6 +46,7 @@ public class CrownMod : MonoBehaviour, FiringModule
             gameObject.transform.position.z);
         firingSprite.GetComponent<FiringSprite>()
             .setSprite(faction, "crown");
+        */
         timer = GameObject.Find("GameLogic").GetComponent<Timer>();
         timer.addTimer(this.GetInstanceID());
     }

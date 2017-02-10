@@ -12,7 +12,7 @@ public class EngineModule : MonoBehaviour {
         rotationSpeed += Random.Range(-2, 2);
         gameObject.GetComponent<SpriteRenderer>().enabled = false;
 
-        if(ship.getShipType() == 1)
+        if(ship.getShipType() == ShipDefinitions.ShipType.Peacock)
         {
             moveSpeed *= 0.8f;
             rotationSpeed *= 0.8f;

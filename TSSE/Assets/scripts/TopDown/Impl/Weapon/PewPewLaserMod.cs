@@ -8,10 +8,10 @@ public class PewPewLaserMod : MonoBehaviour, FiringModule
     private float projectileSpeed = 40;
     private int ammoMax = 4;
     private int ammunition = 4;
-    private float ammoCooldown = 2;
+    private float ammoCooldown = 1;
     private float immediateCooldownMax = 0.4f;
     private Timer timer;
-    public string testItem;
+    public string testItem = "";
 
     // Use this for initialization
     void Start()
@@ -23,9 +23,13 @@ public class PewPewLaserMod : MonoBehaviour, FiringModule
         projectile.GetComponent<PewPewLaser>().setDamage(10);
         projectile.GetComponent<PewPewLaser>().setLifetime(25);
 
-        ShipDefinitions.Item testThing = ShipDefinitions.stringToItem(testItem);
-        applyBuff(testThing);
+        if (testItem != "")
+        {
+            ShipDefinitions.Item testThing = ShipDefinitions.stringToItem(testItem);
+            applyBuff(testThing);
+        }
 
+        /*
         GameObject firingSprite = GameObject.Find("GameLogic")
             .GetComponent<PrefabHost>().getFiringSpriteObject();
         firingSprite.transform.parent = gameObject.transform;
@@ -34,7 +38,8 @@ public class PewPewLaserMod : MonoBehaviour, FiringModule
             gameObject.transform.position.y - 0.07f,
             gameObject.transform.position.z);
         firingSprite.GetComponent<FiringSprite>()
-            .setSprite(faction, "laser");
+            .setSprite(faction, "crown");
+        */
         timer = GameObject.Find("GameLogic").GetComponent<Timer>();
         timer.addTimer(this.GetInstanceID());
         timer.addTimer(this.GetInstanceID() + 1);

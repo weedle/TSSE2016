@@ -40,5 +40,11 @@ public interface ShipIntf {
 
     void unpause();
 
-    int getShipType();
+    ShipDefinitions.ShipType getShipType();
+
+    void setEngineType(ShipDefinitions.EngineType type);
+
+    void setWeaponType(ShipDefinitions.WeaponType type);
+
+    void setShipType(ShipDefinitions.ShipType type);
 }
