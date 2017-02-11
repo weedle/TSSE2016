@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 
 
@@ -7,7 +8,7 @@ using System;
  * - currently used to define necessary settings, states,
  *   and/or features that are part of a ship
  * 
- */ 
+ */
 public class ShipDefinitions
 {
     static string[] names = new string[] {
@@ -246,7 +247,7 @@ public class ShipDefinitions
 
     public enum EngineType
     {
-        Engine1, Engine2
+        Engine1, Engine2, None
     }
 
     public enum WeaponType
@@ -256,13 +257,93 @@ public class ShipDefinitions
 
     public enum ShipType
     {
-        Ruby, Peacock
+        Ruby, Peacock, None
     }
 
     public struct ShipEntity
     {
         public EngineType engType;
         public WeaponType weapType;
-        public MainShip ship;
+        public ShipType shipType;
+        public Faction faction;
+        public string uniqueId;
+
+        public ShipEntity(EngineType newEng, WeaponType newWeap,
+            ShipType newShip, Faction newFaction, string newId)
+        {
+            engType = newEng;
+            weapType = newWeap;
+            shipType = newShip;
+            faction = newFaction;
+            uniqueId = newId;
+        }
+    }
+
+    public static void saveShip(ShipEntity entity, int index)
+    {
+        string shipDetails = "";
+        shipDetails += (int)entity.engType + ":";
+        shipDetails += (int)entity.shipType + ":";
+        shipDetails += (int)entity.weapType + ":";
+        shipDetails += (int)entity.faction;
+
+        PlayerPrefs.SetString(
+            entity.uniqueId + "[" + index + "]" + "ship", shipDetails);
+    }
+
+    public static void saveShips(List<ShipEntity> entities)
+    {
+        int index = 0;
+        foreach (ShipEntity entity in entities)
+        {
+            saveShip(entity, index);
+            index++;
+        }
+    }
+
+    public static ShipEntity loadShip(string uniqueId, int index)
+    {
+        ShipEntity entity = new ShipEntity();
+
+        string ship = PlayerPrefs.GetString(
+            uniqueId + "[" + index + "]" + "ship");
+        string[] shipDetails = ship.Split(':');
+
+        EngineType engType = (EngineType)Enum.Parse(
+            typeof(EngineType),
+            shipDetails[0].ToString());
+
+        ShipType shipType = (ShipType)Enum.Parse(
+            typeof(ShipDefinitions.ShipType),
+            shipDetails[1].ToString());
+
+        WeaponType weapType = (WeaponType)Enum.Parse(
+            typeof(WeaponType),
+            shipDetails[2].ToString());
+
+        Faction faction = (Faction)Enum.Parse(
+            typeof(Faction),
+            shipDetails[3].ToString());
+
+        entity.engType = engType;
+        entity.shipType = shipType;
+        entity.weapType = weapType;
+        entity.faction = faction;
+        entity.uniqueId = uniqueId;
+
+        return entity;
+    }
+    public static List<ShipEntity> loadShips(List<String> entityIds)
+    {
+        int index = 0;
+        List<ShipEntity> entities = new List<ShipEntity>();
+        foreach (String entityId in entityIds)
+        {
+            ShipEntity entity = new ShipEntity();
+            entity = loadShip(entityId, index);
+            entities.Add(entity);
+            index++;
+        }
+        return entities;
     }
 }

@@ -47,4 +47,6 @@ public interface ShipIntf {
     void setWeaponType(ShipDefinitions.WeaponType type);
 
     void setShipType(ShipDefinitions.ShipType type);
+
+    void setFaction(ShipDefinitions.Faction newFaction);
 }

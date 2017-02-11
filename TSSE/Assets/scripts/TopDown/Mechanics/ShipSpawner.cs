@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
+using System.Collections.Generic;
 
 // This handles spawning for the combad phase.
 // Initially, it spawns the ships in your initial loadout. A stupid 
@@ -8,9 +10,9 @@ using System.Collections;
 // someone else's start needs to run first.
 // I will literally treat whoever fixes this to chocolates.
 
- // Then, in update, we occasionally spawn enemies in waves 
- // and send the player back to the loadout screen if all their
- // ships are dead.
+// Then, in update, we occasionally spawn enemies in waves 
+// and send the player back to the loadout screen if all their
+// ships are dead.
 public class ShipSpawner : MonoBehaviour
 {
     float cooldownMax = 500;
@@ -39,53 +41,12 @@ public class ShipSpawner : MonoBehaviour
         // the loudout data is saved in player preferences
         for (int i = 0; i < 6; i++)
         {
-            int shipType = PlayerPrefs.GetInt("shipType" + i);
-            string weaponType = PlayerPrefs.GetString("weaponType" + i);
-            int engineType = PlayerPrefs.GetInt("engineType" + i);
-            GameObject ship;
-
-            if (shipType == 1)
-            {
-                ship = getShipRuby();
-            }
-            else if (shipType == 2)
-            {
-                ship = getShipPeacock();
-            }
-            else
-            {
-                continue;
-            }
-
-            setFaction(ship, ShipDefinitions.Faction.PlayerAffil);
-
-            if (engineType == 1)
-            {
-                equipEngineLvl1(ship);
-            }
-            else if (engineType == 2)
-            {
-                equipEngineLvl2(ship);
-            }
-
-            if (weaponType == "flame")
-            {
-                equipFire(ship);
-            }
-            else if (weaponType == "laser")
-            {
-                equipLaser(ship);
-            }
-            else if (weaponType == "missile")
-            {
-                equipMissile(ship);
-            }
-            else if (weaponType == "crown")
-            {
-                equipCrown(ship);
-            }
-
-            spawnShip(Vector2.zero, ship);
+            ShipDefinitions.ShipEntity ship =
+                ShipDefinitions.loadShip("PlayerShip" + i.ToString(), i);
+            if(ship.shipType != ShipDefinitions.ShipType.None &&
+                ship.engType != ShipDefinitions.EngineType.None &&
+                ship.weapType != ShipDefinitions.WeaponType.None)
+                spawnShip(ship);
         }
     }
 
@@ -140,15 +101,15 @@ public class ShipSpawner : MonoBehaviour
             if(numEnemies < MAXENEMIES)
             {
                 // spawn some enemies, but only if we don't already have a lot
-                for (int i = 0; i <= Random.Range(0, WAVEENEMIES); i++)
+                for (int i = 0; i <= UnityEngine.Random.Range(0, WAVEENEMIES); i++)
                 {
                     Vector3 spawnPoint;
-                    Vector3 spawnRand = 8 * Random.insideUnitSphere;
+                    Vector3 spawnRand = 8 * UnityEngine.Random.insideUnitSphere;
                     spawnPoint = Vector3.zero;
                     Vector3 temp = new Vector3(0, Camera.main.pixelHeight / 2);
                     spawnPoint.y = Camera.main.ScreenToWorldPoint(temp).y;
                     spawnRand.z = 0;
-                    float z = Random.Range(0, 8);
+                    float z = UnityEngine.Random.Range(0, 8);
                     if (z <= 7.5)
                     {
                         temp = new Vector3(Camera.main.pixelWidth / 4, 0, Camera.main.nearClipPlane);
@@ -180,21 +141,18 @@ public class ShipSpawner : MonoBehaviour
         }
     }
 
-
-
-
     public void spawnBunch()
     {
         Vector3 temp;
         for (int i = 0; i <= 4; i++)
         {
             Vector3 spawnPoint;
-            Vector3 spawnRand = 8 * Random.insideUnitSphere;
+            Vector3 spawnRand = 8 * UnityEngine.Random.insideUnitSphere;
             spawnPoint = Vector3.zero;
             temp = new Vector3(0, Camera.main.pixelHeight / 2);
             spawnPoint.y = Camera.main.ScreenToWorldPoint(temp).y;
             spawnRand.z = 0;
-            float z = Random.Range(0, 16);
+            float z = UnityEngine.Random.Range(0, 16);
             if (z <= 7.5)
             {
                 temp = new Vector3(Camera.main.pixelWidth / 4, 0, Camera.main.nearClipPlane);
@@ -295,7 +253,7 @@ public class ShipSpawner : MonoBehaviour
     GameObject getShip(ShipDefinitions.Faction faction)
     {
         GameObject ship;
-        if (Random.Range(0, 10) < 2)
+        if (UnityEngine.Random.Range(0, 10) < 2)
         {
             if (faction == ShipDefinitions.Faction.Enemy)
                 ship = getShipPeacockPirate();
@@ -404,5 +362,43 @@ public class ShipSpawner : MonoBehaviour
     {
         obj.tag = faction.ToString();
         obj.GetComponent<ShipController>().setFaction(faction);
+    }
+
+    public void spawnShip(ShipDefinitions.ShipEntity entity)
+    {
+        GameObject ship;
+        print(entity.faction);
+        if (entity.faction == ShipDefinitions.Faction.Enemy)
+        {
+            if(entity.shipType == ShipDefinitions.ShipType.Ruby)
+            {
+                ship = getShipRubyPirate();
+            }
+            else
+            {
+                print("making pirate");
+                ship = getShipPeacockPirate();
+            }
+        }
+        else
+        {
+            if (entity.shipType == ShipDefinitions.ShipType.Ruby)
+            {
+                ship = getShipRuby();
+            }
+            else
+            {
+                ship = getShipPeacock();
+            }
+        }
+
+        ShipIntf shipIntf = ship.GetComponent<ShipIntf>();
+        shipIntf.setEngineType(entity.engType);
+        shipIntf.setWeaponType(entity.weapType);
+        shipIntf.setShipType(entity.shipType);
+        shipIntf.setFaction(entity.faction);
+        //ship.AddComponent<AIController>();
+
+        spawnShip(6 * UnityEngine.Random.insideUnitCircle, ship);
     }
 }

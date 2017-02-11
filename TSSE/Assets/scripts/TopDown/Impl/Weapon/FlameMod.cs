@@ -115,7 +115,6 @@ public class FlameMod : MonoBehaviour, FiringModule
 
     public void applyBuff(ShipDefinitions.Item item)
     {
-        print("Item is: " + ShipDefinitions.itemToString(item));
         if (item.tier == 0)
             return;
         switch(item.type)

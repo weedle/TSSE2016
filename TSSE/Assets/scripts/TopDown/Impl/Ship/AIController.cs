@@ -158,15 +158,16 @@ public class AIController : MonoBehaviour, ShipController
                 if (Vector3.Distance(transform.position,
                         target.transform.position) < shipObject.getEffectiveDistance())
                 {
+                    if(target.GetComponent<ShipController>() != null)
                     if (target.GetComponent<ShipController>()
-                        .getFaction() != faction)
-                        state = ShipDefinitions.SState.Firing;
-                    else
-                    {
-                        ship.brake();
-                        move = false;
-                        state = ShipDefinitions.SState.Searching;
-                    }
+                            .getFaction() != faction)
+                            state = ShipDefinitions.SState.Firing;
+                        else
+                        {
+                            ship.brake();
+                            move = false;
+                            state = ShipDefinitions.SState.Searching;
+                        }
 
                     if ((GetComponent<FiringModule>().GetType().
                         Equals(typeof(HealMod))))

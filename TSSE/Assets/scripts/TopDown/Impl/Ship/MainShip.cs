@@ -293,4 +293,9 @@ public class MainShip : MonoBehaviour, ShipIntf
     {
         shipType = type;
     }
+
+    public void setFaction(ShipDefinitions.Faction faction)
+    {
+        gameObject.tag = faction.ToString();
+    }
 }

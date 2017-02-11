@@ -3,6 +3,7 @@ using System.Collections;
 using System;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 // Ship selection is a huge ugly mess of code for this particular scene
 // and sorely needs some refactoring.
@@ -81,7 +82,7 @@ public class ShipSelection : MonoBehaviour {
     private int cost;
 
     // the current loadout
-    private ShipInfo[] shipInfo;
+    private ShipDefinitions.ShipEntity[] shipInfo;
 
     // the sprites we change to reflect the current loadout
     private GameObject[] ships;
@@ -90,7 +91,7 @@ public class ShipSelection : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        shipInfo = new ShipInfo[6];
+        shipInfo = new ShipDefinitions.ShipEntity[6];
 
         ships = new GameObject[6];
         ships[0] = ship1;
@@ -116,12 +117,16 @@ public class ShipSelection : MonoBehaviour {
         engines[4] = engine5;
         engines[5] = engine6;
 
-        // initialize info to have nothing selected
+        // initialize info
         for (int i = 0; i < 6; i++)
         {
-            shipInfo[i].shipType = -1;
-            shipInfo[i].weaponType = "none";
-            shipInfo[i].engineType = -1;
+            ShipDefinitions.ShipEntity entity = new ShipDefinitions.ShipEntity();
+            entity.engType = ShipDefinitions.EngineType.None;
+            entity.weapType = ShipDefinitions.WeaponType.None;
+            entity.shipType = ShipDefinitions.ShipType.None;
+            entity.faction = ShipDefinitions.Faction.PlayerAffil;
+            entity.uniqueId = "PlayerShip" + i.ToString();
+            shipInfo[i] = entity;
         }
 
         // add listener so we change current selected ship
@@ -169,33 +174,10 @@ public class ShipSelection : MonoBehaviour {
             score -= cost;
             PlayerPrefs.SetInt("score", score);
 
-            for (int i = 0; i < 6; i++)
-            {
-                if (shipInfo[i].shipType == 1)
-                    PlayerPrefs.SetInt("shipType" + i, 1);
-                else if (shipInfo[i].shipType == 2)
-                    PlayerPrefs.SetInt("shipType" + i, 2);
-                else
-                    PlayerPrefs.SetInt("shipType" + i, 0);
+            List<ShipDefinitions.ShipEntity> list = new List<ShipDefinitions.ShipEntity>();
+            list.AddRange(shipInfo);
 
-                if (shipInfo[i].engineType == 1)
-                    PlayerPrefs.SetInt("engineType" + i, 1);
-                else if (shipInfo[i].engineType == 2)
-                    PlayerPrefs.SetInt("engineType" + i, 2);
-                else
-                    PlayerPrefs.SetInt("engineType" + i, 0);
-
-                if (shipInfo[i].weaponType == "flame")
-                    PlayerPrefs.SetString("weaponType" + i, "flame");
-                else if (shipInfo[i].weaponType == "crown")
-                    PlayerPrefs.SetString("weaponType" + i, "crown");
-                else if (shipInfo[i].weaponType == "missile")
-                    PlayerPrefs.SetString("weaponType" + i, "missile");
-                else if (shipInfo[i].weaponType == "laser")
-                    PlayerPrefs.SetString("weaponType" + i, "laser");
-                else
-                    PlayerPrefs.SetString("weaponType" + i, "none");
-            }
+            ShipDefinitions.saveShips(list);
             
             // load the combat scene
             SceneManager.LoadScene(1);
@@ -236,9 +218,9 @@ public class ShipSelection : MonoBehaviour {
     {
         if (button.name == "buttonShipLvl1")
         {
-            if (shipInfo[selectedShip].shipType == 1)
+            if (shipInfo[selectedShip].shipType == ShipDefinitions.ShipType.Ruby)
             {
-                shipInfo[selectedShip].shipType = -1;
+                shipInfo[selectedShip].shipType = ShipDefinitions.ShipType.None;
                 ships[selectedShip]
                     .GetComponent<SpriteRenderer>()
                     .sprite = shipNoneSprite;
@@ -246,7 +228,7 @@ public class ShipSelection : MonoBehaviour {
             }
             else
             {
-                shipInfo[selectedShip].shipType = 1;
+                shipInfo[selectedShip].shipType = ShipDefinitions.ShipType.Ruby;
                 ships[selectedShip]
                     .GetComponent<SpriteRenderer>()
                     .sprite = ship1Sprite;
@@ -257,9 +239,9 @@ public class ShipSelection : MonoBehaviour {
 
         if (button.name == "buttonShipLvl2")
         {
-            if (shipInfo[selectedShip].shipType == 2)
+            if (shipInfo[selectedShip].shipType == ShipDefinitions.ShipType.Peacock)
             {
-                shipInfo[selectedShip].shipType = -1;
+                shipInfo[selectedShip].shipType = ShipDefinitions.ShipType.None;
                 ships[selectedShip]
                     .GetComponent<SpriteRenderer>()
                     .sprite = shipNoneSprite;
@@ -267,7 +249,7 @@ public class ShipSelection : MonoBehaviour {
             }
             else
             {
-                shipInfo[selectedShip].shipType = 2;
+                shipInfo[selectedShip].shipType = ShipDefinitions.ShipType.Peacock;
                 ships[selectedShip]
                     .GetComponent<SpriteRenderer>()
                     .sprite = ship2Sprite;
@@ -278,9 +260,9 @@ public class ShipSelection : MonoBehaviour {
 
         if (button.name == "buttonEngineLvl1")
         {
-            if (shipInfo[selectedShip].engineType == 1)
+            if (shipInfo[selectedShip].engType == ShipDefinitions.EngineType.Engine1)
             {
-                shipInfo[selectedShip].engineType = -1;
+                shipInfo[selectedShip].engType = ShipDefinitions.EngineType.None;
                 engines[selectedShip]
                     .GetComponent<SpriteRenderer>()
                     .sprite = engineNoneSprite;
@@ -288,7 +270,7 @@ public class ShipSelection : MonoBehaviour {
             }
             else
             {
-                shipInfo[selectedShip].engineType = 1;
+                shipInfo[selectedShip].engType = ShipDefinitions.EngineType.Engine1;
                 engines[selectedShip]
                     .GetComponent<SpriteRenderer>()
                     .sprite = engine1Sprite;
@@ -299,9 +281,9 @@ public class ShipSelection : MonoBehaviour {
 
         if (button.name == "buttonEngineLvl2")
         {
-            if (shipInfo[selectedShip].engineType == 2)
+            if (shipInfo[selectedShip].engType == ShipDefinitions.EngineType.Engine2)
             {
-                shipInfo[selectedShip].engineType = -1;
+                shipInfo[selectedShip].engType = ShipDefinitions.EngineType.None;
                 engines[selectedShip]
                     .GetComponent<SpriteRenderer>()
                     .sprite = engineNoneSprite;
@@ -309,7 +291,7 @@ public class ShipSelection : MonoBehaviour {
             }
             else
             {
-                shipInfo[selectedShip].engineType = 2;
+                shipInfo[selectedShip].engType = ShipDefinitions.EngineType.Engine2;
                 engines[selectedShip]
                     .GetComponent<SpriteRenderer>()
                     .sprite = engine2Sprite;
@@ -320,9 +302,9 @@ public class ShipSelection : MonoBehaviour {
 
         if (button.name == "buttonCrown")
         {
-            if (shipInfo[selectedShip].weaponType == "crown")
+            if (shipInfo[selectedShip].weapType == ShipDefinitions.WeaponType.Crown)
             {
-                shipInfo[selectedShip].weaponType = "none";
+                shipInfo[selectedShip].weapType = ShipDefinitions.WeaponType.None;
                 weapons[selectedShip]
                     .GetComponent<SpriteRenderer>()
                     .sprite = weaponNoneSprite;
@@ -330,7 +312,7 @@ public class ShipSelection : MonoBehaviour {
             }
             else
             {
-                shipInfo[selectedShip].weaponType = "crown";
+                shipInfo[selectedShip].weapType = ShipDefinitions.WeaponType.Crown;
                 weapons[selectedShip]
                     .GetComponent<SpriteRenderer>()
                     .sprite = weaponCrownSprite;
@@ -341,9 +323,9 @@ public class ShipSelection : MonoBehaviour {
 
         if (button.name == "buttonMissile")
         {
-            if (shipInfo[selectedShip].weaponType == "missile")
+            if (shipInfo[selectedShip].weapType == ShipDefinitions.WeaponType.Missile)
             {
-                shipInfo[selectedShip].weaponType = "none";
+                shipInfo[selectedShip].weapType = ShipDefinitions.WeaponType.None;
                 weapons[selectedShip]
                     .GetComponent<SpriteRenderer>()
                     .sprite = weaponNoneSprite;
@@ -351,7 +333,7 @@ public class ShipSelection : MonoBehaviour {
             }
             else
             {
-                shipInfo[selectedShip].weaponType = "missile";
+                shipInfo[selectedShip].weapType = ShipDefinitions.WeaponType.Missile;
                 weapons[selectedShip]
                     .GetComponent<SpriteRenderer>()
                     .sprite = weaponMissileSprite;
@@ -362,9 +344,9 @@ public class ShipSelection : MonoBehaviour {
 
         if (button.name == "buttonLaser")
         {
-            if (shipInfo[selectedShip].weaponType == "laser")
+            if (shipInfo[selectedShip].weapType == ShipDefinitions.WeaponType.Laser)
             {
-                shipInfo[selectedShip].weaponType = "none";
+                shipInfo[selectedShip].weapType = ShipDefinitions.WeaponType.None;
                 weapons[selectedShip]
                     .GetComponent<SpriteRenderer>()
                     .sprite = weaponNoneSprite;
@@ -372,7 +354,7 @@ public class ShipSelection : MonoBehaviour {
             }
             else
             {
-                shipInfo[selectedShip].weaponType = "laser";
+                shipInfo[selectedShip].weapType = ShipDefinitions.WeaponType.Laser;
                 weapons[selectedShip]
                     .GetComponent<SpriteRenderer>()
                     .sprite = weaponLaserSprite;
@@ -383,9 +365,9 @@ public class ShipSelection : MonoBehaviour {
 
         if (button.name == "buttonFlame")
         {
-            if (shipInfo[selectedShip].weaponType == "flame")
+            if (shipInfo[selectedShip].weapType == ShipDefinitions.WeaponType.Flame)
             {
-                shipInfo[selectedShip].weaponType = "none";
+                shipInfo[selectedShip].weapType = ShipDefinitions.WeaponType.None;
                 weapons[selectedShip]
                     .GetComponent<SpriteRenderer>()
                     .sprite = weaponNoneSprite;
@@ -393,7 +375,7 @@ public class ShipSelection : MonoBehaviour {
             }
             else
             {
-                shipInfo[selectedShip].weaponType = "flame";
+                shipInfo[selectedShip].weapType = ShipDefinitions.WeaponType.Laser;
                 weapons[selectedShip]
                     .GetComponent<SpriteRenderer>()
                     .sprite = weaponFlameSprite;
@@ -425,8 +407,8 @@ public class ShipSelection : MonoBehaviour {
     {
         selectedShip = dropdownTarget.value;
 
-        ShipInfo selectInfo = shipInfo[dropdownTarget.value]; 
-        if(selectInfo.shipType != 2)
+        ShipDefinitions.ShipEntity selectInfo = shipInfo[dropdownTarget.value]; 
+        if(selectInfo.shipType != ShipDefinitions.ShipType.Peacock)
         {
             unhighlightButton(
                 GameObject.Find("buttonShipLvl2")
@@ -439,7 +421,7 @@ public class ShipSelection : MonoBehaviour {
                 .GetComponent<UnityEngine.UI.Button>());
         }
 
-        if (selectInfo.shipType != 1)
+        if (selectInfo.shipType != ShipDefinitions.ShipType.Ruby)
         {
             unhighlightButton(
                 GameObject.Find("buttonShipLvl1")
@@ -452,7 +434,7 @@ public class ShipSelection : MonoBehaviour {
                 .GetComponent<UnityEngine.UI.Button>());
         }
 
-        if (selectInfo.engineType != 2)
+        if (selectInfo.engType != ShipDefinitions.EngineType.Engine2)
         {
             unhighlightButton(
                 GameObject.Find("buttonEngineLvl2")
@@ -465,7 +447,7 @@ public class ShipSelection : MonoBehaviour {
                 .GetComponent<UnityEngine.UI.Button>());
         }
 
-        if (selectInfo.engineType != 1)
+        if (selectInfo.engType != ShipDefinitions.EngineType.Engine1)
         {
             unhighlightButton(
                 GameObject.Find("buttonEngineLvl1")
@@ -478,7 +460,7 @@ public class ShipSelection : MonoBehaviour {
                 .GetComponent<UnityEngine.UI.Button>());
         }
 
-        if (selectInfo.weaponType != "crown")
+        if (selectInfo.weapType != ShipDefinitions.WeaponType.Crown)
         {
             unhighlightButton(
                 GameObject.Find("buttonCrown")
@@ -491,7 +473,7 @@ public class ShipSelection : MonoBehaviour {
                 .GetComponent<UnityEngine.UI.Button>());
         }
 
-        if (selectInfo.weaponType != "missile")
+        if (selectInfo.weapType != ShipDefinitions.WeaponType.Missile)
         {
             unhighlightButton(
                 GameObject.Find("buttonMissile")
@@ -504,7 +486,7 @@ public class ShipSelection : MonoBehaviour {
                 .GetComponent<UnityEngine.UI.Button>());
         }
 
-        if (selectInfo.weaponType != "laser")
+        if (selectInfo.weapType != ShipDefinitions.WeaponType.Laser)
         {
             unhighlightButton(
                 GameObject.Find("buttonLaser")
@@ -517,7 +499,7 @@ public class ShipSelection : MonoBehaviour {
                 .GetComponent<UnityEngine.UI.Button>());
         }
 
-        if (selectInfo.weaponType != "flame")
+        if (selectInfo.weapType != ShipDefinitions.WeaponType.Flame)
         {
             unhighlightButton(
                 GameObject.Find("buttonFlame")
@@ -541,23 +523,23 @@ public class ShipSelection : MonoBehaviour {
         cost = 0;
         for(int i = 0; i < 6; i++)
         {
-            if (shipInfo[i].shipType == 1)
+            if (shipInfo[i].shipType == ShipDefinitions.ShipType.Ruby)
                 cost += int.Parse(GameObject.Find("costShip1").GetComponent<Text>().text); // <- HAHAHAHAHAHAHAHAHAHAHAHA
-            else if (shipInfo[i].shipType == 2)
+            else if (shipInfo[i].shipType == ShipDefinitions.ShipType.Peacock)
                 cost += int.Parse(GameObject.Find("costShip2").GetComponent<Text>().text);
 
-            if (shipInfo[i].engineType == 1)
+            if (shipInfo[i].engType == ShipDefinitions.EngineType.Engine1)
                 cost += int.Parse(GameObject.Find("costEngine1").GetComponent<Text>().text);
-            else if (shipInfo[i].engineType == 2)
+            else if (shipInfo[i].engType == ShipDefinitions.EngineType.Engine2)
                 cost += int.Parse(GameObject.Find("costEngine2").GetComponent<Text>().text);
 
-            if (shipInfo[i].weaponType == "flame")
+            if (shipInfo[i].weapType == ShipDefinitions.WeaponType.Flame)
                 cost += int.Parse(GameObject.Find("costFlame").GetComponent<Text>().text);
-            else if(shipInfo[i].weaponType == "crown")
+            else if(shipInfo[i].weapType == ShipDefinitions.WeaponType.Crown)
                 cost += int.Parse(GameObject.Find("costCrown").GetComponent<Text>().text);
-            else if (shipInfo[i].weaponType == "missile")
+            else if (shipInfo[i].weapType == ShipDefinitions.WeaponType.Missile)
                 cost += int.Parse(GameObject.Find("costMissile").GetComponent<Text>().text);
-            else if (shipInfo[i].weaponType == "laser")
+            else if (shipInfo[i].weapType == ShipDefinitions.WeaponType.Laser)
                 cost += int.Parse(GameObject.Find("costLaser").GetComponent<Text>().text);
         }
 
