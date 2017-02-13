@@ -136,29 +136,43 @@ public class ShipDefinitions
     public enum ItemType
     {
         Error,
-        FlameModDamage,
-        FlameModFireRate,
-        FlameModSpread,
-        FlameModAmmoCap,
-        FlameModRechargeRate,
-        FlameModSpeed,
-        FlameModRange,
-        LaserModDamage,
-        LaserModFireRate,
-        LaserModSpeed,
-        LaserModAmmoCap,
-        LaserModRechargeRate,
-        LaserModRange,
-        MissileModDamage,
-        MissileModFireRate,
-        MissileModAmmoCap,
-        MissileModRechargeRate,
-        MissileModSpeed,
-        MissileModRange,
-        CrownModDamage,
-        CrownModAmmoCap,
-        CrownModRechargeRate,
-        CrownModRange
+        // The Flame weapon module fires a short-range burst of projectiles
+        // that dissipate quickly (short life-time). At closer range this 
+        // weapon is highly effective.
+        FlameModDamage,         // Increases the damage of each projectile.
+        FlameModFireRate,       // Increases the number of projectiles per burst.
+        FlameModSpread,         // Widens the angle range the projectiles can be shot at.
+                                // This results is a wider "spray" of particles.
+        FlameModAmmoCap,        // Increases the number of projectiles per clip
+        FlameModRechargeRate,   // Increases delay before ammunition is fully replenished
+        FlameModSpeed,          // Increases projectile velocity (and as a result, range)
+        FlameModRange,          // Increases projectile lifetime (directly increasing range)
+
+        // The Laser weapon fires a small but fast projectile with a longer lifetime 
+        // than the flame weapon.
+        LaserModDamage,         // Increases the damage of each projectile.
+        LaserModFireRate,       // Decreases the delay between each fired projectile.
+        LaserModSpeed,          // Increases projectile velocity (and as a result, range)
+        LaserModAmmoCap,        // Increases the number of projectiles per clip
+        LaserModRechargeRate,   // Increases rate at which ammo is regenerated.
+        LaserModRange,          // Increases projectile lifetime (directly increasing range)
+
+        // The Missile weapon fires a small homing missile that deals heavy damage. Clip
+        // size is restricted, as is ammunition and firing rate.
+        MissileModDamage,       // Increases the damage of each projectile.
+        MissileModFireRate,     // Decreases the delay between each fired projectile.
+        MissileModAmmoCap,      // Increases rate at which ammo is regenerated.
+        MissileModRechargeRate, // Increases rate at which ammo is regenerated.
+        MissileModSpeed,        // Increases projectile velocity (and as a result, range)
+        MissileModRange,        // Increases projectile lifetime (directly increasing range)
+
+        // The Crown weapon fires a laser at any ship within range. Also close range, no
+        // accuracy is required as the weapon only fires if the angle is acceptable and
+        // draws a line between the ship and the target, inflicting damage directly.
+        CrownModDamage,         // Increases the damage of each shot
+        CrownModAmmoCap,        // Increases the number of shots per burst
+        CrownModRechargeRate,   // Increases delay before ammunition is fully replenished
+        CrownModRange			// Increases maximum distance between ship and target to fire
     }
 
     public struct Item
