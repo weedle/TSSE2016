@@ -6,12 +6,132 @@ using System.Text.RegularExpressions;
 public class ItemListHandler : MonoBehaviour {
     // whichever item we selected, probably by clicking it
     public GameObject selectedItem = null;
+    public Sprite defaultSprite;
+    public Sprite fireSpriteLvl1;
+    public Sprite fireSpriteLvl2;
+    public Sprite fireSpriteLvl3;
+    public Sprite laserSpriteLvl1;
+    public Sprite laserSpriteLvl2;
+    public Sprite laserSpriteLvl3;
+    public Sprite crownSpriteLvl1;
+    public Sprite crownSpriteLvl2;
+    public Sprite crownSpriteLvl3;
+    public Sprite missileSpriteLvl1;
+    public Sprite missileSpriteLvl2;
+    public Sprite missileSpriteLvl3;
 
     // if an item is selected, keep track of it
     public void itemSelected(GameObject obj)
     {
         UnityEngine.UI.Text indexItem = obj.transform.GetChild(0).
                GetComponent<UnityEngine.UI.Text>();
+        ShipDefinitions.Item item = ShipDefinitions.stringToItem(
+            indexItem.text.Substring(0, indexItem.text.Length - 4));
+        if (item.type == ShipDefinitions.ItemType.FlameModAmmoCap ||
+            item.type == ShipDefinitions.ItemType.FlameModDamage ||
+            item.type == ShipDefinitions.ItemType.FlameModFireRate ||
+            item.type == ShipDefinitions.ItemType.FlameModRange ||
+            item.type == ShipDefinitions.ItemType.FlameModRechargeRate ||
+            item.type == ShipDefinitions.ItemType.FlameModSpeed ||
+            item.type == ShipDefinitions.ItemType.FlameModSpread ||
+            item.type == ShipDefinitions.ItemType.FlameModFireRate ||
+            item.type == ShipDefinitions.ItemType.FlameModRange ||
+            item.type == ShipDefinitions.ItemType.FlameModRechargeRate ||
+            item.type == ShipDefinitions.ItemType.FlameModSpeed ||
+            item.type == ShipDefinitions.ItemType.FlameModSpread)
+        {
+            switch (item.tier)
+            {
+                case 1:
+                GameObject.Find("itemImage").GetComponent<UnityEngine.UI.Image>().
+                    sprite = fireSpriteLvl1;
+                    break;
+                case 2:
+                    GameObject.Find("itemImage").GetComponent<UnityEngine.UI.Image>().
+                        sprite = fireSpriteLvl2;
+                    break;
+                case 3:
+                    GameObject.Find("itemImage").GetComponent<UnityEngine.UI.Image>().
+                        sprite = fireSpriteLvl3;
+                    break;
+            }
+        }
+        else if(item.type == ShipDefinitions.ItemType.LaserModAmmoCap ||
+            item.type == ShipDefinitions.ItemType.LaserModDamage ||
+            item.type == ShipDefinitions.ItemType.LaserModFireRate ||
+            item.type == ShipDefinitions.ItemType.LaserModRange ||
+            item.type == ShipDefinitions.ItemType.LaserModRechargeRate ||
+            item.type == ShipDefinitions.ItemType.LaserModSpeed)
+        {
+            switch (item.tier)
+            {
+                case 1:
+                    GameObject.Find("itemImage").GetComponent<UnityEngine.UI.Image>().
+                        sprite = laserSpriteLvl1;
+                    break;
+                case 2:
+                    GameObject.Find("itemImage").GetComponent<UnityEngine.UI.Image>().
+                        sprite = laserSpriteLvl2;
+                    break;
+                case 3:
+                    GameObject.Find("itemImage").GetComponent<UnityEngine.UI.Image>().
+                        sprite = laserSpriteLvl3;
+                    break;
+            }
+        }
+        else if (item.type == ShipDefinitions.ItemType.CrownModAmmoCap ||
+            item.type == ShipDefinitions.ItemType.CrownModDamage ||
+            item.type == ShipDefinitions.ItemType.CrownModRange ||
+            item.type == ShipDefinitions.ItemType.CrownModRechargeRate)
+        {
+            switch (item.tier)
+            {
+                case 1:
+                    GameObject.Find("itemImage").GetComponent<UnityEngine.UI.Image>().
+                        sprite = crownSpriteLvl1;
+                    break;
+                case 2:
+                    GameObject.Find("itemImage").GetComponent<UnityEngine.UI.Image>().
+                        sprite = crownSpriteLvl2;
+                    break;
+                case 3:
+                    GameObject.Find("itemImage").GetComponent<UnityEngine.UI.Image>().
+                        sprite = crownSpriteLvl3;
+                    break;
+            }
+        }
+        else if (item.type == ShipDefinitions.ItemType.MissileModAmmoCap ||
+            item.type == ShipDefinitions.ItemType.MissileModDamage ||
+            item.type == ShipDefinitions.ItemType.MissileModFireRate ||
+            item.type == ShipDefinitions.ItemType.MissileModRange ||
+            item.type == ShipDefinitions.ItemType.MissileModRechargeRate ||
+            item.type == ShipDefinitions.ItemType.MissileModSpeed)
+        {
+            switch (item.tier)
+            {
+                case 1:
+                    GameObject.Find("itemImage").GetComponent<UnityEngine.UI.Image>().
+                        sprite = missileSpriteLvl1;
+                    break;
+                case 2:
+                    GameObject.Find("itemImage").GetComponent<UnityEngine.UI.Image>().
+                        sprite = missileSpriteLvl2;
+                    break;
+                case 3:
+                    GameObject.Find("itemImage").GetComponent<UnityEngine.UI.Image>().
+                        sprite = missileSpriteLvl3;
+                    break;
+            }
+        }
+        else
+        {
+            GameObject.Find("itemImage").GetComponent<UnityEngine.UI.Image>().
+                sprite = defaultSprite;
+        }
+        GameObject.Find("panelText01").GetComponent<UnityEngine.UI.Text>()
+            .text = ShipDefinitions.getDesc(item);
+        GameObject.Find("panelText02").GetComponent<UnityEngine.UI.Text>()
+            .text = ShipDefinitions.getSpec(item);
         selectedItem = obj;
     }
     

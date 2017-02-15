@@ -133,10 +133,10 @@ public class MissileMod : MonoBehaviour, FiringModule
                 immediateCooldownMax -= item.tier * 0.25f;
                 break;
             case ShipDefinitions.ItemType.MissileModAmmoCap:
-                // rate is 2 by default
-                // rate is 3 with tier 1 upgrade (1^1 = 1, ceil(1/2) = 1, 2+1 = 3)
-                // rate is 4 with tier 2 upgrade (2^1 = 4, ceil(4/2) = 2, 2+2 = 4)
-                // rate is 7 with tier 3 upgrade (3^1 = 9, ceil(9/2) = 5, 2+5 = 7)
+                // cap is 2 by default
+                // cap is 3 with tier 1 upgrade (1^1 = 1, ceil(1/2) = 1, 2+1 = 3)
+                // cap is 4 with tier 2 upgrade (2^1 = 4, ceil(4/2) = 2, 2+2 = 4)
+                // cap is 7 with tier 3 upgrade (3^1 = 9, ceil(9/2) = 5, 2+5 = 7)
                 ammoMax = 3 + (int)Mathf.Ceil((item.tier * item.tier) / 2);
                 ammunition = ammoMax;
                 break;

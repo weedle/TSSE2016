@@ -175,6 +175,421 @@ public class ShipDefinitions
         CrownModRange			// Increases maximum distance between ship and target to fire
     }
 
+    public static string getDesc(Item item)
+    {
+        string retStr = "";
+        switch(item.type)
+        {
+            case ItemType.FlameModDamage:
+                retStr = " Increases the damage of each projectile";
+                break;
+            case ItemType.FlameModFireRate:
+                retStr = "Increases the number of projectiles per burst";
+                break;
+            case ItemType.FlameModSpread:
+                retStr = "Widens the angle range the projectiles can be shot at";
+                // This results is a wider "spray" of particles.
+                break;
+            case ItemType.FlameModAmmoCap:
+                retStr = "Increases the number of projectiles per clip";
+                break;
+            case ItemType.FlameModRechargeRate:
+                retStr = "Increases delay before ammunition is fully replenished";
+                break;
+            case ItemType.FlameModSpeed:
+                retStr = "Increases projectile velocity (and as a result, range)";
+                break;
+            case ItemType.FlameModRange:
+                retStr = "Increases projectile lifetime (directly increasing range)";
+                break;
+            case ItemType.LaserModDamage:
+                retStr = "Increases the damage of each projectile";
+                break;
+            case ItemType.LaserModFireRate:
+                retStr = "Decreases the delay between each fired projectile";
+                break;
+            case ItemType.LaserModSpeed:
+                retStr = "Increases projectile velocity (and as a result, range)";
+                break;
+            case ItemType.LaserModAmmoCap:
+                retStr = "Increases the number of projectiles per clip";
+                break;
+            case ItemType.LaserModRechargeRate:
+                retStr = "Increases rate at which ammo is regenerated";
+                break;
+            case ItemType.LaserModRange:
+                retStr = "Increases projectile lifetime (directly increasing range)";
+                break;
+            case ItemType.MissileModDamage:
+                retStr = "Increases the damage of each projectile";
+                break;
+            case ItemType.MissileModFireRate:
+                retStr = "Decreases the delay between each fired projectile";
+                break;
+            case ItemType.MissileModAmmoCap:
+                retStr = "Increases rate at which ammo is regenerated";
+                break;
+            case ItemType.MissileModRechargeRate:
+                retStr = "Increases rate at which ammo is regenerated";
+                break;
+            case ItemType.MissileModSpeed:
+                retStr = "Increases projectile velocity (and as a result, range)";
+                break;
+            case ItemType.MissileModRange:
+                retStr = "Increases projectile lifetime (directly increasing range)";
+                break;
+            case ItemType.CrownModDamage:
+                retStr = "Increases the damage of each shot";
+                break;
+            case ItemType.CrownModAmmoCap:
+                retStr = "Increases the number of shots per burst";
+                break;
+            case ItemType.CrownModRechargeRate:
+                retStr = "Increases delay before ammunition is fully replenished";
+                break;
+            case ItemType.CrownModRange:
+                retStr = "Increases maximum distance between ship and target to fire";
+                break;
+        }
+        return retStr;
+    }
+
+    public static string getSpec(Item item)
+    {
+        string retStr = "";
+        switch (item.type)
+        {
+            case ItemType.FlameModDamage:
+                switch(item.tier)
+                {
+                    case 1:
+                        retStr = "damage/projectile\n1 -> 1.25";
+                        break;
+                    case 2:
+                        retStr = "damage/projectile\n1 -> 1.5";
+                        break;
+                    case 3:
+                        retStr = "damage/projectile\n1 -> 2";
+                        break;
+                }
+                break;
+            case ItemType.FlameModFireRate:
+                switch (item.tier)
+                {
+                    case 1:
+                        retStr = "#projectiles\n2 -> 3";
+                        break;
+                    case 2:
+                        retStr = "#projectiles\n2 -> 4";
+                        break;
+                    case 3:
+                        retStr = "#projectiles\n2 -> 7";
+                        break;
+                }
+                break;
+            case ItemType.FlameModSpread:
+                switch (item.tier)
+                {
+                    case 1:
+                        retStr = "spread\n0.03 -> 0.05";
+                        break;
+                    case 2:
+                        retStr = "spread\n0.03 -> 0.07";
+                        break;
+                    case 3:
+                        retStr = "spread\n0.03 -> 0.09";
+                        break;
+                }
+                break;
+            case ItemType.FlameModAmmoCap:
+                switch (item.tier)
+                {
+                    case 1:
+                        retStr = "clip size\n15 -> 20";
+                        break;
+                    case 2:
+                        retStr = "clip size\n15 -> 25";
+                        break;
+                    case 3:
+                        retStr = "clip size \n15 -> 30";
+                        break;
+                }
+                break;
+            case ItemType.FlameModRechargeRate:
+                switch (item.tier)
+                {
+                    case 1:
+                        retStr = "recharge delay\n2 -> 1.75";
+                        break;
+                    case 2:
+                        retStr = "recharge delay\n2 -> 1.5";
+                        break;
+                    case 3:
+                        retStr = "recharge delay\n2 -> 1";
+                        break;
+                }
+                break;
+            case ItemType.FlameModSpeed:
+                switch (item.tier)
+                {
+                    case 1:
+                        retStr = "recharge rate\n0.25 -> 0.30";
+                        break;
+                    case 2:
+                        retStr = "recharge rate\n0.25 -> 0.40";
+                        break;
+                    case 3:
+                        retStr = "recharge rate\n0.25 -> 0.55";
+                        break;
+                }
+                break;
+            case ItemType.FlameModRange:
+                switch (item.tier)
+                {
+                    case 1:
+                        retStr = "projectile lifetime\n15 -> 20";
+                        break;
+                    case 2:
+                        retStr = "projectile lifetime\n15 -> 25";
+                        break;
+                    case 3:
+                        retStr = "projectile lifetime\n15 -> 30";
+                        break;
+                }
+                break;
+            case ItemType.LaserModDamage:
+                switch (item.tier)
+                {
+                    case 1:
+                        retStr = "damage/shot\n12 -> 14";
+                        break;
+                    case 2:
+                        retStr = "damage/shot\n12 -> 16";
+                        break;
+                    case 3:
+                        retStr = "damage/shot\n12 -> 24";
+                        break;
+                }
+                break;
+            case ItemType.LaserModFireRate:
+                switch (item.tier)
+                {
+                    case 1:
+                        retStr = "fire delay\n0.4 -> 0.3";
+                        break;
+                    case 2:
+                        retStr = "fire delay\n0.4 -> 0.2";
+                        break;
+                    case 3:
+                        retStr = "fire delay\n0.4 -> 0.1";
+                        break;
+                }
+                break;
+            case ItemType.LaserModSpeed:
+                switch (item.tier)
+                {
+                    case 1:
+                        retStr = "proj speed\n40 -> 50";
+                        break;
+                    case 2:
+                        retStr = "proj speed\n40 -> 60";
+                        break;
+                    case 3:
+                        retStr = "proj speed\n40 -> 70";
+                        break;
+                }
+                break;
+            case ItemType.LaserModAmmoCap:
+                switch (item.tier)
+                {
+                    case 1:
+                        retStr = "clip size\n4 -> 6";
+                        break;
+                    case 2:
+                        retStr = "clip size\n4 -> 8";
+                        break;
+                    case 3:
+                        retStr = "clip size\n4 -> 10";
+                        break;
+                }
+                break;
+            case ItemType.LaserModRechargeRate:
+                switch (item.tier)
+                {
+                    case 1:
+                        retStr = "recharge delay\n2 -> 1.5";
+                        break;
+                    case 2:
+                        retStr = "recharge delay\n2 -> 1.0";
+                        break;
+                    case 3:
+                        retStr = "recharge delay\n2 -> 0.5";
+                        break;
+                }
+                break;
+            case ItemType.LaserModRange:
+                switch (item.tier)
+                {
+                    case 1:
+                        retStr = "projectile lifetime\n25 -> 30";
+                        break;
+                    case 2:
+                        retStr = "projectile lifetime\n25 -> 35";
+                        break;
+                    case 3:
+                        retStr = "projectile lifetime\n25 -> 40";
+
+                        break;
+                }
+                break;
+            case ItemType.MissileModDamage:
+                switch (item.tier)
+                {
+                    case 1:
+                        retStr = "damage/shot\n20 -> 30";
+                        break;
+                    case 2:
+                        retStr = "damage/shot\n20 -> 40";
+                        break;
+                    case 3:
+                        retStr = "damage/shot\n20 -> 50";
+                        break;
+                }
+                break;
+            case ItemType.MissileModFireRate:
+                switch (item.tier)
+                {
+                    case 1:
+                        retStr = "fire delay\n1 -> 0.75";
+                        break;
+                    case 2:
+                        retStr = "fire delay\n1 -> 0.50";
+                        break;
+                    case 3:
+                        retStr = "fire delay\n1 -> 0.25";
+                        break;
+                }
+                break;
+            case ItemType.MissileModAmmoCap:
+                switch (item.tier)
+                {
+                    case 1:
+                        retStr = "clip size\n2 -> 3";
+                        break;
+                    case 2:
+                        retStr = "clip size\n2 -> 4";
+                        break;
+                    case 3:
+                        retStr = "clip size\n2 -> 7";
+                        break;
+                }
+                break;
+            case ItemType.MissileModRechargeRate:
+                switch (item.tier)
+                {
+                    case 1:
+                        retStr = "recharge delay\n3 -> 2.5";
+                        break;
+                    case 2:
+                        retStr = "recharge delay\n3 -> 2.0";
+                        break;
+                    case 3:
+                        retStr = "recharge delay\n3 -> 1.5";
+                        break;
+                }
+                break;
+            case ItemType.MissileModSpeed:
+                switch (item.tier)
+                {
+                    case 1:
+                        retStr = "projectile speed\n3 -> 4";
+                        break;
+                    case 2:
+                        retStr = "projectile speed\n3 -> 5";
+                        break;
+                    case 3:
+                        retStr = "projectile speed\n3 -> 6";
+                        break;
+                }
+                break;
+            case ItemType.MissileModRange:
+                switch (item.tier)
+                {
+                    case 1:
+                        retStr = "projectile lifetime\n25 -> 35";
+                        break;
+                    case 2:
+                        retStr = "projectile lifetime\n25 -> 45";
+                        break;
+                    case 3:
+                        retStr = "projectile lifetime\n25 -> 60";
+                        break;
+                }
+                break;
+            case ItemType.CrownModDamage:
+                switch (item.tier)
+                {
+                    case 1:
+                        retStr = "damage/shot\n2 -> 3";
+                        break;
+                    case 2:
+                        retStr = "damage/shot\n2 -> 4";
+                        break;
+                    case 3:
+                        retStr = "damage/shot\n2 -> 6";
+                        break;
+                }
+                break;
+            case ItemType.CrownModAmmoCap:
+                switch (item.tier)
+                {
+                    case 1:
+                        retStr = "clip size\n15 -> 20";
+                        break;
+                    case 2:
+                        retStr = "clip size\n15 -> 25";
+                        break;
+                    case 3:
+                        retStr = "clip size\n15 -> 30";
+                        break;
+                }
+                break;
+            case ItemType.CrownModRechargeRate:
+                switch (item.tier)
+                {
+                    case 1:
+                        retStr = "recharge delay\n3 -> 2.5";
+                        break;
+                    case 2:
+                        retStr = "recharge delay\n3 -> 2";
+                        break;
+                    case 3:
+                        retStr = "recharge delay\n3 -> 1";
+                        break;
+                }
+                break;
+            case ItemType.CrownModRange:
+                // range is 2 by default
+                // range is 2.5 with tier 1 upgrade
+                // range is 3 with tier 2 upgrade
+                // range is 4 with tier 3 upgrade
+                switch (item.tier)
+                {
+                    case 1:
+                        retStr = "range\n2 -> 2.5";
+                        break;
+                    case 2:
+                        retStr = "range\n2 -> 3";
+                        break;
+                    case 3:
+                        retStr = "range\n2 -> 4";
+                        break;
+                }
+                break;
+        }
+        return retStr;
+    }
+
     public struct Item
     {
         public ItemType type;
