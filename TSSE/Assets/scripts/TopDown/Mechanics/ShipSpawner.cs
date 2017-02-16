@@ -23,13 +23,18 @@ public class ShipSpawner : MonoBehaviour
     private int WAVEENEMIES = 3;
 
     bool oneTime = true;
-
+    private string levelType = "wave";
     public UnityEngine.UI.Text countdown;
     
     // Use this for initialization
     void Start()
     {
+        levelType = PlayerPrefs.GetString("CombatLevelType");
 
+        if(levelType == "setEnemies")
+        {
+
+        }
     }
 
     // Update is called once per frame
@@ -97,38 +102,40 @@ public class ShipSpawner : MonoBehaviour
                 }
             }
 
-            
-            if(numEnemies < MAXENEMIES)
+            if (levelType == "wave")
             {
-                // spawn some enemies, but only if we don't already have a lot
-                for (int i = 0; i <= UnityEngine.Random.Range(0, WAVEENEMIES); i++)
+                if (numEnemies < MAXENEMIES)
                 {
-                    Vector3 spawnPoint;
-                    Vector3 spawnRand = 8 * UnityEngine.Random.insideUnitSphere;
-                    spawnPoint = Vector3.zero;
-                    Vector3 temp = new Vector3(0, Camera.main.pixelHeight / 2);
-                    spawnPoint.y = Camera.main.ScreenToWorldPoint(temp).y;
-                    spawnRand.z = 0;
-                    float z = UnityEngine.Random.Range(0, 8);
-                    if (z <= 7.5)
+                    // spawn some enemies, but only if we don't already have a lot
+                    for (int i = 0; i <= UnityEngine.Random.Range(0, WAVEENEMIES); i++)
                     {
-                        temp = new Vector3(Camera.main.pixelWidth / 4, 0, Camera.main.nearClipPlane);
-                        spawnPoint.x = Camera.main.ScreenToWorldPoint(temp).x;
-                    }
-                    else
-                    {
-                        temp = new Vector3(3 * Camera.main.pixelWidth / 4, Camera.main.nearClipPlane);
-                        spawnPoint.x = Camera.main.ScreenToWorldPoint(temp).x;
-                    }
+                        Vector3 spawnPoint;
+                        Vector3 spawnRand = 8 * UnityEngine.Random.insideUnitSphere;
+                        spawnPoint = Vector3.zero;
+                        Vector3 temp = new Vector3(0, Camera.main.pixelHeight / 2);
+                        spawnPoint.y = Camera.main.ScreenToWorldPoint(temp).y;
+                        spawnRand.z = 0;
+                        float z = UnityEngine.Random.Range(0, 8);
+                        if (z <= 7.5)
+                        {
+                            temp = new Vector3(Camera.main.pixelWidth / 4, 0, Camera.main.nearClipPlane);
+                            spawnPoint.x = Camera.main.ScreenToWorldPoint(temp).x;
+                        }
+                        else
+                        {
+                            temp = new Vector3(3 * Camera.main.pixelWidth / 4, Camera.main.nearClipPlane);
+                            spawnPoint.x = Camera.main.ScreenToWorldPoint(temp).x;
+                        }
 
-                    if (z <= 2)
-                        spawnFireShip(spawnPoint + spawnRand, ShipDefinitions.Faction.Enemy);
-                    else if (z > 2 && z <= 4)
-                        spawnCrownShip(spawnPoint + spawnRand, ShipDefinitions.Faction.Enemy);
-                    else if (z > 4 && z <= 6)
-                        spawnMissileShip(spawnPoint + spawnRand, ShipDefinitions.Faction.Enemy);
-                    else if (z > 6 && z <= 8)
-                        spawnLaserShip(spawnPoint + spawnRand, ShipDefinitions.Faction.Enemy);
+                        if (z <= 2)
+                            spawnFireShip(spawnPoint + spawnRand, ShipDefinitions.Faction.Enemy);
+                        else if (z > 2 && z <= 4)
+                            spawnCrownShip(spawnPoint + spawnRand, ShipDefinitions.Faction.Enemy);
+                        else if (z > 4 && z <= 6)
+                            spawnMissileShip(spawnPoint + spawnRand, ShipDefinitions.Faction.Enemy);
+                        else if (z > 6 && z <= 8)
+                            spawnLaserShip(spawnPoint + spawnRand, ShipDefinitions.Faction.Enemy);
+                    }
                 }
             }
 
@@ -367,7 +374,6 @@ public class ShipSpawner : MonoBehaviour
     public void spawnShip(ShipDefinitions.ShipEntity entity)
     {
         GameObject ship;
-        print(entity.faction);
         if (entity.faction == ShipDefinitions.Faction.Enemy)
         {
             if(entity.shipType == ShipDefinitions.ShipType.Ruby)
@@ -376,7 +382,6 @@ public class ShipSpawner : MonoBehaviour
             }
             else
             {
-                print("making pirate");
                 ship = getShipPeacockPirate();
             }
         }

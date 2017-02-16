@@ -30,19 +30,20 @@ public class Inventory : MonoBehaviour {
     {
         if (inventoryType == "Player")
         {  
-            addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.FlameModDamage));
-            addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.FlameModSpread));
-            addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.FlameModFireRate));
-            addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.FlameModDamage));
+            addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.FlameModDamage, 3));
+            addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.FlameModSpread, 1));
+            addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.FlameModFireRate, 2));
+            addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.FlameModDamage, 1));
         }
         if (inventoryType == "Merchant")
         {
-            addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.LaserModDamage));
-            addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.LaserModSpeed));
-            addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.LaserModFireRate));
-            addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.LaserModDamage));
-            addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.LaserModSpeed));
-            addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.LaserModFireRate));
+            addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.LaserModDamage, 1));
+            addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.LaserModSpeed, 1));
+            addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.LaserModFireRate, 2));
+            addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.LaserModDamage, 1));
+            addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.LaserModSpeed, 2));
+            addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.LaserModFireRate, 3));
+            addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.FlameModDamage, 1));
         }
         updateCurrency();
     }
