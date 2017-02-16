@@ -22,7 +22,8 @@ public class PrefabHost : MonoBehaviour
 
     public GameObject firingSprite;
 
-    public GameObject item;
+    public GameObject merchantItem;
+    public GameObject inventoryItem;
 
     public Sprite shipRubyPirateSprite;
     public Sprite shipPeacockPirateSprite;
@@ -99,9 +100,16 @@ public class PrefabHost : MonoBehaviour
         GameObject obj = (GameObject)Instantiate(firingSprite, Vector3.zero, Quaternion.Euler(0, 0, 0));
         return obj;
     }
+
     public GameObject getMerchantItem()
     {
-        GameObject obj = (GameObject)Instantiate(item, Vector3.zero, Quaternion.Euler(0, 0, 0));
+        GameObject obj = (GameObject)Instantiate(merchantItem, Vector3.zero, Quaternion.Euler(0, 0, 0));
+        return obj;
+    }
+
+    public GameObject getInventoryItem()
+    {
+        GameObject obj = (GameObject)Instantiate(inventoryItem, Vector3.zero, Quaternion.Euler(0, 0, 0));
         return obj;
     }
 

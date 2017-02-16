@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 public class ItemListHandler : MonoBehaviour {
     // whichever item we selected, probably by clicking it
     public GameObject selectedItem = null;
+    public string mode = "merchant";
     public Sprite defaultSprite;
     public Sprite fireSpriteLvl1;
     public Sprite fireSpriteLvl2;
@@ -168,6 +169,11 @@ public class ItemListHandler : MonoBehaviour {
         // We have an example item in the PrefabHost
         GameObject newItem = GameObject.Find("GameLogic").
             GetComponent<PrefabHost>().getMerchantItem();
+        if (mode != "merchant")
+        {
+            newItem = GameObject.Find("GameLogic").
+                GetComponent<PrefabHost>().getInventoryItem();
+        }
 
         // Initially has 1 object
         newItem.transform.GetChild(0).GetComponent<UnityEngine.UI.Text>().
