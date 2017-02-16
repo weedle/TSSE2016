@@ -29,7 +29,8 @@ public class Inventory : MonoBehaviour {
     void Start()
     {
         if (inventoryType == "Player")
-        {  
+        {
+            print("addingitem");
             addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.FlameModDamage, 3));
             addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.FlameModSpread, 1));
             addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.FlameModFireRate, 2));
