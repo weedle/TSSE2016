@@ -24,6 +24,7 @@ public class PrefabHost : MonoBehaviour
 
     public GameObject merchantItem;
     public GameObject inventoryItem;
+    public GameObject questItem;
 
     public Sprite shipRubyPirateSprite;
     public Sprite shipPeacockPirateSprite;
@@ -110,6 +111,12 @@ public class PrefabHost : MonoBehaviour
     public GameObject getInventoryItem()
     {
         GameObject obj = (GameObject)Instantiate(inventoryItem, Vector3.zero, Quaternion.Euler(0, 0, 0));
+        return obj;
+    }
+
+    public GameObject getQuestItem()
+    {
+        GameObject obj = (GameObject)Instantiate(questItem, Vector3.zero, Quaternion.Euler(0, 0, 0));
         return obj;
     }
 
