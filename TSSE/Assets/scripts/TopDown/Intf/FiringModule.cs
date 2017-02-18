@@ -24,5 +24,5 @@ public interface FiringModule {
 
     float getAmmoPerc();
 
-    void applyBuff(ShipDefinitions.Item buff);
+    void applyBuff(ItemDefinitions.Item buff);
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System;
 
 public class ItemTester : MonoBehaviour {
-    private List<ShipDefinitions.Item> myItems;
+    private List<ItemDefinitions.Item> myItems;
     private List<ShipDefinitions.ShipEntity> myShips;
     bool once = true;
     // Use this for initialization
@@ -21,12 +21,14 @@ public class ItemTester : MonoBehaviour {
         
         myShips = new List<ShipDefinitions.ShipEntity>();
 
+        myItems = new List<ItemDefinitions.Item>();
+
         myShips.Add(new ShipDefinitions.ShipEntity(ShipDefinitions.EngineType.Engine1,
             ShipDefinitions.WeaponType.Flame, ShipDefinitions.ShipType.Ruby,
-            ShipDefinitions.Faction.Player, "shipX"));
+            myItems, ShipDefinitions.Faction.Player, "shipX"));
         myShips.Add(new ShipDefinitions.ShipEntity(ShipDefinitions.EngineType.Engine2,
             ShipDefinitions.WeaponType.Crown, ShipDefinitions.ShipType.Peacock,
-            ShipDefinitions.Faction.Enemy, "shipY"));
+            myItems, ShipDefinitions.Faction.Enemy, "shipY"));
 
         ShipDefinitions.saveShips(myShips);
     }

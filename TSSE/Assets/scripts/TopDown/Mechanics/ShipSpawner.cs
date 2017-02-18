@@ -47,7 +47,7 @@ public class ShipSpawner : MonoBehaviour
         for (int i = 0; i < 6; i++)
         {
             ShipDefinitions.ShipEntity ship =
-                ShipDefinitions.loadShip("PlayerShip" + i.ToString(), i);
+                ShipDefinitions.loadShip("PlayerShip" + i.ToString());
             if(ship.shipType != ShipDefinitions.ShipType.None &&
                 ship.engType != ShipDefinitions.EngineType.None &&
                 ship.weapType != ShipDefinitions.WeaponType.None)

@@ -26,20 +26,20 @@ public class ItemListHandler : MonoBehaviour {
     {
         UnityEngine.UI.Text indexItem = obj.transform.GetChild(0).
                GetComponent<UnityEngine.UI.Text>();
-        ShipDefinitions.Item item = ShipDefinitions.stringToItem(
+        ItemDefinitions.Item item = ItemDefinitions.stringToItem(
             indexItem.text.Substring(0, indexItem.text.Length - 4));
-        if (item.type == ShipDefinitions.ItemType.FlameModAmmoCap ||
-            item.type == ShipDefinitions.ItemType.FlameModDamage ||
-            item.type == ShipDefinitions.ItemType.FlameModFireRate ||
-            item.type == ShipDefinitions.ItemType.FlameModRange ||
-            item.type == ShipDefinitions.ItemType.FlameModRechargeRate ||
-            item.type == ShipDefinitions.ItemType.FlameModSpeed ||
-            item.type == ShipDefinitions.ItemType.FlameModSpread ||
-            item.type == ShipDefinitions.ItemType.FlameModFireRate ||
-            item.type == ShipDefinitions.ItemType.FlameModRange ||
-            item.type == ShipDefinitions.ItemType.FlameModRechargeRate ||
-            item.type == ShipDefinitions.ItemType.FlameModSpeed ||
-            item.type == ShipDefinitions.ItemType.FlameModSpread)
+        if (item.type == ItemDefinitions.ItemType.FlameModAmmoCap ||
+            item.type == ItemDefinitions.ItemType.FlameModDamage ||
+            item.type == ItemDefinitions.ItemType.FlameModFireRate ||
+            item.type == ItemDefinitions.ItemType.FlameModRange ||
+            item.type == ItemDefinitions.ItemType.FlameModRechargeRate ||
+            item.type == ItemDefinitions.ItemType.FlameModSpeed ||
+            item.type == ItemDefinitions.ItemType.FlameModSpread ||
+            item.type == ItemDefinitions.ItemType.FlameModFireRate ||
+            item.type == ItemDefinitions.ItemType.FlameModRange ||
+            item.type == ItemDefinitions.ItemType.FlameModRechargeRate ||
+            item.type == ItemDefinitions.ItemType.FlameModSpeed ||
+            item.type == ItemDefinitions.ItemType.FlameModSpread)
         {
             switch (item.tier)
             {
@@ -57,12 +57,12 @@ public class ItemListHandler : MonoBehaviour {
                     break;
             }
         }
-        else if(item.type == ShipDefinitions.ItemType.LaserModAmmoCap ||
-            item.type == ShipDefinitions.ItemType.LaserModDamage ||
-            item.type == ShipDefinitions.ItemType.LaserModFireRate ||
-            item.type == ShipDefinitions.ItemType.LaserModRange ||
-            item.type == ShipDefinitions.ItemType.LaserModRechargeRate ||
-            item.type == ShipDefinitions.ItemType.LaserModSpeed)
+        else if(item.type == ItemDefinitions.ItemType.LaserModAmmoCap ||
+            item.type == ItemDefinitions.ItemType.LaserModDamage ||
+            item.type == ItemDefinitions.ItemType.LaserModFireRate ||
+            item.type == ItemDefinitions.ItemType.LaserModRange ||
+            item.type == ItemDefinitions.ItemType.LaserModRechargeRate ||
+            item.type == ItemDefinitions.ItemType.LaserModSpeed)
         {
             switch (item.tier)
             {
@@ -80,10 +80,10 @@ public class ItemListHandler : MonoBehaviour {
                     break;
             }
         }
-        else if (item.type == ShipDefinitions.ItemType.CrownModAmmoCap ||
-            item.type == ShipDefinitions.ItemType.CrownModDamage ||
-            item.type == ShipDefinitions.ItemType.CrownModRange ||
-            item.type == ShipDefinitions.ItemType.CrownModRechargeRate)
+        else if (item.type == ItemDefinitions.ItemType.CrownModAmmoCap ||
+            item.type == ItemDefinitions.ItemType.CrownModDamage ||
+            item.type == ItemDefinitions.ItemType.CrownModRange ||
+            item.type == ItemDefinitions.ItemType.CrownModRechargeRate)
         {
             switch (item.tier)
             {
@@ -101,12 +101,12 @@ public class ItemListHandler : MonoBehaviour {
                     break;
             }
         }
-        else if (item.type == ShipDefinitions.ItemType.MissileModAmmoCap ||
-            item.type == ShipDefinitions.ItemType.MissileModDamage ||
-            item.type == ShipDefinitions.ItemType.MissileModFireRate ||
-            item.type == ShipDefinitions.ItemType.MissileModRange ||
-            item.type == ShipDefinitions.ItemType.MissileModRechargeRate ||
-            item.type == ShipDefinitions.ItemType.MissileModSpeed)
+        else if (item.type == ItemDefinitions.ItemType.MissileModAmmoCap ||
+            item.type == ItemDefinitions.ItemType.MissileModDamage ||
+            item.type == ItemDefinitions.ItemType.MissileModFireRate ||
+            item.type == ItemDefinitions.ItemType.MissileModRange ||
+            item.type == ItemDefinitions.ItemType.MissileModRechargeRate ||
+            item.type == ItemDefinitions.ItemType.MissileModSpeed)
         {
             switch (item.tier)
             {
@@ -130,18 +130,18 @@ public class ItemListHandler : MonoBehaviour {
                 sprite = defaultSprite;
         }
         GameObject.Find("panelText01").GetComponent<UnityEngine.UI.Text>()
-            .text = ShipDefinitions.getDesc(item);
+            .text = ItemDefinitions.getDesc(item);
         GameObject.Find("panelText02").GetComponent<UnityEngine.UI.Text>()
-            .text = ShipDefinitions.getSpec(item);
+            .text = ItemDefinitions.getSpec(item);
         selectedItem = obj;
     }
     
     // add the item
     // if it's already there, increase quantity
-    public void addItem(ShipDefinitions.Item item)
+    public void addItem(ItemDefinitions.Item item)
     {
         // First, convert item to a string
-        string itemText = ShipDefinitions.itemToString(item);
+        string itemText = ItemDefinitions.itemToString(item);
 
         // Now, search through items we have for a matching one
         // It's in the format "ObjectName (x)", so we trim the (x) part
@@ -188,10 +188,10 @@ public class ItemListHandler : MonoBehaviour {
     }
 
     // reduce quantity if present, otherwise remove item
-    public void removeItem(ShipDefinitions.Item item)
+    public void removeItem(ItemDefinitions.Item item)
     {
         // like in addItem, first we search for the item
-        string itemText = ShipDefinitions.itemToString(item);
+        string itemText = ItemDefinitions.itemToString(item);
         for (int i = 0; i < transform.GetChild(0).childCount; i++)
         {
             UnityEngine.UI.Text indexItem = transform.GetChild(0).GetChild(i).GetChild(0).

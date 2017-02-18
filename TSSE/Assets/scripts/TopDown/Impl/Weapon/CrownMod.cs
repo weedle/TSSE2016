@@ -32,7 +32,7 @@ public class CrownMod : MonoBehaviour, FiringModule
 
         if (testItem != "")
         {
-            ShipDefinitions.Item testThing = ShipDefinitions.stringToItem(testItem);
+            ItemDefinitions.Item testThing = ItemDefinitions.stringToItem(testItem);
             applyBuff(testThing);
         }
 
@@ -120,13 +120,13 @@ public class CrownMod : MonoBehaviour, FiringModule
         return (float) ammunition / ammoMax;
     }
 
-    public void applyBuff(ShipDefinitions.Item item)
+    public void applyBuff(ItemDefinitions.Item item)
     {
         if (item.tier == 0)
             return;
         switch (item.type)
         {
-            case ShipDefinitions.ItemType.CrownModDamage:
+            case ItemDefinitions.ItemType.CrownModDamage:
                 // damage is 2 by default
                 // damage is 3 with tier 1 upgrade
                 // damage is 4 with tier 2 upgrade
@@ -146,7 +146,7 @@ public class CrownMod : MonoBehaviour, FiringModule
                 }
                 damage = 2 + bonusDamage;
                 break;
-            case ShipDefinitions.ItemType.CrownModAmmoCap:
+            case ItemDefinitions.ItemType.CrownModAmmoCap:
                 // cap is 15 by default
                 // cap is 20 with tier 1 upgrade
                 // cap is 25 with tier 2 upgrade
@@ -155,7 +155,7 @@ public class CrownMod : MonoBehaviour, FiringModule
                 ammoMax += item.tier * 5;
                 ammunition = ammoMax;
                 break;
-            case ShipDefinitions.ItemType.CrownModRechargeRate:
+            case ItemDefinitions.ItemType.CrownModRechargeRate:
                 // cooldown is 3 by default
                 // cooldown is 2.5 with tier 1 upgrade
                 // cooldown is 2 with tier 2 upgrade
@@ -163,7 +163,7 @@ public class CrownMod : MonoBehaviour, FiringModule
                 ammoCooldown = 3;
                 ammoCooldown -= 0.5f * item.tier;
                 break;
-            case ShipDefinitions.ItemType.CrownModRange:
+            case ItemDefinitions.ItemType.CrownModRange:
                 // range is 2 by default
                 // range is 2.5 with tier 1 upgrade
                 // range is 3 with tier 2 upgrade

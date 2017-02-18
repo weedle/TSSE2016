@@ -71,13 +71,13 @@ public class merchantBuySellButtonScript : MonoBehaviour {
 
         // convert the text from that object to an item
         // It's of the form "ObjectName (x)" where x is a quantity
-        ShipDefinitions.Item item;
+        ItemDefinitions.Item item;
         UnityEngine.UI.Text indexItem = itemObj.transform.GetChild(0).
             GetComponent<UnityEngine.UI.Text>();
         Regex regex = new Regex(@"\w+");
         MatchCollection matches = regex.Matches(indexItem.text);
 
-        item = ShipDefinitions.stringToItem(matches[0].ToString() + ":" + 
+        item = ItemDefinitions.stringToItem(matches[0].ToString() + ":" + 
             matches[1].ToString());
 
         int cost;
@@ -85,7 +85,7 @@ public class merchantBuySellButtonScript : MonoBehaviour {
         // handle inventory and currency changes
         if (buying)
         {
-            cost = ShipDefinitions.getCost(item, merchantId, buying);
+            cost = ItemDefinitions.getCost(item, merchantId, buying);
             merchantInventory.addCurrency(cost);
             playerInventory.addCurrency(-cost);
             merchantItemList.removeItem(item);
@@ -93,7 +93,7 @@ public class merchantBuySellButtonScript : MonoBehaviour {
         }
         else
         {
-            cost = ShipDefinitions.getCost(item, playerId, buying);
+            cost = ItemDefinitions.getCost(item, playerId, buying);
             merchantInventory.addCurrency(-cost);
             playerInventory.addCurrency(cost);
             playerItemList.removeItem(item);

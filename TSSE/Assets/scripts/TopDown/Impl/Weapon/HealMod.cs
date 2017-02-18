@@ -90,7 +90,7 @@ public class HealMod : MonoBehaviour, FiringModule
         return (float)ammunition / ammoMax;
     }
 
-    public void applyBuff(ShipDefinitions.Item item)
+    public void applyBuff(ItemDefinitions.Item item)
     {
 
     }

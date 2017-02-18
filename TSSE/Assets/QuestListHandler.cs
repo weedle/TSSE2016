@@ -9,7 +9,7 @@ public class QuestListHandler : MonoBehaviour
     void Start()
     {
         removeAllItems();
-        ShipDefinitions.Quest quest = new ShipDefinitions.Quest("TESTING QUEST");
+        QuestDefinitions.Quest quest = new QuestDefinitions.Quest("TESTING QUEST");
         addQuest(quest);
         addQuest(quest);
         addQuest(quest);
@@ -29,7 +29,7 @@ public class QuestListHandler : MonoBehaviour
     }
 
     // add the item
-    public void addQuest(ShipDefinitions.Quest quest)
+    public void addQuest(QuestDefinitions.Quest quest)
     {
         print(quest.questInfo);
         // We have an example item in the PrefabHost

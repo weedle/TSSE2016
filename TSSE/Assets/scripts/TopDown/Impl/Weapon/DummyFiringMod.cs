@@ -39,7 +39,7 @@ public class DummyFiringMod : MonoBehaviour, FiringModule {
         return 1;
     }
 
-    public void applyBuff(ShipDefinitions.Item item)
+    public void applyBuff(ItemDefinitions.Item item)
     {
 
     }

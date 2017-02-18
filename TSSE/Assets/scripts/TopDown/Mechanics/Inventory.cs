@@ -8,7 +8,7 @@ using System.Collections.Generic;
 public class Inventory : MonoBehaviour {
 
     // number of each item we have
-    private int[] numOfEachItem = new int[ShipDefinitions.numberOfItemTypes];
+    private int[] numOfEachItem = new int[ItemDefinitions.numberOfItemTypes];
 
     // the two gameobjects that display the inventory and currency of this entity
     public GameObject inventoryDisplay;
@@ -21,7 +21,7 @@ public class Inventory : MonoBehaviour {
     public string uniqueId;
 
     // currently selected item
-    private ShipDefinitions.Item selected;
+    private ItemDefinitions.Item selected;
 
     // currency in possession of this entity
     private int currency = 200;
@@ -30,20 +30,20 @@ public class Inventory : MonoBehaviour {
     {
         if (inventoryType == "Player")
         {
-            addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.FlameModDamage, 3));
-            addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.FlameModSpread, 1));
-            addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.FlameModFireRate, 2));
-            addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.FlameModDamage, 1));
+            addItem(new ItemDefinitions.Item(ItemDefinitions.ItemType.FlameModDamage, 3));
+            addItem(new ItemDefinitions.Item(ItemDefinitions.ItemType.FlameModSpread, 1));
+            addItem(new ItemDefinitions.Item(ItemDefinitions.ItemType.FlameModFireRate, 2));
+            addItem(new ItemDefinitions.Item(ItemDefinitions.ItemType.FlameModDamage, 1));
         }
         if (inventoryType == "Merchant")
         {
-            addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.LaserModDamage, 1));
-            addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.LaserModSpeed, 1));
-            addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.LaserModFireRate, 2));
-            addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.LaserModDamage, 1));
-            addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.LaserModSpeed, 2));
-            addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.LaserModFireRate, 3));
-            addItem(new ShipDefinitions.Item(ShipDefinitions.ItemType.FlameModDamage, 1));
+            addItem(new ItemDefinitions.Item(ItemDefinitions.ItemType.LaserModDamage, 1));
+            addItem(new ItemDefinitions.Item(ItemDefinitions.ItemType.LaserModSpeed, 1));
+            addItem(new ItemDefinitions.Item(ItemDefinitions.ItemType.LaserModFireRate, 2));
+            addItem(new ItemDefinitions.Item(ItemDefinitions.ItemType.LaserModDamage, 1));
+            addItem(new ItemDefinitions.Item(ItemDefinitions.ItemType.LaserModSpeed, 2));
+            addItem(new ItemDefinitions.Item(ItemDefinitions.ItemType.LaserModFireRate, 3));
+            addItem(new ItemDefinitions.Item(ItemDefinitions.ItemType.FlameModDamage, 1));
         }
         updateCurrency();
     }
@@ -65,33 +65,33 @@ public class Inventory : MonoBehaviour {
     }
 
     // add an item, if we already have it just increase the quantity
-    public void addItem(ShipDefinitions.Item item)
+    public void addItem(ItemDefinitions.Item item)
     {
         inventoryDisplay.GetComponent<ItemListHandler>().
             addItem(item);
-        numOfEachItem[ShipDefinitions.itemToInt(item)] += 1;
+        numOfEachItem[ItemDefinitions.itemToInt(item)] += 1;
     }
 
     // reduce quantity, remove from list if none are left
-    public void removeItem(ShipDefinitions.Item item)
+    public void removeItem(ItemDefinitions.Item item)
     {
-        if (numOfEachItem[ShipDefinitions.itemToInt(item)] == 0)
+        if (numOfEachItem[ItemDefinitions.itemToInt(item)] == 0)
             return;
         inventoryDisplay.GetComponent<ItemListHandler>().
             removeItem(item);
-        numOfEachItem[ShipDefinitions.itemToInt(item)] -= 1;
+        numOfEachItem[ItemDefinitions.itemToInt(item)] -= 1;
     }
 
     // do we have the item? maybeeee
-    public bool findItem(ShipDefinitions.Item item)
+    public bool findItem(ItemDefinitions.Item item)
     {
-        return (numOfEachItem[ShipDefinitions.itemToInt(item)] != 0);
+        return (numOfEachItem[ItemDefinitions.itemToInt(item)] != 0);
     }
 
     public void saveInventory()
     {
         string invSlotLabel = uniqueId + "InventorySlotLabel";
-        for (int i = 0; i < ShipDefinitions.numberOfItemTypes; i++)
+        for (int i = 0; i < ItemDefinitions.numberOfItemTypes; i++)
         {
             string currLabel = invSlotLabel + i.ToString();
             print("Saving item: " + i + " and num = " + numOfEachItem[i]);
@@ -103,7 +103,7 @@ public class Inventory : MonoBehaviour {
     {
         clearInventory();
         string invSlotLabel = uniqueId + "InventorySlotLabel";
-        for (int i = 0; i < ShipDefinitions.numberOfItemTypes; i++)
+        for (int i = 0; i < ItemDefinitions.numberOfItemTypes; i++)
         {
             string currLabel = invSlotLabel + i.ToString();
             numOfEachItem[i] = 0;
@@ -117,19 +117,19 @@ public class Inventory : MonoBehaviour {
             }
         }
 
-        for (int i = 0; i < ShipDefinitions.numberOfItemTypes; i++)
+        for (int i = 0; i < ItemDefinitions.numberOfItemTypes; i++)
         {
             for (int j = 0; j < numOfEachItem[i]; j++)
             {
                 print("adding item: " + i + " and num = " + numOfEachItem[i]);
-                inventoryDisplay.GetComponent<ItemListHandler>().addItem(ShipDefinitions.intToItem(i));
+                inventoryDisplay.GetComponent<ItemListHandler>().addItem(ItemDefinitions.intToItem(i));
             }
         }
     }
 
     public void clearInventory()
     {
-        for (int i = 0; i < ShipDefinitions.numberOfItemTypes; i++)
+        for (int i = 0; i < ItemDefinitions.numberOfItemTypes; i++)
         {
                 numOfEachItem[i] = 0;
         }
