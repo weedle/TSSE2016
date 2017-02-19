@@ -185,7 +185,7 @@ public class ShipDefinitions
     public static ShipEntity stringtoShip(string shipEncoded)
     {
         ShipEntity entity = new ShipEntity();
-
+        GameObject.Find("GameLogic").GetComponent<GameEventHandler>().printThing(shipEncoded);
         string[] shipDetails = shipEncoded.Split(':');
 
         EngineType engType = (EngineType)Enum.Parse(

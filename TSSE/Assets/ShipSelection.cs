@@ -69,14 +69,6 @@ public class ShipSelection : MonoBehaviour {
 
     // this is the ship slot we are currently equipping things on
     public int selectedShip = 0;
-    
-    // the struct containing the info for a specific ship slot
-    public struct ShipInfo
-    {
-        public int shipType;
-        public string weaponType;
-        public int engineType;
-    }
 
     // total cost of all equipped items so far
     private int cost;

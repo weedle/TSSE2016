@@ -53,4 +53,9 @@ public class GameEventHandler : MonoBehaviour {
             setCharacter(chrNext);
         }
     }
+
+    public void printThing(string thing)
+    {
+        print(thing);
+    }
 }
