@@ -29,11 +29,23 @@ public class ShipSpawner : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        /*
         levelType = PlayerPrefs.GetString("CombatLevelType");
 
         if(levelType == "setEnemies")
         {
 
+        }
+        */
+
+        string levelId = PlayerPrefs.GetString("TSSE[Level][Current]");
+
+        LevelDefinitions.Level currentLevel = LevelDefinitions.loadLevel(levelId);
+
+        foreach(ShipDefinitions.ShipEntity entity in currentLevel.ships)
+        {
+            if(entity.shipType != ShipDefinitions.ShipType.None)
+                spawnShip(entity);
         }
     }
 
@@ -60,8 +72,8 @@ public class ShipSpawner : MonoBehaviour
         if(oneTime)
         {
             // first update, spawn player ships
-            spawnLoadout();
-            oneTime = false;
+            //spawnLoadout();
+            //oneTime = false;
         }
         countdown.text = (cooldownMax - cooldown).ToString();
 
@@ -402,6 +414,8 @@ public class ShipSpawner : MonoBehaviour
         shipIntf.setWeaponType(entity.weapType);
         shipIntf.setShipType(entity.shipType);
         shipIntf.setFaction(entity.faction);
+
+        ship.GetComponent<MainShip>().setItems(entity.items);
         //ship.AddComponent<AIController>();
 
         spawnShip(6 * UnityEngine.Random.insideUnitCircle, ship);

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 // The main script to manipulate the ship gameobject.
 // Note that although this script knows how to carry out any action on a ship,
@@ -22,6 +23,7 @@ public class MainShip : MonoBehaviour, ShipIntf
     public ShipDefinitions.ShipType shipType;
     private EngineModule engine;
     private FiringModule weapon;
+    private List<ItemDefinitions.Item> inventory;
 
     // Use this for initialization
     void Start()
@@ -40,7 +42,8 @@ public class MainShip : MonoBehaviour, ShipIntf
         health.GetComponent<HealthBar>().setTarget(gameObject);
         ammo.GetComponent<AmmoBar>().setTarget(gameObject);
         text.GetComponent<ShipLabel>().setTarget(gameObject);
-
+        if (inventory == null)
+            inventory = new List<ItemDefinitions.Item>();
         GameObject engineObj;
         if (engType == ShipDefinitions.EngineType.Engine1)
         {
@@ -57,7 +60,6 @@ public class MainShip : MonoBehaviour, ShipIntf
         engineObj.transform.localScale = new Vector3(1.5f, 1.5f, 0);
 
         engine = engineObj.GetComponent<EngineModule>();
-
         switch (weapType)
         {
             case ShipDefinitions.WeaponType.Crown:
@@ -77,6 +79,11 @@ public class MainShip : MonoBehaviour, ShipIntf
                 break;
         }
 
+        foreach(ItemDefinitions.Item item in inventory)
+        {
+            print("applying item: " + ItemDefinitions.itemToString(item));
+            GetComponent<FiringModule>().applyBuff(item);
+        }
 
         ShipDefinitions.Faction faction = ShipDefinitions.stringToFaction(gameObject.tag);
         if (faction == ShipDefinitions.Faction.Enemy)
@@ -297,5 +304,10 @@ public class MainShip : MonoBehaviour, ShipIntf
     public void setFaction(ShipDefinitions.Faction faction)
     {
         gameObject.tag = faction.ToString();
+    }
+
+    public void setItems(List<ItemDefinitions.Item> items)
+    {
+        inventory = items;
     }
 }

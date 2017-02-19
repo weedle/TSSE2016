@@ -185,9 +185,8 @@ public class ShipDefinitions
     public static ShipEntity stringtoShip(string shipEncoded)
     {
         ShipEntity entity = new ShipEntity();
-        GameObject.Find("GameLogic").GetComponent<GameEventHandler>().printThing(shipEncoded);
+        //GameObject.Find("GameLogic").GetComponent<GameEventHandler>().printThing(shipEncoded);
         string[] shipDetails = shipEncoded.Split(':');
-
         EngineType engType = (EngineType)Enum.Parse(
             typeof(EngineType),
             shipDetails[0].ToString());
@@ -214,17 +213,24 @@ public class ShipDefinitions
 
     public static void saveShip(ShipEntity entity)
     {
-        string shipEncoded = PlayerPrefs.GetString("TSSE[ShipEntity][" + entity.uniqueId + "]");
-        string itemsEncoded = PlayerPrefs.GetString("TSSEList[Item][" + entity.uniqueId + "]");
+        PlayerPrefs.SetString("TSSE[ShipEntity][" + entity.uniqueId + "]", shipToString(entity));
+        PlayerPrefs.SetString("TSSEList[Item][" + entity.uniqueId + "]", ItemDefinitions.itemsToString(entity.items));
+
+        //GameObject.Find("GameLogic").GetComponent<GameEventHandler>().printThing(
+        //    "TSSEList[Item][" + entity.uniqueId + "]");
     }
 
     public static ShipEntity loadShip(string uniqueId)
     {
+        //GameObject.Find("GameLogic").GetComponent<GameEventHandler>().printThing(uniqueId);
         ShipEntity entity = stringtoShip(
             PlayerPrefs.GetString("TSSE[ShipEntity][" + uniqueId + "]"));
+        entity.uniqueId = uniqueId;
         entity.items = ItemDefinitions.stringToItems(
             PlayerPrefs.GetString("TSSEList[Item][" + entity.uniqueId + "]"));
-
+        GameObject.Find("GameLogic").GetComponent<GameEventHandler>().printThing(
+            ItemDefinitions.itemsToString(entity.items));
+        
         return entity;
     }
 
@@ -234,9 +240,10 @@ public class ShipDefinitions
 
         foreach(ShipEntity entity in entities)
         {
-            ids = ids + "#" + entity.uniqueId;
+            ids = ids + entity.uniqueId + "#";
         }
-
+        ids = ids.Substring(0, ids.Length - 1);
+        //GameObject.Find("GameLogic").GetComponent<GameEventHandler>().printThing(ids);
         return ids;
     }
 
@@ -259,111 +266,4 @@ public class ShipDefinitions
 
         return ships;
     }
-    /*
-    public static void saveShip(ShipEntity entity, string uniqueId)
-    {
-        string shipDetails = "";
-        shipDetails += (int)entity.engType + ":";
-        shipDetails += (int)entity.shipType + ":";
-        shipDetails += (int)entity.weapType + ":";
-        shipDetails += (int)entity.faction;
-
-        PlayerPrefs.SetString(
-            entity.uniqueId + "[" + index + "]" + "ship", shipDetails);
-
-        string itemsEncoded = "";
-        foreach(ItemDefinitions.Item item in entity.items)
-        {
-            itemsEncoded = itemsEncoded + "#" + ItemDefinitions.itemToString(item);
-        }
-
-        //TSSEList[Type][UniqueId]
-        PlayerPrefs.SetString(
-            entity.uniqueId + "[" + index + "]" + "items", itemsEncoded);
-    }
-
-    public static void saveShips(List<ShipEntity> entities)
-    {
-        int index = 0;
-        foreach (ShipEntity entity in entities)
-        {
-            saveShip(entity, index);
-            index++;
-        }
-    }
-
-    public static ShipEntity loadShip(string uniqueId, int index)
-    {
-        ShipEntity entity = new ShipEntity();
-
-        string ship = PlayerPrefs.GetString(
-            uniqueId + "[" + index + "]" + "ship");
-        string[] shipDetails = ship.Split(':');
-
-        EngineType engType = (EngineType)Enum.Parse(
-            typeof(EngineType),
-            shipDetails[0].ToString());
-
-        ShipType shipType = (ShipType)Enum.Parse(
-            typeof(ShipDefinitions.ShipType),
-            shipDetails[1].ToString());
-
-        WeaponType weapType = (WeaponType)Enum.Parse(
-            typeof(WeaponType),
-            shipDetails[2].ToString());
-
-        Faction faction = (Faction)Enum.Parse(
-            typeof(Faction),
-            shipDetails[3].ToString());
-
-        List<ItemDefinitions.Item> items = new List<ItemDefinitions.Item>();
-
-        String itemsEncoded = PlayerPrefs.GetString(
-            entity.uniqueId + "[" + index + "]" + "items");
-
-        string[] itemsSplit = itemsEncoded.Split('#');
-
-        foreach(string itemEncoded in itemsSplit)
-        {
-            items.Add(ItemDefinitions.stringToItem(itemsEncoded));
-        }
-
-        entity.engType = engType;
-        entity.shipType = shipType;
-        entity.weapType = weapType;
-        entity.items = items;
-        entity.faction = faction;
-        entity.uniqueId = uniqueId;
-
-        return entity;
-    }
-
-    public static List<ShipEntity> loadShips(List<String> entityIds)
-    {
-        int index = 0;
-        List<ShipEntity> entities = new List<ShipEntity>();
-        foreach (String entityId in entityIds)
-        {
-            ShipEntity entity = new ShipEntity();
-            entity = loadShip(entityId, index);
-            entities.Add(entity);
-            index++;
-        }
-        return entities;
-    }
-
-    public static List<ShipEntity> loadShips(string[] entityIds)
-    {
-        int index = 0;
-        List<ShipEntity> entities = new List<ShipEntity>();
-        foreach (String entityId in entityIds)
-        {
-            ShipEntity entity = new ShipEntity();
-            entity = loadShip(entityId, index);
-            entities.Add(entity);
-            index++;
-        }
-        return entities;
-    }
-    */
 }

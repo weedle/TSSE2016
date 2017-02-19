@@ -112,6 +112,8 @@ public class MissileMod : MonoBehaviour, FiringModule
         print("Item is: " + ItemDefinitions.itemToString(item));
         if (item.tier == 0)
             return;
+        if(projectile == null)
+            projectile = GameObject.Find("GameLogic").GetComponent<PrefabHost>().getMissileObject();
         switch (item.type)
         {
             case ItemDefinitions.ItemType.MissileModDamage:

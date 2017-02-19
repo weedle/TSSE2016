@@ -118,6 +118,7 @@ public class ShipSelection : MonoBehaviour {
             entity.shipType = ShipDefinitions.ShipType.None;
             entity.faction = ShipDefinitions.Faction.PlayerAffil;
             entity.uniqueId = "PlayerShip" + i.ToString();
+            entity.items = new List<ItemDefinitions.Item>();
             shipInfo[i] = entity;
         }
 
@@ -169,8 +170,25 @@ public class ShipSelection : MonoBehaviour {
             List<ShipDefinitions.ShipEntity> list = new List<ShipDefinitions.ShipEntity>();
             list.AddRange(shipInfo);
 
-            ShipDefinitions.saveShips(list);
-            
+            LevelDefinitions.Level level = new LevelDefinitions.Level();
+
+            level.uniqueId = "awyesfirstlevel";
+            level.ships = list;
+            level.type = LevelDefinitions.LevelType.Wave;
+
+            /*
+            level.ships[0].items.Add(new ItemDefinitions.Item(ItemDefinitions.ItemType.MissileModAmmoCap, 3));
+            level.ships[0].items.Add(new ItemDefinitions.Item(ItemDefinitions.ItemType.MissileModDamage, 3));
+            level.ships[0].items.Add(new ItemDefinitions.Item(ItemDefinitions.ItemType.MissileModFireRate, 3));
+            level.ships[0].items.Add(new ItemDefinitions.Item(ItemDefinitions.ItemType.MissileModRange, 3));
+            level.ships[0].items.Add(new ItemDefinitions.Item(ItemDefinitions.ItemType.MissileModRechargeRate, 3));
+            level.ships[0].items.Add(new ItemDefinitions.Item(ItemDefinitions.ItemType.MissileModSpeed, 3));
+            */
+
+            PlayerPrefs.SetString("TSSE[Level][Current]", "awyesfirstlevel");
+
+            LevelDefinitions.saveLevel(level);
+
             // load the combat scene
             SceneManager.LoadScene(1);
         }
@@ -367,7 +385,7 @@ public class ShipSelection : MonoBehaviour {
             }
             else
             {
-                shipInfo[selectedShip].weapType = ShipDefinitions.WeaponType.Laser;
+                shipInfo[selectedShip].weapType = ShipDefinitions.WeaponType.Flame;
                 weapons[selectedShip]
                     .GetComponent<SpriteRenderer>()
                     .sprite = weaponFlameSprite;
