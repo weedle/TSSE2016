@@ -175,7 +175,11 @@ public class ShipSelection : MonoBehaviour {
             level.uniqueId = "awyesfirstlevel";
             level.ships = list;
             level.type = LevelDefinitions.LevelType.Wave;
+            level.shipSpawningTokens = new Dictionary<string, string>();
 
+            level.shipSpawningTokens["testKey1"] = "testVal1";
+            level.shipSpawningTokens["testKey2"] = "testVal2";
+            level.shipSpawningTokens["testKey3"] = "testVal3";
             /*
             level.ships[0].items.Add(new ItemDefinitions.Item(ItemDefinitions.ItemType.MissileModAmmoCap, 3));
             level.ships[0].items.Add(new ItemDefinitions.Item(ItemDefinitions.ItemType.MissileModDamage, 3));

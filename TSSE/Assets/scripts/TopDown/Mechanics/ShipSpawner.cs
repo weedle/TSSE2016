@@ -47,6 +47,12 @@ public class ShipSpawner : MonoBehaviour
             if(entity.shipType != ShipDefinitions.ShipType.None)
                 spawnShip(entity);
         }
+
+        print("printing dict");
+        foreach(string key in currentLevel.shipSpawningTokens.Keys)
+        {
+            print("obtained dict entry key:" + key + " val:" + currentLevel.shipSpawningTokens[key]);
+        }
     }
 
     // Update is called once per frame
@@ -408,7 +414,7 @@ public class ShipSpawner : MonoBehaviour
                 ship = getShipPeacock();
             }
         }
-
+        
         ShipIntf shipIntf = ship.GetComponent<ShipIntf>();
         shipIntf.setEngineType(entity.engType);
         shipIntf.setWeaponType(entity.weapType);
