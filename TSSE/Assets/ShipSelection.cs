@@ -170,6 +170,17 @@ public class ShipSelection : MonoBehaviour {
             List<ShipDefinitions.ShipEntity> list = new List<ShipDefinitions.ShipEntity>();
             list.AddRange(shipInfo);
 
+            // Adding default enemies for sake of testing
+            ShipDefinitions.ShipEntity enemy1 = new ShipDefinitions.ShipEntity(ShipDefinitions.EngineType.Engine1, ShipDefinitions.WeaponType.Flame, 
+                ShipDefinitions.ShipType.Ruby, new List<ItemDefinitions.Item>(), ShipDefinitions.Faction.Enemy, "Enemy1");
+            ShipDefinitions.ShipEntity enemy2 = new ShipDefinitions.ShipEntity(ShipDefinitions.EngineType.Engine1, ShipDefinitions.WeaponType.Crown,
+                ShipDefinitions.ShipType.Ruby, new List<ItemDefinitions.Item>(), ShipDefinitions.Faction.Enemy, "Enemy2");
+            ShipDefinitions.ShipEntity enemy3 = new ShipDefinitions.ShipEntity(ShipDefinitions.EngineType.Engine1, ShipDefinitions.WeaponType.Flame,
+                ShipDefinitions.ShipType.Peacock, new List<ItemDefinitions.Item>(), ShipDefinitions.Faction.Enemy, "Enemy3");
+            list.Add(enemy1);
+            list.Add(enemy2);
+            list.Add(enemy3);
+
             LevelDefinitions.Level level = new LevelDefinitions.Level();
 
             level.uniqueId = "awyesfirstlevel";
@@ -177,9 +188,13 @@ public class ShipSelection : MonoBehaviour {
             level.type = LevelDefinitions.LevelType.Wave;
             level.shipSpawningTokens = new Dictionary<string, string>();
 
-            level.shipSpawningTokens["testKey1"] = "testVal1";
-            level.shipSpawningTokens["testKey2"] = "testVal2";
-            level.shipSpawningTokens["testKey3"] = "testVal3";
+            foreach(ShipDefinitions.ShipEntity playership in shipInfo)
+            {
+                level.shipSpawningTokens[playership.uniqueId] = "center";
+            }
+            level.shipSpawningTokens["Enemy1"] = "random";
+            level.shipSpawningTokens["Enemy2"] = "random";
+            level.shipSpawningTokens["Enemy3"] = "random";
             /*
             level.ships[0].items.Add(new ItemDefinitions.Item(ItemDefinitions.ItemType.MissileModAmmoCap, 3));
             level.ships[0].items.Add(new ItemDefinitions.Item(ItemDefinitions.ItemType.MissileModDamage, 3));

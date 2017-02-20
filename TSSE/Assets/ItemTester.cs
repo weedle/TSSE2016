@@ -43,6 +43,7 @@ public class ItemTester : MonoBehaviour {
             text.text += ShipDefinitions.itemToString(item) + "\n";
         }
         */
+        /*
         if (once)
         {
             List<String> ships = new List<string>();
@@ -57,6 +58,7 @@ public class ItemTester : MonoBehaviour {
             }
             once = false;
         }
+        */
 
     }
 }

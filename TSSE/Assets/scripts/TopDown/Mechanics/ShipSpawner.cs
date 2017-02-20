@@ -45,31 +45,20 @@ public class ShipSpawner : MonoBehaviour
         foreach(ShipDefinitions.ShipEntity entity in currentLevel.ships)
         {
             if(entity.shipType != ShipDefinitions.ShipType.None)
-                spawnShip(entity);
+            {
+                string spawningToken = "";
+                if(currentLevel.shipSpawningTokens.ContainsKey(entity.uniqueId))
+                {
+                    spawningToken = currentLevel.shipSpawningTokens[entity.uniqueId];
+                }
+                spawnShip(getSpawnPosition(spawningToken), entity);
+            }
         }
 
         print("printing dict");
         foreach(string key in currentLevel.shipSpawningTokens.Keys)
         {
             print("obtained dict entry key:" + key + " val:" + currentLevel.shipSpawningTokens[key]);
-        }
-    }
-
-    // Update is called once per frame
-
-    void spawnLoadout()
-    {
-
-        // Spawn the player's starting ships
-        // the loudout data is saved in player preferences
-        for (int i = 0; i < 6; i++)
-        {
-            ShipDefinitions.ShipEntity ship =
-                ShipDefinitions.loadShip("PlayerShip" + i.ToString());
-            if(ship.shipType != ShipDefinitions.ShipType.None &&
-                ship.engType != ShipDefinitions.EngineType.None &&
-                ship.weapType != ShipDefinitions.WeaponType.None)
-                spawnShip(ship);
         }
     }
 
@@ -101,6 +90,7 @@ public class ShipSpawner : MonoBehaviour
         }
 
         // time for a new wave
+        
         if(cooldown >= cooldownMax)
         {
             int numEnemies = 0;
@@ -119,7 +109,7 @@ public class ShipSpawner : MonoBehaviour
                     numGoodies++;
                 }
             }
-
+            /*
             if (levelType == "wave")
             {
                 if (numEnemies < MAXENEMIES)
@@ -156,7 +146,7 @@ public class ShipSpawner : MonoBehaviour
                     }
                 }
             }
-
+            */
             // all our players are dead, game over
             if (numGoodies == 0)
             {
@@ -389,7 +379,7 @@ public class ShipSpawner : MonoBehaviour
         obj.GetComponent<ShipController>().setFaction(faction);
     }
 
-    public void spawnShip(ShipDefinitions.ShipEntity entity)
+    public void spawnShip(Vector2 spawningPt, ShipDefinitions.ShipEntity entity)
     {
         GameObject ship;
         if (entity.faction == ShipDefinitions.Faction.Enemy)
@@ -424,6 +414,22 @@ public class ShipSpawner : MonoBehaviour
         ship.GetComponent<MainShip>().setItems(entity.items);
         //ship.AddComponent<AIController>();
 
-        spawnShip(6 * UnityEngine.Random.insideUnitCircle, ship);
+        spawnShip(spawningPt, ship);
+    }
+
+    public static Vector2 getSpawnPosition(string spawningToken)
+    {
+        Vector2 spawnPt = new Vector2(0,0);
+
+        if(spawningToken == "random")
+        {
+            spawnPt = 6 * UnityEngine.Random.insideUnitCircle;
+        }
+        else if(spawningToken == "center")
+        {
+            spawnPt = Vector2.zero;
+        }
+
+        return spawnPt;
     }
 }
