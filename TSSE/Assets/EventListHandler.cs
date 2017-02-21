@@ -3,47 +3,33 @@ using System.Collections;
 using System.Text.RegularExpressions;
 
 // This is a quest handler based on Jenne's item handler
-public class QuestListHandler : MonoBehaviour
+public class EventListHandler : MonoBehaviour
 {
-
     void Start()
     {
         removeAllItems();
-        QuestDefinitions.Quest quest = new QuestDefinitions.Quest("TESTING QUEST");
-        addQuest(quest);
+        EventDefinitions.Event newEvent1 = new EventDefinitions.Event("made a new event!", "event1");
+        EventDefinitions.Event newEvent2 = new EventDefinitions.Event("oh and look another one!", "event2");
+        EventDefinitions.Event newEvent3 = new EventDefinitions.Event("third one for luck", "event3");
+        addEvent(newEvent1);
+        addEvent(newEvent2);
+        addEvent(newEvent3);
         addEmpty();
         addEmpty();
         addEmpty();
-        /*
-        addQuest(quest);
-        addQuest(quest);
-        addQuest(quest);
-        addQuest(quest);
-        addQuest(quest);
-        addQuest(quest);
-        addQuest(quest);
-        addQuest(quest);
-        addQuest(quest);
-        addQuest(quest);
-        addQuest(quest);
-        addQuest(quest);
-        addQuest(quest);
-        addQuest(quest);*/
         GetComponent<UnityEngine.UI.ScrollRect>().verticalNormalizedPosition = 1;
-        //GetComponent<UnityEngine.UI.ScrollRect>().
     }
 
     // add the item
-    public void addQuest(QuestDefinitions.Quest quest)
+    public void addEvent(EventDefinitions.Event newEvent)
     {
-        print(quest.questInfo);
         // We have an example item in the PrefabHost
         GameObject newItem = GameObject.Find("GameLogic").
-            GetComponent<PrefabHost>().getQuestItem();
-        
+            GetComponent<PrefabHost>().getEventItem();
+
         // Initially has 1 object
         newItem.transform.GetChild(0).GetComponent<UnityEngine.UI.Text>().
-            text = quest.questInfo;
+            text = newEvent.desc;
 
         // Add to listview
         newItem.transform.SetParent(transform.GetChild(0).transform, false);
@@ -54,7 +40,7 @@ public class QuestListHandler : MonoBehaviour
     {
         // We have an example item in the PrefabHost
         GameObject newItem = GameObject.Find("GameLogic").
-            GetComponent<PrefabHost>().getQuestEmptyItem();
+            GetComponent<PrefabHost>().getEventEmptyItem();
 
         // Add to listview
         newItem.transform.SetParent(transform.GetChild(0).transform, false);

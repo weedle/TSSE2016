@@ -20,11 +20,12 @@ public class PrefabHost : MonoBehaviour
     public GameObject engineLvl1;
     public GameObject engineLvl2;
 
-    public GameObject firingSprite;
-
     public GameObject merchantItem;
     public GameObject inventoryItem;
     public GameObject questItem;
+    public GameObject questEmptyItem;
+    public GameObject eventItem;
+    public GameObject eventEmptyItem;
 
     public Sprite shipRubyPirateSprite;
     public Sprite shipPeacockPirateSprite;
@@ -96,12 +97,6 @@ public class PrefabHost : MonoBehaviour
         return obj;
     }
 
-    public GameObject getFiringSpriteObject()
-    {
-        GameObject obj = (GameObject)Instantiate(firingSprite, Vector3.zero, Quaternion.Euler(0, 0, 0));
-        return obj;
-    }
-
     public GameObject getMerchantItem()
     {
         GameObject obj = (GameObject)Instantiate(merchantItem, Vector3.zero, Quaternion.Euler(0, 0, 0));
@@ -117,6 +112,25 @@ public class PrefabHost : MonoBehaviour
     public GameObject getQuestItem()
     {
         GameObject obj = (GameObject)Instantiate(questItem, Vector3.zero, Quaternion.Euler(0, 0, 0));
+        return obj;
+    }
+
+
+    public GameObject getQuestEmptyItem()
+    {
+        GameObject obj = (GameObject)Instantiate(questEmptyItem, Vector3.zero, Quaternion.Euler(0, 0, 0));
+        return obj;
+    }
+
+    public GameObject getEventItem()
+    {
+        GameObject obj = (GameObject)Instantiate(eventItem, Vector3.zero, Quaternion.Euler(0, 0, 0));
+        return obj;
+    }
+
+    public GameObject getEventEmptyItem()
+    {
+        GameObject obj = (GameObject)Instantiate(eventEmptyItem, Vector3.zero, Quaternion.Euler(0, 0, 0));
         return obj;
     }
 
