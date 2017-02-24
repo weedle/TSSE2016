@@ -50,6 +50,9 @@ public class ItemDefinitions {
         CrownModRange			// Increases maximum distance between ship and target to fire
     }
 
+    // this is if we ever need to iterate through every item
+    public static int numberOfItemTypes = 70;
+
     public static string getDesc(Item item)
     {
         string retStr = "";
@@ -574,9 +577,6 @@ public class ItemDefinitions {
     {
         return PlayerPrefs.GetString("TSSEList[Item][" + uniqueId + "]");
     }
-
-    // this is if we ever need to iterate through every item
-    public static int numberOfItemTypes = 70;
 
     // This is how we get the price value when buying or selling something
     // Item is the item to be bought or sold, inventoryId is something like

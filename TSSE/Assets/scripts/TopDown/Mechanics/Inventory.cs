@@ -51,6 +51,8 @@ public class Inventory : MonoBehaviour {
     // just refresh the label
     private void updateCurrency()
     {
+        if (currencyDisplay == null)
+            return;
         currencyDisplay.GetComponent<UnityEngine.UI.Text>().text
             = uniqueId + ": " + currency + " QUIDS";
     }
@@ -69,6 +71,7 @@ public class Inventory : MonoBehaviour {
     {
         inventoryDisplay.GetComponent<ItemListHandler>().
             addItem(item);
+
         numOfEachItem[ItemDefinitions.itemToInt(item)] += 1;
     }
 

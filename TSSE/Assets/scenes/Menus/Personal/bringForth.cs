@@ -16,7 +16,8 @@ public class bringForth : MonoBehaviour {
 		button.onClick.AddListener (showPanel);
 
 		// for testing purposes only
-		box = GameObject.Find ("nameDisplay").GetComponent<Text> ();
+        if(GameObject.Find("nameDisplay") != null)
+		    box = GameObject.Find ("nameDisplay").GetComponent<Text> ();
 	}
 
 	// brings the appropriate panel to the front

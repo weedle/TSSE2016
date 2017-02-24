@@ -28,110 +28,109 @@ public class ItemListHandler : MonoBehaviour {
                GetComponent<UnityEngine.UI.Text>();
         ItemDefinitions.Item item = ItemDefinitions.stringToItem(
             indexItem.text.Substring(0, indexItem.text.Length - 4));
-        if (item.type == ItemDefinitions.ItemType.FlameModAmmoCap ||
-            item.type == ItemDefinitions.ItemType.FlameModDamage ||
-            item.type == ItemDefinitions.ItemType.FlameModFireRate ||
-            item.type == ItemDefinitions.ItemType.FlameModRange ||
-            item.type == ItemDefinitions.ItemType.FlameModRechargeRate ||
-            item.type == ItemDefinitions.ItemType.FlameModSpeed ||
-            item.type == ItemDefinitions.ItemType.FlameModSpread ||
-            item.type == ItemDefinitions.ItemType.FlameModFireRate ||
-            item.type == ItemDefinitions.ItemType.FlameModRange ||
-            item.type == ItemDefinitions.ItemType.FlameModRechargeRate ||
-            item.type == ItemDefinitions.ItemType.FlameModSpeed ||
-            item.type == ItemDefinitions.ItemType.FlameModSpread)
+        GameObject imgObj = GameObject.Find("itemImage");
+
+        UnityEngine.UI.Image img = null;
+        if(imgObj != null)
+            img = imgObj.GetComponent<UnityEngine.UI.Image>();
+        if (img != null)
         {
-            switch (item.tier)
+            if (item.type == ItemDefinitions.ItemType.FlameModAmmoCap ||
+                item.type == ItemDefinitions.ItemType.FlameModDamage ||
+                item.type == ItemDefinitions.ItemType.FlameModFireRate ||
+                item.type == ItemDefinitions.ItemType.FlameModRange ||
+                item.type == ItemDefinitions.ItemType.FlameModRechargeRate ||
+                item.type == ItemDefinitions.ItemType.FlameModSpeed ||
+                item.type == ItemDefinitions.ItemType.FlameModSpread ||
+                item.type == ItemDefinitions.ItemType.FlameModFireRate ||
+                item.type == ItemDefinitions.ItemType.FlameModRange ||
+                item.type == ItemDefinitions.ItemType.FlameModRechargeRate ||
+                item.type == ItemDefinitions.ItemType.FlameModSpeed ||
+                item.type == ItemDefinitions.ItemType.FlameModSpread)
             {
-                case 1:
-                GameObject.Find("itemImage").GetComponent<UnityEngine.UI.Image>().
-                    sprite = fireSpriteLvl1;
-                    break;
-                case 2:
-                    GameObject.Find("itemImage").GetComponent<UnityEngine.UI.Image>().
-                        sprite = fireSpriteLvl2;
-                    break;
-                case 3:
-                    GameObject.Find("itemImage").GetComponent<UnityEngine.UI.Image>().
-                        sprite = fireSpriteLvl3;
-                    break;
+                switch (item.tier)
+                {
+                    case 1:
+                        img.sprite = fireSpriteLvl1;
+                        break;
+                    case 2:
+                        img.sprite = fireSpriteLvl2;
+                        break;
+                    case 3:
+                        img.sprite = fireSpriteLvl3;
+                        break;
+                }
+            }
+            else if (item.type == ItemDefinitions.ItemType.LaserModAmmoCap ||
+                item.type == ItemDefinitions.ItemType.LaserModDamage ||
+                item.type == ItemDefinitions.ItemType.LaserModFireRate ||
+                item.type == ItemDefinitions.ItemType.LaserModRange ||
+                item.type == ItemDefinitions.ItemType.LaserModRechargeRate ||
+                item.type == ItemDefinitions.ItemType.LaserModSpeed)
+            {
+                switch (item.tier)
+                {
+                    case 1:
+                        img.sprite = laserSpriteLvl1;
+                        break;
+                    case 2:
+                        img.sprite = laserSpriteLvl2;
+                        break;
+                    case 3:
+                        img.sprite = laserSpriteLvl3;
+                        break;
+                }
+            }
+            else if (item.type == ItemDefinitions.ItemType.CrownModAmmoCap ||
+                item.type == ItemDefinitions.ItemType.CrownModDamage ||
+                item.type == ItemDefinitions.ItemType.CrownModRange ||
+                item.type == ItemDefinitions.ItemType.CrownModRechargeRate)
+            {
+                switch (item.tier)
+                {
+                    case 1:
+                        img.sprite = crownSpriteLvl1;
+                        break;
+                    case 2:
+                        img.sprite = crownSpriteLvl2;
+                        break;
+                    case 3:
+                        img.sprite = crownSpriteLvl3;
+                        break;
+                }
+            }
+            else if (item.type == ItemDefinitions.ItemType.MissileModAmmoCap ||
+                item.type == ItemDefinitions.ItemType.MissileModDamage ||
+                item.type == ItemDefinitions.ItemType.MissileModFireRate ||
+                item.type == ItemDefinitions.ItemType.MissileModRange ||
+                item.type == ItemDefinitions.ItemType.MissileModRechargeRate ||
+                item.type == ItemDefinitions.ItemType.MissileModSpeed)
+            {
+                switch (item.tier)
+                {
+                    case 1:
+                        img.sprite = missileSpriteLvl1;
+                        break;
+                    case 2:
+                        img.sprite = missileSpriteLvl2;
+                        break;
+                    case 3:
+                        img.sprite = missileSpriteLvl3;
+                        break;
+                }
+            }
+            else
+            {
+                img.sprite = defaultSprite;
             }
         }
-        else if(item.type == ItemDefinitions.ItemType.LaserModAmmoCap ||
-            item.type == ItemDefinitions.ItemType.LaserModDamage ||
-            item.type == ItemDefinitions.ItemType.LaserModFireRate ||
-            item.type == ItemDefinitions.ItemType.LaserModRange ||
-            item.type == ItemDefinitions.ItemType.LaserModRechargeRate ||
-            item.type == ItemDefinitions.ItemType.LaserModSpeed)
-        {
-            switch (item.tier)
-            {
-                case 1:
-                    GameObject.Find("itemImage").GetComponent<UnityEngine.UI.Image>().
-                        sprite = laserSpriteLvl1;
-                    break;
-                case 2:
-                    GameObject.Find("itemImage").GetComponent<UnityEngine.UI.Image>().
-                        sprite = laserSpriteLvl2;
-                    break;
-                case 3:
-                    GameObject.Find("itemImage").GetComponent<UnityEngine.UI.Image>().
-                        sprite = laserSpriteLvl3;
-                    break;
-            }
-        }
-        else if (item.type == ItemDefinitions.ItemType.CrownModAmmoCap ||
-            item.type == ItemDefinitions.ItemType.CrownModDamage ||
-            item.type == ItemDefinitions.ItemType.CrownModRange ||
-            item.type == ItemDefinitions.ItemType.CrownModRechargeRate)
-        {
-            switch (item.tier)
-            {
-                case 1:
-                    GameObject.Find("itemImage").GetComponent<UnityEngine.UI.Image>().
-                        sprite = crownSpriteLvl1;
-                    break;
-                case 2:
-                    GameObject.Find("itemImage").GetComponent<UnityEngine.UI.Image>().
-                        sprite = crownSpriteLvl2;
-                    break;
-                case 3:
-                    GameObject.Find("itemImage").GetComponent<UnityEngine.UI.Image>().
-                        sprite = crownSpriteLvl3;
-                    break;
-            }
-        }
-        else if (item.type == ItemDefinitions.ItemType.MissileModAmmoCap ||
-            item.type == ItemDefinitions.ItemType.MissileModDamage ||
-            item.type == ItemDefinitions.ItemType.MissileModFireRate ||
-            item.type == ItemDefinitions.ItemType.MissileModRange ||
-            item.type == ItemDefinitions.ItemType.MissileModRechargeRate ||
-            item.type == ItemDefinitions.ItemType.MissileModSpeed)
-        {
-            switch (item.tier)
-            {
-                case 1:
-                    GameObject.Find("itemImage").GetComponent<UnityEngine.UI.Image>().
-                        sprite = missileSpriteLvl1;
-                    break;
-                case 2:
-                    GameObject.Find("itemImage").GetComponent<UnityEngine.UI.Image>().
-                        sprite = missileSpriteLvl2;
-                    break;
-                case 3:
-                    GameObject.Find("itemImage").GetComponent<UnityEngine.UI.Image>().
-                        sprite = missileSpriteLvl3;
-                    break;
-            }
-        }
-        else
-        {
-            GameObject.Find("itemImage").GetComponent<UnityEngine.UI.Image>().
-                sprite = defaultSprite;
-        }
-        GameObject.Find("panelText01").GetComponent<UnityEngine.UI.Text>()
+        GameObject panel1 = GameObject.Find("panelText01");
+        if(panel1 != null)
+            panel1.GetComponent<UnityEngine.UI.Text>()
             .text = ItemDefinitions.getDesc(item);
-        GameObject.Find("panelText02").GetComponent<UnityEngine.UI.Text>()
+        GameObject panel2 = GameObject.Find("panelText02");
+        if (panel2 != null)
+            panel2.GetComponent<UnityEngine.UI.Text>()
             .text = ItemDefinitions.getSpec(item);
         selectedItem = obj;
     }
@@ -167,12 +166,16 @@ public class ItemListHandler : MonoBehaviour {
         // We haven't returned earlier, so this must be a new item
         // So, we create a new thing and add to the listview
         // We have an example item in the PrefabHost
-        GameObject newItem = GameObject.Find("GameLogic").
-            GetComponent<PrefabHost>().getMerchantItem();
+        GameObject newItem;
         if (mode != "merchant")
         {
             newItem = GameObject.Find("GameLogic").
                 GetComponent<PrefabHost>().getInventoryItem();
+        }
+        else
+        {
+            newItem = GameObject.Find("GameLogic").
+                GetComponent<PrefabHost>().getMerchantItem();
         }
 
         // Initially has 1 object
@@ -185,6 +188,8 @@ public class ItemListHandler : MonoBehaviour {
         // This is so we call itemSelected if we click an item here
         newItem.GetComponent<UnityEngine.UI.Button>()
             .onClick.AddListener(delegate () { itemSelected(newItem); });
+
+        GetComponent<UnityEngine.UI.ScrollRect>().verticalNormalizedPosition = 1;
     }
 
     // reduce quantity if present, otherwise remove item
