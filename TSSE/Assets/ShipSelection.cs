@@ -176,10 +176,21 @@ public class ShipSelection : MonoBehaviour {
             ShipDefinitions.ShipEntity enemy2 = new ShipDefinitions.ShipEntity(ShipDefinitions.EngineType.Engine1, ShipDefinitions.WeaponType.Crown,
                 ShipDefinitions.ShipType.Ruby, new List<ItemDefinitions.Item>(), ShipDefinitions.Faction.Enemy, "Enemy2");
             ShipDefinitions.ShipEntity enemy3 = new ShipDefinitions.ShipEntity(ShipDefinitions.EngineType.Engine1, ShipDefinitions.WeaponType.Flame,
-                ShipDefinitions.ShipType.Peacock, new List<ItemDefinitions.Item>(), ShipDefinitions.Faction.Enemy, "Enemy3");
+                ShipDefinitions.ShipType.Ruby, new List<ItemDefinitions.Item>(), ShipDefinitions.Faction.Enemy, "Enemy3");
+
+
+            ShipDefinitions.ShipEntity enemy4 = new ShipDefinitions.ShipEntity(ShipDefinitions.EngineType.Engine2, ShipDefinitions.WeaponType.Laser,
+                ShipDefinitions.ShipType.Ruby, new List<ItemDefinitions.Item>(), ShipDefinitions.Faction.Enemy, "Enemy4");
+            ShipDefinitions.ShipEntity enemy5 = new ShipDefinitions.ShipEntity(ShipDefinitions.EngineType.Engine2, ShipDefinitions.WeaponType.Crown,
+                ShipDefinitions.ShipType.Ruby, new List<ItemDefinitions.Item>(), ShipDefinitions.Faction.Enemy, "Enemy5");
+            ShipDefinitions.ShipEntity enemy6 = new ShipDefinitions.ShipEntity(ShipDefinitions.EngineType.Engine2, ShipDefinitions.WeaponType.Missile,
+                ShipDefinitions.ShipType.Ruby, new List<ItemDefinitions.Item>(), ShipDefinitions.Faction.Enemy, "Enemy6");
             list.Add(enemy1);
             list.Add(enemy2);
             list.Add(enemy3);
+            list.Add(enemy4);
+            list.Add(enemy5);
+            list.Add(enemy6);
 
             LevelDefinitions.Level level = new LevelDefinitions.Level();
 
@@ -192,17 +203,23 @@ public class ShipSelection : MonoBehaviour {
             {
                 level.shipSpawningTokens[playership.uniqueId] = "center";
             }
-            level.shipSpawningTokens["Enemy1"] = "random";
-            level.shipSpawningTokens["Enemy2"] = "random";
-            level.shipSpawningTokens["Enemy3"] = "random";
-            /*
-            level.ships[0].items.Add(new ItemDefinitions.Item(ItemDefinitions.ItemType.MissileModAmmoCap, 3));
-            level.ships[0].items.Add(new ItemDefinitions.Item(ItemDefinitions.ItemType.MissileModDamage, 3));
-            level.ships[0].items.Add(new ItemDefinitions.Item(ItemDefinitions.ItemType.MissileModFireRate, 3));
-            level.ships[0].items.Add(new ItemDefinitions.Item(ItemDefinitions.ItemType.MissileModRange, 3));
-            level.ships[0].items.Add(new ItemDefinitions.Item(ItemDefinitions.ItemType.MissileModRechargeRate, 3));
-            level.ships[0].items.Add(new ItemDefinitions.Item(ItemDefinitions.ItemType.MissileModSpeed, 3));
-            */
+            level.shipSpawningTokens["Enemy1"] = "wave0";
+            level.shipSpawningTokens["Enemy2"] = "wave0";
+            level.shipSpawningTokens["Enemy3"] = "wave0";
+            level.shipSpawningTokens["Enemy4"] = "wave1";
+            level.shipSpawningTokens["Enemy5"] = "wave1";
+            level.shipSpawningTokens["Enemy6"] = "wave1";
+
+            level.ships[0].items.Add(new ItemDefinitions.Item(ItemDefinitions.ItemType.CrownModDamage, 3));
+            level.ships[0].items.Add(new ItemDefinitions.Item(ItemDefinitions.ItemType.CrownModRechargeRate, 3));
+            level.ships[0].items.Add(new ItemDefinitions.Item(ItemDefinitions.ItemType.CrownModRange, 3));
+            level.ships[1].items.Add(new ItemDefinitions.Item(ItemDefinitions.ItemType.CrownModDamage, 3));
+            level.ships[1].items.Add(new ItemDefinitions.Item(ItemDefinitions.ItemType.CrownModRechargeRate, 3));
+            level.ships[1].items.Add(new ItemDefinitions.Item(ItemDefinitions.ItemType.CrownModRange, 3));
+            level.ships[2].items.Add(new ItemDefinitions.Item(ItemDefinitions.ItemType.CrownModDamage, 3));
+            level.ships[2].items.Add(new ItemDefinitions.Item(ItemDefinitions.ItemType.CrownModRechargeRate, 3));
+            level.ships[2].items.Add(new ItemDefinitions.Item(ItemDefinitions.ItemType.CrownModRange, 3));
+
 
             PlayerPrefs.SetString("TSSE[Level][Current]", "awyesfirstlevel");
 

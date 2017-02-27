@@ -2,6 +2,7 @@
 using System.Collections;
 using System;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 // This handles spawning for the combad phase.
 // Initially, it spawns the ships in your initial loadout. A stupid 
@@ -25,51 +26,117 @@ public class ShipSpawner : MonoBehaviour
     bool oneTime = true;
     private string levelType = "wave";
     public UnityEngine.UI.Text countdown;
-    
+
+    private int currentWave = 0;
+
+    private List<ShipDefinitions.ShipEntity> playerShips;
+    private List<List<ShipDefinitions.ShipEntity>> enemyWaves;
+
+    private LevelDefinitions.Level currentLevel;
+
     // Use this for initialization
     void Start()
     {
-        /*
-        levelType = PlayerPrefs.GetString("CombatLevelType");
-
-        if(levelType == "setEnemies")
-        {
-
-        }
-        */
-
         string levelId = PlayerPrefs.GetString("TSSE[Level][Current]");
 
-        LevelDefinitions.Level currentLevel = LevelDefinitions.loadLevel(levelId);
+        currentLevel = LevelDefinitions.loadLevel(levelId);
+
+        playerShips = new List<ShipDefinitions.ShipEntity>();
+        enemyWaves = new List<List<ShipDefinitions.ShipEntity>>();
 
         foreach(ShipDefinitions.ShipEntity entity in currentLevel.ships)
         {
             if(entity.shipType != ShipDefinitions.ShipType.None)
             {
-                string spawningToken = "";
-                if(currentLevel.shipSpawningTokens.ContainsKey(entity.uniqueId))
+                if (entity.faction == ShipDefinitions.Faction.Player ||
+                    entity.faction == ShipDefinitions.Faction.PlayerAffil)
                 {
-                    spawningToken = currentLevel.shipSpawningTokens[entity.uniqueId];
+                    playerShips.Add(entity);
                 }
-                spawnShip(getSpawnPosition(spawningToken), entity);
+                else
+                {
+                    string spawningToken = "";
+                    int waveNum = 0;
+                    //string spawnPos = "spawn:0:0";
+                    if (currentLevel.shipSpawningTokens.ContainsKey(entity.uniqueId))
+                    {
+                        spawningToken = currentLevel.shipSpawningTokens[entity.uniqueId];
+
+                        string[] tokens = spawningToken.Split('#');
+                        foreach(string token in tokens)
+                        {
+                            print("3: " + entity.uniqueId);
+                            print("3: " + token);
+                            if (token.Contains("wave"))
+                            {
+                                waveNum = int.Parse(token.Substring(token.Length-1,1));
+                            }
+                            /*
+                            if(token.Contains("spawn"))
+                            {
+                                spawnPos = token;
+                            }
+                            */
+                        }
+
+                        if(enemyWaves.ToArray().GetLength(0) <= waveNum)
+                        {
+                            print(waveNum);
+                            print(enemyWaves.ToArray().GetLength(0));
+                            enemyWaves.Add(new List<ShipDefinitions.ShipEntity>());
+                        }
+
+                        enemyWaves[waveNum].Add(entity);
+                    }
+                    else
+                    {
+                        // if we have no token for this ship, just spawn it immediately
+                        // better we see effects immediately instead of failing silently
+                        spawnShip(getSpawnPosition(spawningToken), entity);
+                    }
+                }
             }
         }
 
-        print("printing dict");
-        foreach(string key in currentLevel.shipSpawningTokens.Keys)
+        spawnPlayers();
+        //spawnWave(0);
+    }
+
+    void spawnPlayers()
+    {
+        foreach(ShipDefinitions.ShipEntity entity in playerShips)
         {
-            print("obtained dict entry key:" + key + " val:" + currentLevel.shipSpawningTokens[key]);
+            spawnShip(getSpawnPosition(currentLevel.shipSpawningTokens[entity.uniqueId]), entity);
+        }
+    }
+
+    Vector2 spawnTokenToPos(string token)
+    {
+        Vector2 pos = new Vector2(0, 0);
+
+        pos.x = int.Parse(token.Split(':')[1]);
+        pos.y = int.Parse(token.Split(':')[2]);
+
+        return pos;
+    }
+
+    void spawnWave(int waveNum)
+    {
+        if(waveNum >= enemyWaves.ToArray().Length)
+        {
+            SceneManager.LoadScene(0);
+            return;
+        }
+        List<ShipDefinitions.ShipEntity> waveX = enemyWaves.ToArray()[waveNum];
+
+        foreach(ShipDefinitions.ShipEntity entity in waveX)
+        {
+            spawnShip(getSpawnPosition(currentLevel.shipSpawningTokens[entity.uniqueId]), entity);
         }
     }
 
     void Update()
     {
-        if(oneTime)
-        {
-            // first update, spawn player ships
-            //spawnLoadout();
-            //oneTime = false;
-        }
         countdown.text = (cooldownMax - cooldown).ToString();
 
         // Don't increment wave timer if paused
@@ -109,48 +176,17 @@ public class ShipSpawner : MonoBehaviour
                     numGoodies++;
                 }
             }
-            /*
-            if (levelType == "wave")
-            {
-                if (numEnemies < MAXENEMIES)
-                {
-                    // spawn some enemies, but only if we don't already have a lot
-                    for (int i = 0; i <= UnityEngine.Random.Range(0, WAVEENEMIES); i++)
-                    {
-                        Vector3 spawnPoint;
-                        Vector3 spawnRand = 8 * UnityEngine.Random.insideUnitSphere;
-                        spawnPoint = Vector3.zero;
-                        Vector3 temp = new Vector3(0, Camera.main.pixelHeight / 2);
-                        spawnPoint.y = Camera.main.ScreenToWorldPoint(temp).y;
-                        spawnRand.z = 0;
-                        float z = UnityEngine.Random.Range(0, 8);
-                        if (z <= 7.5)
-                        {
-                            temp = new Vector3(Camera.main.pixelWidth / 4, 0, Camera.main.nearClipPlane);
-                            spawnPoint.x = Camera.main.ScreenToWorldPoint(temp).x;
-                        }
-                        else
-                        {
-                            temp = new Vector3(3 * Camera.main.pixelWidth / 4, Camera.main.nearClipPlane);
-                            spawnPoint.x = Camera.main.ScreenToWorldPoint(temp).x;
-                        }
 
-                        if (z <= 2)
-                            spawnFireShip(spawnPoint + spawnRand, ShipDefinitions.Faction.Enemy);
-                        else if (z > 2 && z <= 4)
-                            spawnCrownShip(spawnPoint + spawnRand, ShipDefinitions.Faction.Enemy);
-                        else if (z > 4 && z <= 6)
-                            spawnMissileShip(spawnPoint + spawnRand, ShipDefinitions.Faction.Enemy);
-                        else if (z > 6 && z <= 8)
-                            spawnLaserShip(spawnPoint + spawnRand, ShipDefinitions.Faction.Enemy);
-                    }
-                }
-            }
-            */
             // all our players are dead, game over
-            if (numGoodies == 0)
+            if(numGoodies == 0)
             {
                 UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+            }
+
+            if(numEnemies == 0)
+            {
+                spawnWave(currentWave);
+                currentWave++;
             }
             cooldown = 0;
         }
@@ -245,22 +281,12 @@ public class ShipSpawner : MonoBehaviour
     // equip this ship with a lvl 1 engine
     void equipEngineLvl1(GameObject ship)
     {
-        /*
-        GameObject engine = GameObject.Find("GameLogic")
-                .GetComponent<PrefabHost>().getEngineLvl1Object();
-        engine.transform.parent = ship.transform;
-        */
         ship.GetComponent<MainShip>().setEngineType(ShipDefinitions.EngineType.Engine1);
     }
 
     // equip this ship with a lvl 2 engine
     void equipEngineLvl2(GameObject ship)
     {
-        /*
-        GameObject engine = GameObject.Find("GameLogic")
-                .GetComponent<PrefabHost>().getEngineLvl2Object();
-        engine.transform.parent = ship.transform;
-        */
         ship.GetComponent<MainShip>().setEngineType(ShipDefinitions.EngineType.Engine2);
     }
 

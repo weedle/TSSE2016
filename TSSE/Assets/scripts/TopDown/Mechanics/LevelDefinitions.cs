@@ -25,6 +25,7 @@ public class LevelDefinitions {
         string dictEncoded = "";
         foreach(string key in level.shipSpawningTokens.Keys)
         {
+            GameObject.Find("GameLogic").GetComponent<GameEventHandler>().printThing(level.shipSpawningTokens[key]);
             dictEncoded = dictEncoded + key + ":" + level.shipSpawningTokens[key] + "#";
         }
 

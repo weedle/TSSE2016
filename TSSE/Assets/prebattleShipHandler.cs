@@ -14,8 +14,13 @@ public class prebattleShipHandler : MonoBehaviour
     public Sprite ship1Sprite;
     public Sprite ship2Sprite;
 
+    public Color dark = new Color(28f / 255, 29f / 255, 33f / 255);
+    public Color highlighted = new Color(251f / 255, 196f / 255, 97f / 255);
+
     // this is the ship slot we are currently equipping things on
     public int selectedShip = 0;
+
+    public ItemListHandler imgStore;
 
     // total cost of all equipped items so far
     private int cost;
@@ -85,7 +90,7 @@ public class prebattleShipHandler : MonoBehaviour
                 break;
         }
         UnityEngine.UI.ColorBlock blk = ship.GetComponent<UnityEngine.UI.Button>().colors;
-        blk.normalColor = new Color(28f/255, 29f / 255, 33f / 255);
+        blk.normalColor = dark;
         ship.GetComponent<UnityEngine.UI.Button>().colors = blk;
 
         selectedShip = int.Parse(button.name.Substring(button.name.Length - 1, 1));
@@ -113,7 +118,67 @@ public class prebattleShipHandler : MonoBehaviour
                 break;
         }
         UnityEngine.UI.ColorBlock blkActive = ship.GetComponent<UnityEngine.UI.Button>().colors;
-        blkActive.normalColor = new Color(251f / 255, 196f / 255, 97f / 255);
+        blkActive.normalColor = highlighted;
         ship.GetComponent<UnityEngine.UI.Button>().colors = blkActive;
+
+        setImage(new ItemDefinitions.Item(ItemDefinitions.ItemType.CrownModRange, 2), 0);
+    }
+
+    public void setImage(ItemDefinitions.Item item, int index)
+    {
+        Sprite sprite = imgStore.getImage(item);
+        GameObject ship = null;
+        switch (selectedShip)
+        {
+            case 0:
+                ship = ship1;
+                break;
+            case 1:
+                ship = ship2;
+                break;
+            case 2:
+                ship = ship3;
+                break;
+            case 3:
+                ship = ship4;
+                break;
+            case 4:
+                ship = ship5;
+                break;
+            case 5:
+                ship = ship6;
+                break;
+        }
+        print(sprite.name);
+        ship.transform.GetChild(index + 1).GetComponent<UnityEngine.UI.Image>().sprite = sprite;
+        ship.transform.GetChild(index + 1).GetComponent<UnityEngine.UI.Image>().color = Color.white;
+    }
+
+    public void unsetImage(int index)
+    {
+        GameObject ship = null;
+        switch (selectedShip)
+        {
+            case 0:
+                ship = ship1;
+                break;
+            case 1:
+                ship = ship2;
+                break;
+            case 2:
+                ship = ship3;
+                break;
+            case 3:
+                ship = ship4;
+                break;
+            case 4:
+                ship = ship5;
+                break;
+            case 5:
+                ship = ship6;
+                break;
+        }
+        ship.transform.GetChild(index + 1).GetComponent<UnityEngine.UI.Image>().sprite = null;
+        ship.transform.GetChild(index + 1).GetComponent<UnityEngine.UI.Image>().color = dark;
     }
 }

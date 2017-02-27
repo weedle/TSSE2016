@@ -35,7 +35,24 @@ public class ItemListHandler : MonoBehaviour {
             img = imgObj.GetComponent<UnityEngine.UI.Image>();
         if (img != null)
         {
-            if (item.type == ItemDefinitions.ItemType.FlameModAmmoCap ||
+            img.sprite = getImage(item);
+        }
+        GameObject panel1 = GameObject.Find("panelText01");
+        if(panel1 != null)
+            panel1.GetComponent<UnityEngine.UI.Text>()
+            .text = ItemDefinitions.getDesc(item);
+        GameObject panel2 = GameObject.Find("panelText02");
+        if (panel2 != null)
+            panel2.GetComponent<UnityEngine.UI.Text>()
+            .text = ItemDefinitions.getSpec(item);
+        selectedItem = obj;
+
+    }
+
+    public Sprite getImage(ItemDefinitions.Item item)
+    {
+        Sprite img = defaultSprite;
+        if (item.type == ItemDefinitions.ItemType.FlameModAmmoCap ||
                 item.type == ItemDefinitions.ItemType.FlameModDamage ||
                 item.type == ItemDefinitions.ItemType.FlameModFireRate ||
                 item.type == ItemDefinitions.ItemType.FlameModRange ||
@@ -47,92 +64,83 @@ public class ItemListHandler : MonoBehaviour {
                 item.type == ItemDefinitions.ItemType.FlameModRechargeRate ||
                 item.type == ItemDefinitions.ItemType.FlameModSpeed ||
                 item.type == ItemDefinitions.ItemType.FlameModSpread)
+        {
+            switch (item.tier)
             {
-                switch (item.tier)
-                {
-                    case 1:
-                        img.sprite = fireSpriteLvl1;
-                        break;
-                    case 2:
-                        img.sprite = fireSpriteLvl2;
-                        break;
-                    case 3:
-                        img.sprite = fireSpriteLvl3;
-                        break;
-                }
-            }
-            else if (item.type == ItemDefinitions.ItemType.LaserModAmmoCap ||
-                item.type == ItemDefinitions.ItemType.LaserModDamage ||
-                item.type == ItemDefinitions.ItemType.LaserModFireRate ||
-                item.type == ItemDefinitions.ItemType.LaserModRange ||
-                item.type == ItemDefinitions.ItemType.LaserModRechargeRate ||
-                item.type == ItemDefinitions.ItemType.LaserModSpeed)
-            {
-                switch (item.tier)
-                {
-                    case 1:
-                        img.sprite = laserSpriteLvl1;
-                        break;
-                    case 2:
-                        img.sprite = laserSpriteLvl2;
-                        break;
-                    case 3:
-                        img.sprite = laserSpriteLvl3;
-                        break;
-                }
-            }
-            else if (item.type == ItemDefinitions.ItemType.CrownModAmmoCap ||
-                item.type == ItemDefinitions.ItemType.CrownModDamage ||
-                item.type == ItemDefinitions.ItemType.CrownModRange ||
-                item.type == ItemDefinitions.ItemType.CrownModRechargeRate)
-            {
-                switch (item.tier)
-                {
-                    case 1:
-                        img.sprite = crownSpriteLvl1;
-                        break;
-                    case 2:
-                        img.sprite = crownSpriteLvl2;
-                        break;
-                    case 3:
-                        img.sprite = crownSpriteLvl3;
-                        break;
-                }
-            }
-            else if (item.type == ItemDefinitions.ItemType.MissileModAmmoCap ||
-                item.type == ItemDefinitions.ItemType.MissileModDamage ||
-                item.type == ItemDefinitions.ItemType.MissileModFireRate ||
-                item.type == ItemDefinitions.ItemType.MissileModRange ||
-                item.type == ItemDefinitions.ItemType.MissileModRechargeRate ||
-                item.type == ItemDefinitions.ItemType.MissileModSpeed)
-            {
-                switch (item.tier)
-                {
-                    case 1:
-                        img.sprite = missileSpriteLvl1;
-                        break;
-                    case 2:
-                        img.sprite = missileSpriteLvl2;
-                        break;
-                    case 3:
-                        img.sprite = missileSpriteLvl3;
-                        break;
-                }
-            }
-            else
-            {
-                img.sprite = defaultSprite;
+                case 1:
+                    img = fireSpriteLvl1;
+                    break;
+                case 2:
+                    img = fireSpriteLvl2;
+                    break;
+                case 3:
+                    img = fireSpriteLvl3;
+                    break;
             }
         }
-        GameObject panel1 = GameObject.Find("panelText01");
-        if(panel1 != null)
-            panel1.GetComponent<UnityEngine.UI.Text>()
-            .text = ItemDefinitions.getDesc(item);
-        GameObject panel2 = GameObject.Find("panelText02");
-        if (panel2 != null)
-            panel2.GetComponent<UnityEngine.UI.Text>()
-            .text = ItemDefinitions.getSpec(item);
-        selectedItem = obj;
+        else if (item.type == ItemDefinitions.ItemType.LaserModAmmoCap ||
+            item.type == ItemDefinitions.ItemType.LaserModDamage ||
+            item.type == ItemDefinitions.ItemType.LaserModFireRate ||
+            item.type == ItemDefinitions.ItemType.LaserModRange ||
+            item.type == ItemDefinitions.ItemType.LaserModRechargeRate ||
+            item.type == ItemDefinitions.ItemType.LaserModSpeed)
+        {
+            switch (item.tier)
+            {
+                case 1:
+                    img = laserSpriteLvl1;
+                    break;
+                case 2:
+                    img = laserSpriteLvl2;
+                    break;
+                case 3:
+                    img = laserSpriteLvl3;
+                    break;
+            }
+        }
+        else if (item.type == ItemDefinitions.ItemType.CrownModAmmoCap ||
+            item.type == ItemDefinitions.ItemType.CrownModDamage ||
+            item.type == ItemDefinitions.ItemType.CrownModRange ||
+            item.type == ItemDefinitions.ItemType.CrownModRechargeRate)
+        {
+            switch (item.tier)
+            {
+                case 1:
+                    img = crownSpriteLvl1;
+                    break;
+                case 2:
+                    img = crownSpriteLvl2;
+                    break;
+                case 3:
+                    img = crownSpriteLvl3;
+                    break;
+            }
+        }
+        else if (item.type == ItemDefinitions.ItemType.MissileModAmmoCap ||
+            item.type == ItemDefinitions.ItemType.MissileModDamage ||
+            item.type == ItemDefinitions.ItemType.MissileModFireRate ||
+            item.type == ItemDefinitions.ItemType.MissileModRange ||
+            item.type == ItemDefinitions.ItemType.MissileModRechargeRate ||
+            item.type == ItemDefinitions.ItemType.MissileModSpeed)
+        {
+            switch (item.tier)
+            {
+                case 1:
+                    img = missileSpriteLvl1;
+                    break;
+                case 2:
+                    img = missileSpriteLvl2;
+                    break;
+                case 3:
+                    img = missileSpriteLvl3;
+                    break;
+            }
+        }
+        else
+        {
+            img = defaultSprite;
+        }
+        return img;
     }
     
     // add the item
