@@ -1,17 +1,18 @@
 <DialogueCollection name="Motus">
-	<Dialogues>
-		<Dialogue
-			level = "0"
-			
-			DialogueRegular = "Why hello there! My name is Motus the wizard! I can cast magic spells and enchantments to weave chaos and order throughout the fabric of the universe. I then use the ensuing effects to create small magical stones that I sell for a pittance to power your laser beams. This is my life now. Selling magical rocks for pennies. Great wizard Motus."
+	<Dialogues level="0">
 
-			DialogueYes = ""
+		<Dialogue>
+			<regular>
+				Why hello there! My name is Motus the Wizard! I can cast magic spells and enchantments to weave chaos and order
+				throughout the fabric of the universe. I then use the ensuing effects to create small magical stones that I sell
+				for a pittance to power your laser beams. This is my life now. Selling magical rocks for pennies. Great wizard Motus.
+			</regular>
 
-			DialogueNo = ""
-			
-			CallbackType = "0"
-			
-			Callback = "">>
+			<yes></yes>
+			<no></no>
+
+			<callback type="0" cb=""/>
 		</Dialogue>
+
 	</Dialogues>
 </DialogueCollection>
