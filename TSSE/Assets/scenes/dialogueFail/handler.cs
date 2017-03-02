@@ -12,7 +12,7 @@ public class handler : MonoBehaviour {
     private float currSpeed = 0.8f;
     private int lineLength = 60;
     private int whichLine = 1; 
-    private int linesMax = 4;
+    private int linesMax = 3;
     private int currCallbackType = 0;
     private int currentTrack = 0; // reg=1, yes=2, no=3, 
     private string assignment = ""; // the text we are currently displaying in the box
@@ -209,7 +209,8 @@ public class handler : MonoBehaviour {
         linePos = 0;
     }
 
-    Character chrNext = new CutterTheMerchant();
+    //Character chrNext = new CutterTheMerchant();
+    //Character chrNext = new Character("CutterTheMerchant", 0);
     public void nextButton()
     {
         speedUp();

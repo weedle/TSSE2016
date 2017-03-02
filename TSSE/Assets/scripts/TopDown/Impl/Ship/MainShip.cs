@@ -81,7 +81,6 @@ public class MainShip : MonoBehaviour, ShipIntf
 
         foreach(ItemDefinitions.Item item in inventory)
         {
-            print("applying item: " + ItemDefinitions.itemToString(item));
             GetComponent<FiringModule>().applyBuff(item);
         }
 
