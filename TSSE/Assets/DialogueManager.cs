@@ -69,7 +69,6 @@ public class DialogueManager : MonoBehaviour {
 
     public void toggleAllComps(bool toggle)
     {
-        print("toggled: " + toggle);
         textbox.SetActive(toggle);
         nameBox.SetActive(toggle);
         noButton.SetActive(toggle);

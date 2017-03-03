@@ -7,19 +7,7 @@ public class ItemListHandler : MonoBehaviour {
     // whichever item we selected, probably by clicking it
     public GameObject selectedItem = null;
     public string mode = "merchant";
-    public Sprite defaultSprite;
-    public Sprite fireSpriteLvl1;
-    public Sprite fireSpriteLvl2;
-    public Sprite fireSpriteLvl3;
-    public Sprite laserSpriteLvl1;
-    public Sprite laserSpriteLvl2;
-    public Sprite laserSpriteLvl3;
-    public Sprite crownSpriteLvl1;
-    public Sprite crownSpriteLvl2;
-    public Sprite crownSpriteLvl3;
-    public Sprite missileSpriteLvl1;
-    public Sprite missileSpriteLvl2;
-    public Sprite missileSpriteLvl3;
+    private ImageHost imgHost;
 
     // if an item is selected, keep track of it
     public void itemSelected(GameObject obj)
@@ -51,7 +39,8 @@ public class ItemListHandler : MonoBehaviour {
 
     public Sprite getImage(ItemDefinitions.Item item)
     {
-        Sprite img = defaultSprite;
+        imgHost = GameObject.Find("GameLogic").GetComponent<ImageHost>();
+        Sprite img = imgHost.defaultSprite;
         if (item.type == ItemDefinitions.ItemType.FlameModAmmoCap ||
                 item.type == ItemDefinitions.ItemType.FlameModDamage ||
                 item.type == ItemDefinitions.ItemType.FlameModFireRate ||
@@ -68,13 +57,22 @@ public class ItemListHandler : MonoBehaviour {
             switch (item.tier)
             {
                 case 1:
-                    img = fireSpriteLvl1;
+                    img = imgHost.fireSpriteLvl1;
                     break;
                 case 2:
-                    img = fireSpriteLvl2;
+                    img = imgHost.fireSpriteLvl2;
                     break;
                 case 3:
-                    img = fireSpriteLvl3;
+                    img = imgHost.fireSpriteLvl3;
+                    break;
+                case 4:
+                    img = imgHost.blueprintFireSpriteLvl1;
+                    break;
+                case 5:
+                    img = imgHost.blueprintFireSpriteLvl2;
+                    break;
+                case 6:
+                    img = imgHost.blueprintFireSpriteLvl3;
                     break;
             }
         }
@@ -88,13 +86,22 @@ public class ItemListHandler : MonoBehaviour {
             switch (item.tier)
             {
                 case 1:
-                    img = laserSpriteLvl1;
+                    img = imgHost.laserSpriteLvl1;
                     break;
                 case 2:
-                    img = laserSpriteLvl2;
+                    img = imgHost.laserSpriteLvl2;
                     break;
                 case 3:
-                    img = laserSpriteLvl3;
+                    img = imgHost.laserSpriteLvl3;
+                    break;
+                case 4:
+                    img = imgHost.blueprintLaserSpriteLvl1;
+                    break;
+                case 5:
+                    img = imgHost.blueprintLaserSpriteLvl2;
+                    break;
+                case 6:
+                    img = imgHost.blueprintLaserSpriteLvl3;
                     break;
             }
         }
@@ -106,13 +113,22 @@ public class ItemListHandler : MonoBehaviour {
             switch (item.tier)
             {
                 case 1:
-                    img = crownSpriteLvl1;
+                    img = imgHost.crownSpriteLvl1;
                     break;
                 case 2:
-                    img = crownSpriteLvl2;
+                    img = imgHost.crownSpriteLvl2;
                     break;
                 case 3:
-                    img = crownSpriteLvl3;
+                    img = imgHost.crownSpriteLvl3;
+                    break;
+                case 4:
+                    img = imgHost.blueprintCrownSpriteLvl1;
+                    break;
+                case 5:
+                    img = imgHost.blueprintCrownSpriteLvl2;
+                    break;
+                case 6:
+                    img = imgHost.blueprintCrownSpriteLvl3;
                     break;
             }
         }
@@ -126,19 +142,28 @@ public class ItemListHandler : MonoBehaviour {
             switch (item.tier)
             {
                 case 1:
-                    img = missileSpriteLvl1;
+                    img = imgHost.missileSpriteLvl1;
                     break;
                 case 2:
-                    img = missileSpriteLvl2;
+                    img = imgHost.missileSpriteLvl2;
                     break;
                 case 3:
-                    img = missileSpriteLvl3;
+                    img = imgHost.missileSpriteLvl3;
+                    break;
+                case 4:
+                    img = imgHost.blueprintMissileSpriteLvl1;
+                    break;
+                case 5:
+                    img = imgHost.blueprintMissileSpriteLvl2;
+                    break;
+                case 6:
+                    img = imgHost.blueprintMissileSpriteLvl3;
                     break;
             }
         }
         else
         {
-            img = defaultSprite;
+            img = imgHost.defaultSprite;
         }
         return img;
     }

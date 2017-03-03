@@ -90,6 +90,11 @@ public class merchantBuySellButtonScript : MonoBehaviour {
             playerInventory.addCurrency(-cost);
             merchantItemList.removeItem(item);
             playerItemList.addItem(item);
+            if (item.tier > 3)
+            {
+                BlueprintDefinitions.applyBlueprint(item);
+                print("applying blueprint " + ItemDefinitions.itemToString(item));
+            }
         }
         else
         {
@@ -98,6 +103,11 @@ public class merchantBuySellButtonScript : MonoBehaviour {
             playerInventory.addCurrency(cost);
             playerItemList.removeItem(item);
             merchantItemList.addItem(item);
+            if (item.tier > 3)
+            {
+                BlueprintDefinitions.deapplyBlueprint(item);
+                print("deapplying blueprint " + ItemDefinitions.itemToString(item));
+            }
         }
     }
 }

@@ -44,6 +44,7 @@ public class Inventory : MonoBehaviour {
             addItem(new ItemDefinitions.Item(ItemDefinitions.ItemType.LaserModSpeed, 2));
             addItem(new ItemDefinitions.Item(ItemDefinitions.ItemType.LaserModFireRate, 3));
             addItem(new ItemDefinitions.Item(ItemDefinitions.ItemType.FlameModDamage, 1));
+            addItem(new ItemDefinitions.Item(ItemDefinitions.ItemType.FlameModDamage, 4));
         }
         updateCurrency();
     }

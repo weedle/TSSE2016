@@ -129,16 +129,27 @@ public class ItemDefinitions {
                 retStr = "Increases maximum distance between ship and target to fire";
                 break;
         }
+        if (item.tier > 3)
+        {
+            retStr = "BLUEPRINT:\n" + retStr;
+        }
         return retStr;
     }
 
     public static string getSpec(Item item)
     {
         string retStr = "";
+        string prefix = "";
+        int x = item.tier;
+        if(item.tier > 3)
+        {
+            prefix = "BLUEPRINT:\n";
+            x -= 3;
+        }
         switch (item.type)
         {
             case ItemType.FlameModDamage:
-                switch (item.tier)
+                switch (x)
                 {
                     case 1:
                         retStr = "damage/projectile\n1 -> 1.25";
@@ -152,7 +163,7 @@ public class ItemDefinitions {
                 }
                 break;
             case ItemType.FlameModFireRate:
-                switch (item.tier)
+                switch (x)
                 {
                     case 1:
                         retStr = "#projectiles\n2 -> 3";
@@ -166,7 +177,7 @@ public class ItemDefinitions {
                 }
                 break;
             case ItemType.FlameModSpread:
-                switch (item.tier)
+                switch (x)
                 {
                     case 1:
                         retStr = "spread\n0.03 -> 0.05";
@@ -180,7 +191,7 @@ public class ItemDefinitions {
                 }
                 break;
             case ItemType.FlameModAmmoCap:
-                switch (item.tier)
+                switch (x)
                 {
                     case 1:
                         retStr = "clip size\n15 -> 20";
@@ -194,7 +205,7 @@ public class ItemDefinitions {
                 }
                 break;
             case ItemType.FlameModRechargeRate:
-                switch (item.tier)
+                switch (x)
                 {
                     case 1:
                         retStr = "recharge delay\n2 -> 1.75";
@@ -208,7 +219,7 @@ public class ItemDefinitions {
                 }
                 break;
             case ItemType.FlameModSpeed:
-                switch (item.tier)
+                switch (x)
                 {
                     case 1:
                         retStr = "recharge rate\n0.25 -> 0.30";
@@ -222,7 +233,7 @@ public class ItemDefinitions {
                 }
                 break;
             case ItemType.FlameModRange:
-                switch (item.tier)
+                switch (x)
                 {
                     case 1:
                         retStr = "projectile lifetime\n15 -> 20";
@@ -236,7 +247,7 @@ public class ItemDefinitions {
                 }
                 break;
             case ItemType.LaserModDamage:
-                switch (item.tier)
+                switch (x)
                 {
                     case 1:
                         retStr = "damage/shot\n12 -> 14";
@@ -250,7 +261,7 @@ public class ItemDefinitions {
                 }
                 break;
             case ItemType.LaserModFireRate:
-                switch (item.tier)
+                switch (x)
                 {
                     case 1:
                         retStr = "fire delay\n0.4 -> 0.3";
@@ -264,7 +275,7 @@ public class ItemDefinitions {
                 }
                 break;
             case ItemType.LaserModSpeed:
-                switch (item.tier)
+                switch (x)
                 {
                     case 1:
                         retStr = "proj speed\n40 -> 50";
@@ -278,7 +289,7 @@ public class ItemDefinitions {
                 }
                 break;
             case ItemType.LaserModAmmoCap:
-                switch (item.tier)
+                switch (x)
                 {
                     case 1:
                         retStr = "clip size\n4 -> 6";
@@ -292,7 +303,7 @@ public class ItemDefinitions {
                 }
                 break;
             case ItemType.LaserModRechargeRate:
-                switch (item.tier)
+                switch (x)
                 {
                     case 1:
                         retStr = "recharge delay\n2 -> 1.5";
@@ -306,7 +317,7 @@ public class ItemDefinitions {
                 }
                 break;
             case ItemType.LaserModRange:
-                switch (item.tier)
+                switch (x)
                 {
                     case 1:
                         retStr = "projectile lifetime\n25 -> 30";
@@ -321,7 +332,7 @@ public class ItemDefinitions {
                 }
                 break;
             case ItemType.MissileModDamage:
-                switch (item.tier)
+                switch (x)
                 {
                     case 1:
                         retStr = "damage/shot\n20 -> 30";
@@ -335,7 +346,7 @@ public class ItemDefinitions {
                 }
                 break;
             case ItemType.MissileModFireRate:
-                switch (item.tier)
+                switch (x)
                 {
                     case 1:
                         retStr = "fire delay\n1 -> 0.75";
@@ -349,7 +360,7 @@ public class ItemDefinitions {
                 }
                 break;
             case ItemType.MissileModAmmoCap:
-                switch (item.tier)
+                switch (x)
                 {
                     case 1:
                         retStr = "clip size\n2 -> 3";
@@ -363,7 +374,7 @@ public class ItemDefinitions {
                 }
                 break;
             case ItemType.MissileModRechargeRate:
-                switch (item.tier)
+                switch (x)
                 {
                     case 1:
                         retStr = "recharge delay\n3 -> 2.5";
@@ -377,7 +388,7 @@ public class ItemDefinitions {
                 }
                 break;
             case ItemType.MissileModSpeed:
-                switch (item.tier)
+                switch (x)
                 {
                     case 1:
                         retStr = "projectile speed\n3 -> 4";
@@ -391,7 +402,7 @@ public class ItemDefinitions {
                 }
                 break;
             case ItemType.MissileModRange:
-                switch (item.tier)
+                switch (x)
                 {
                     case 1:
                         retStr = "projectile lifetime\n25 -> 35";
@@ -405,7 +416,7 @@ public class ItemDefinitions {
                 }
                 break;
             case ItemType.CrownModDamage:
-                switch (item.tier)
+                switch (x)
                 {
                     case 1:
                         retStr = "damage/shot\n2 -> 3";
@@ -419,7 +430,7 @@ public class ItemDefinitions {
                 }
                 break;
             case ItemType.CrownModAmmoCap:
-                switch (item.tier)
+                switch (x)
                 {
                     case 1:
                         retStr = "clip size\n15 -> 20";
@@ -433,7 +444,7 @@ public class ItemDefinitions {
                 }
                 break;
             case ItemType.CrownModRechargeRate:
-                switch (item.tier)
+                switch (x)
                 {
                     case 1:
                         retStr = "recharge delay\n3 -> 2.5";
@@ -451,7 +462,7 @@ public class ItemDefinitions {
                 // range is 2.5 with tier 1 upgrade
                 // range is 3 with tier 2 upgrade
                 // range is 4 with tier 3 upgrade
-                switch (item.tier)
+                switch (x)
                 {
                     case 1:
                         retStr = "range\n2 -> 2.5";
@@ -465,6 +476,7 @@ public class ItemDefinitions {
                 }
                 break;
         }
+        retStr = prefix + retStr;
         return retStr;
     }
 

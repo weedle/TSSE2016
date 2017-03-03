@@ -21,10 +21,10 @@ public class GameEventHandler : MonoBehaviour {
                 }
                 dialogue(full[1]);
                 break;
-            case "loadScene":
+            case "scene":
                 if (full.Length != 2)
                 {
-                    print("ERROR: loadScene called but no scene given!");
+                    print("ERROR: scene called but no scene given!");
                     return;
                 }
                 loadScene(full[1]);
@@ -40,7 +40,7 @@ public class GameEventHandler : MonoBehaviour {
     private void loadScene(string scene)
     {
         print("loading scene: " + scene);
-        //SceneManager.LoadScene(scene, LoadSceneMode.Additive);
+        SceneManager.LoadScene(scene, LoadSceneMode.Single);
     }
 
     private void dialogue(string character)
@@ -63,5 +63,11 @@ public class GameEventHandler : MonoBehaviour {
     public void printThing(string thing)
     {
         print(thing);
+    }
+
+    public void merchant(string merchantId)
+    {
+        PlayerPrefs.SetString("TSSE[Level][Merchant]", merchantId);
+        SceneManager.LoadScene("scenes/Menu/Merchant/Scenes/menu", LoadSceneMode.Single);
     }
 }
