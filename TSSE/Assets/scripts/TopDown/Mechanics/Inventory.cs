@@ -28,23 +28,12 @@ public class Inventory : MonoBehaviour {
 
     void Start()
     {
-        if (inventoryType == "Player")
+        List<ItemDefinitions.Item> items = ItemDefinitions.stringToItems(
+            ItemDefinitions.loadItems(uniqueId));
+
+        foreach(ItemDefinitions.Item item in items)
         {
-            addItem(new ItemDefinitions.Item(ItemDefinitions.ItemType.FlameModDamage, 3));
-            addItem(new ItemDefinitions.Item(ItemDefinitions.ItemType.FlameModSpread, 1));
-            addItem(new ItemDefinitions.Item(ItemDefinitions.ItemType.FlameModFireRate, 2));
-            addItem(new ItemDefinitions.Item(ItemDefinitions.ItemType.FlameModDamage, 1));
-        }
-        if (inventoryType == "Merchant")
-        {
-            addItem(new ItemDefinitions.Item(ItemDefinitions.ItemType.LaserModDamage, 1));
-            addItem(new ItemDefinitions.Item(ItemDefinitions.ItemType.LaserModSpeed, 1));
-            addItem(new ItemDefinitions.Item(ItemDefinitions.ItemType.LaserModFireRate, 2));
-            addItem(new ItemDefinitions.Item(ItemDefinitions.ItemType.LaserModDamage, 1));
-            addItem(new ItemDefinitions.Item(ItemDefinitions.ItemType.LaserModSpeed, 2));
-            addItem(new ItemDefinitions.Item(ItemDefinitions.ItemType.LaserModFireRate, 3));
-            addItem(new ItemDefinitions.Item(ItemDefinitions.ItemType.FlameModDamage, 1));
-            addItem(new ItemDefinitions.Item(ItemDefinitions.ItemType.FlameModDamage, 4));
+            addItem(item);
         }
         updateCurrency();
     }

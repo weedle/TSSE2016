@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 // This is the cool scrolling itemview thing Jenne made
 public class ItemListHandler : MonoBehaviour {
@@ -264,5 +265,25 @@ public class ItemListHandler : MonoBehaviour {
         {
             GameObject.Destroy(transform.GetChild(0).GetChild(i).gameObject);
         }
+    }
+
+    public List<ItemDefinitions.Item> getAllItems()
+    {
+        List<ItemDefinitions.Item> retItems = new List<ItemDefinitions.Item>();
+
+        for (int i = 0; i < transform.GetChild(0).childCount; i++)
+        {
+            UnityEngine.UI.Text indexItem = transform.GetChild(0).GetChild(i).GetChild(0).
+                GetComponent<UnityEngine.UI.Text>();
+            string labelItemText = indexItem.text.Substring(0, indexItem.text.Length - 4);
+            int numItems = int.Parse(indexItem.text.Substring(indexItem.text.Length - 2, 1));
+            ItemDefinitions.Item item = ItemDefinitions.stringToItem(labelItemText);
+            for (int j = 0; j < numItems; j++)
+            {
+                retItems.Add(item);
+            }
+        }
+
+        return retItems;
     }
 }

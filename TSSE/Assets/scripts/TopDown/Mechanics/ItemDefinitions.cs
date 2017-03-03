@@ -128,6 +128,9 @@ public class ItemDefinitions {
             case ItemType.CrownModRange:
                 retStr = "Increases maximum distance between ship and target to fire";
                 break;
+            case ItemType.Error:
+                retStr = "Error: unspecified item, probably Kevin's fault, man, that guy";
+                break;
         }
         if (item.tier > 3)
         {
@@ -475,6 +478,9 @@ public class ItemDefinitions {
                         break;
                 }
                 break;
+            case ItemType.Error:
+                retStr = "(╯°□°）╯︵ ┻━┻";
+                break;
         }
         retStr = prefix + retStr;
         return retStr;
@@ -587,7 +593,7 @@ public class ItemDefinitions {
     // load a string of items from PlayerPrefs
     public static string loadItems(string uniqueId)
     {
-        return PlayerPrefs.GetString("TSSEList[Item][" + uniqueId + "]");
+        return PlayerPrefs.GetString("TSSEList[Item][" + uniqueId + "]").TrimStart('#');
     }
 
     // This is how we get the price value when buying or selling something

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 // This handles the UI for the merchant scene
 public class merchantBuySellButtonScript : MonoBehaviour {
@@ -109,5 +110,19 @@ public class merchantBuySellButtonScript : MonoBehaviour {
                 print("deapplying blueprint " + ItemDefinitions.itemToString(item));
             }
         }
+    }
+
+    public void exit()
+    {
+        List<ItemDefinitions.Item> playerInventory = new List<ItemDefinitions.Item>();
+        playerInventory.Add(new ItemDefinitions.Item(ItemDefinitions.ItemType.FlameModAmmoCap, 1));
+        playerInventory.Add(new ItemDefinitions.Item(ItemDefinitions.ItemType.CrownModDamage, 3));
+        playerInventory.Add(new ItemDefinitions.Item(ItemDefinitions.ItemType.LaserModAmmoCap, 5));
+
+        ItemDefinitions.saveItems("Player", ItemDefinitions.itemsToString(playerInventory));
+
+        List<ItemDefinitions.Item> merchantInventory = merchantItemList.getAllItems();
+
+        ItemDefinitions.saveItems(merchantId, ItemDefinitions.itemsToString(merchantInventory));
     }
 }
