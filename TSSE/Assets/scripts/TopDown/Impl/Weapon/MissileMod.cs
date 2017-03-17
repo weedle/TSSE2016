@@ -23,7 +23,7 @@ public class MissileMod : MonoBehaviour, FiringModule
 
         if (testItem != "")
         {
-            ItemDefinitions.Item testThing = ItemDefinitions.stringToItem(testItem);
+            ItemAbstract testThing = ItemDefinitions.stringToItem(testItem);
             applyBuff(testThing);
         }
 
@@ -107,8 +107,11 @@ public class MissileMod : MonoBehaviour, FiringModule
         return (float)ammunition / ammoMax;
     }
 
-    public void applyBuff(ItemDefinitions.Item item)
+    public void applyBuff(ItemAbstract itemA)
     {
+        WeaponItem item = (WeaponItem)itemA;
+        if (!WeaponItem.isWeaponType(item.getType()))
+            return;
         print("Item is: " + ItemDefinitions.itemToString(item));
         if (item.tier == 0)
             return;
@@ -116,7 +119,7 @@ public class MissileMod : MonoBehaviour, FiringModule
             projectile = GameObject.Find("GameLogic").GetComponent<PrefabHost>().getMissileObject();
         switch (item.type)
         {
-            case ItemDefinitions.ItemType.MissileModDamage:
+            case WeaponItem.WeaponType.MissileModDamage:
                 // damage is 20 by default
                 // damage is 30 with tier 1 upgrade
                 // damage is 40 with tier 2 upgrade
@@ -126,7 +129,7 @@ public class MissileMod : MonoBehaviour, FiringModule
                 projectile.GetComponent<HomingMissile>().
                     setDamage(damage);
                 break;
-            case ItemDefinitions.ItemType.MissileModFireRate:
+            case WeaponItem.WeaponType.MissileModFireRate:
                 // rate is 1 by default
                 // rate is 0.75 with tier 1 upgrade
                 // rate is 0.5 with tier 2 upgrade
@@ -134,7 +137,7 @@ public class MissileMod : MonoBehaviour, FiringModule
                 immediateCooldownMax = 1;
                 immediateCooldownMax -= item.tier * 0.25f;
                 break;
-            case ItemDefinitions.ItemType.MissileModAmmoCap:
+            case WeaponItem.WeaponType.MissileModAmmoCap:
                 // cap is 2 by default
                 // cap is 3 with tier 1 upgrade (1^1 = 1, ceil(1/2) = 1, 2+1 = 3)
                 // cap is 4 with tier 2 upgrade (2^1 = 4, ceil(4/2) = 2, 2+2 = 4)
@@ -142,7 +145,7 @@ public class MissileMod : MonoBehaviour, FiringModule
                 ammoMax = 3 + (int)Mathf.Ceil((item.tier * item.tier) / 2);
                 ammunition = ammoMax;
                 break;
-            case ItemDefinitions.ItemType.MissileModRechargeRate:
+            case WeaponItem.WeaponType.MissileModRechargeRate:
                 // cooldown is 3 by default
                 // cooldown is 2.5 with tier 1 upgrade
                 // cooldown is 2 with tier 2 upgrade
@@ -150,7 +153,7 @@ public class MissileMod : MonoBehaviour, FiringModule
                 ammoCooldown = 3;
                 ammoCooldown -= item.tier * 0.5f;
                 break;
-            case ItemDefinitions.ItemType.MissileModSpeed:
+            case WeaponItem.WeaponType.MissileModSpeed:
                 // proj speed is 3 by default
                 // proj speed is 4 with tier 1 upgrade
                 // proj speed is 5 with tier 2 upgrade
@@ -159,7 +162,7 @@ public class MissileMod : MonoBehaviour, FiringModule
                 newSpeed += item.tier;
                 projectile.GetComponent<HomingMissile>().setMoveSpeed(newSpeed);
                 break;
-            case ItemDefinitions.ItemType.MissileModRange:
+            case WeaponItem.WeaponType.MissileModRange:
                 // lifetime is 25 by default
                 // lifetime is 35 with tier 1 upgrade
                 // lifetime is 45 with tier 2 upgrade

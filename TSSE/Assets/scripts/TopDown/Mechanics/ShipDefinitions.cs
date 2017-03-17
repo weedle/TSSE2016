@@ -151,10 +151,10 @@ public class ShipDefinitions
         public ShipType shipType;
         public Faction faction;
         public string uniqueId;
-        public List<ItemDefinitions.Item> items;
+        public List<ItemAbstract> items;
 
         public ShipEntity(EngineType newEng, WeaponType newWeap,
-            ShipType newShip, List<ItemDefinitions.Item> newItems, 
+            ShipType newShip, List<ItemAbstract> newItems, 
             Faction newFaction, string newId)
         {
             engType = newEng;

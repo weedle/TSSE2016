@@ -1,14 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
-using System.Collections.Generic;
 
-public class ItemDefinitions {
-    // ITEM DEFINITIONS
-    // here we declare all the possible items and set all the data for them
+// This is an implementation of the ItemAbstract class
+// This class describes every possible item that provides weapon buffs
+// Currently, we have 24 different types and 3 different tiers, allowing
+// for 72 different possible items
+public class WeaponItem : ItemAbstract {
+    public WeaponType type;
+    public int tier;
 
-    // Item types
-    public enum ItemType
+    public const int numWeaponTypes = 72;
+
+    public enum WeaponType
     {
         Error,
         // The Flame weapon module fires a short-range burst of projectiles
@@ -49,109 +53,106 @@ public class ItemDefinitions {
         CrownModRechargeRate,   // Increases delay before ammunition is fully replenished
         CrownModRange			// Increases maximum distance between ship and target to fire
     }
-
-    // this is if we ever need to iterate through every item
-    public static int numberOfItemTypes = 70;
-
-    public static string getDesc(Item item)
+    
+    public override string getDesc()
     {
         string retStr = "";
-        switch (item.type)
+        switch (type)
         {
-            case ItemType.FlameModDamage:
-                retStr = " Increases the damage of each projectile";
+            case WeaponType.FlameModDamage:
+                retStr = "Increases the damage of each projectile";
                 break;
-            case ItemType.FlameModFireRate:
+            case WeaponType.FlameModFireRate:
                 retStr = "Increases the number of projectiles per burst";
                 break;
-            case ItemType.FlameModSpread:
+            case WeaponType.FlameModSpread:
                 retStr = "Widens the angle range the projectiles can be shot at";
                 // This results is a wider "spray" of particles.
                 break;
-            case ItemType.FlameModAmmoCap:
+            case WeaponType.FlameModAmmoCap:
                 retStr = "Increases the number of projectiles per clip";
                 break;
-            case ItemType.FlameModRechargeRate:
+            case WeaponType.FlameModRechargeRate:
                 retStr = "Increases delay before ammunition is fully replenished";
                 break;
-            case ItemType.FlameModSpeed:
+            case WeaponType.FlameModSpeed:
                 retStr = "Increases projectile velocity (and as a result, range)";
                 break;
-            case ItemType.FlameModRange:
+            case WeaponType.FlameModRange:
                 retStr = "Increases projectile lifetime (directly increasing range)";
                 break;
-            case ItemType.LaserModDamage:
+            case WeaponType.LaserModDamage:
                 retStr = "Increases the damage of each projectile";
                 break;
-            case ItemType.LaserModFireRate:
+            case WeaponType.LaserModFireRate:
                 retStr = "Decreases the delay between each fired projectile";
                 break;
-            case ItemType.LaserModSpeed:
+            case WeaponType.LaserModSpeed:
                 retStr = "Increases projectile velocity (and as a result, range)";
                 break;
-            case ItemType.LaserModAmmoCap:
+            case WeaponType.LaserModAmmoCap:
                 retStr = "Increases the number of projectiles per clip";
                 break;
-            case ItemType.LaserModRechargeRate:
+            case WeaponType.LaserModRechargeRate:
                 retStr = "Increases rate at which ammo is regenerated";
                 break;
-            case ItemType.LaserModRange:
+            case WeaponType.LaserModRange:
                 retStr = "Increases projectile lifetime (directly increasing range)";
                 break;
-            case ItemType.MissileModDamage:
+            case WeaponType.MissileModDamage:
                 retStr = "Increases the damage of each projectile";
                 break;
-            case ItemType.MissileModFireRate:
+            case WeaponType.MissileModFireRate:
                 retStr = "Decreases the delay between each fired projectile";
                 break;
-            case ItemType.MissileModAmmoCap:
+            case WeaponType.MissileModAmmoCap:
                 retStr = "Increases rate at which ammo is regenerated";
                 break;
-            case ItemType.MissileModRechargeRate:
+            case WeaponType.MissileModRechargeRate:
                 retStr = "Increases rate at which ammo is regenerated";
                 break;
-            case ItemType.MissileModSpeed:
+            case WeaponType.MissileModSpeed:
                 retStr = "Increases projectile velocity (and as a result, range)";
                 break;
-            case ItemType.MissileModRange:
+            case WeaponType.MissileModRange:
                 retStr = "Increases projectile lifetime (directly increasing range)";
                 break;
-            case ItemType.CrownModDamage:
+            case WeaponType.CrownModDamage:
                 retStr = "Increases the damage of each shot";
                 break;
-            case ItemType.CrownModAmmoCap:
+            case WeaponType.CrownModAmmoCap:
                 retStr = "Increases the number of shots per burst";
                 break;
-            case ItemType.CrownModRechargeRate:
+            case WeaponType.CrownModRechargeRate:
                 retStr = "Increases delay before ammunition is fully replenished";
                 break;
-            case ItemType.CrownModRange:
+            case WeaponType.CrownModRange:
                 retStr = "Increases maximum distance between ship and target to fire";
                 break;
-            case ItemType.Error:
+            case WeaponType.Error:
                 retStr = "Error: unspecified item, probably Kevin's fault, man, that guy";
                 break;
         }
-        if (item.tier > 3)
+        if (tier > 3)
         {
             retStr = "BLUEPRINT:\n" + retStr;
         }
         return retStr;
     }
 
-    public static string getSpec(Item item)
+    public override string getSpec()
     {
         string retStr = "";
         string prefix = "";
-        int x = item.tier;
-        if(item.tier > 3)
+        int x = tier;
+        if (tier > 3)
         {
             prefix = "BLUEPRINT:\n";
             x -= 3;
         }
-        switch (item.type)
+        switch (type)
         {
-            case ItemType.FlameModDamage:
+            case WeaponType.FlameModDamage:
                 switch (x)
                 {
                     case 1:
@@ -165,7 +166,7 @@ public class ItemDefinitions {
                         break;
                 }
                 break;
-            case ItemType.FlameModFireRate:
+            case WeaponType.FlameModFireRate:
                 switch (x)
                 {
                     case 1:
@@ -179,7 +180,7 @@ public class ItemDefinitions {
                         break;
                 }
                 break;
-            case ItemType.FlameModSpread:
+            case WeaponType.FlameModSpread:
                 switch (x)
                 {
                     case 1:
@@ -193,7 +194,7 @@ public class ItemDefinitions {
                         break;
                 }
                 break;
-            case ItemType.FlameModAmmoCap:
+            case WeaponType.FlameModAmmoCap:
                 switch (x)
                 {
                     case 1:
@@ -207,7 +208,7 @@ public class ItemDefinitions {
                         break;
                 }
                 break;
-            case ItemType.FlameModRechargeRate:
+            case WeaponType.FlameModRechargeRate:
                 switch (x)
                 {
                     case 1:
@@ -221,7 +222,7 @@ public class ItemDefinitions {
                         break;
                 }
                 break;
-            case ItemType.FlameModSpeed:
+            case WeaponType.FlameModSpeed:
                 switch (x)
                 {
                     case 1:
@@ -235,7 +236,7 @@ public class ItemDefinitions {
                         break;
                 }
                 break;
-            case ItemType.FlameModRange:
+            case WeaponType.FlameModRange:
                 switch (x)
                 {
                     case 1:
@@ -249,7 +250,7 @@ public class ItemDefinitions {
                         break;
                 }
                 break;
-            case ItemType.LaserModDamage:
+            case WeaponType.LaserModDamage:
                 switch (x)
                 {
                     case 1:
@@ -263,7 +264,7 @@ public class ItemDefinitions {
                         break;
                 }
                 break;
-            case ItemType.LaserModFireRate:
+            case WeaponType.LaserModFireRate:
                 switch (x)
                 {
                     case 1:
@@ -277,7 +278,7 @@ public class ItemDefinitions {
                         break;
                 }
                 break;
-            case ItemType.LaserModSpeed:
+            case WeaponType.LaserModSpeed:
                 switch (x)
                 {
                     case 1:
@@ -291,7 +292,7 @@ public class ItemDefinitions {
                         break;
                 }
                 break;
-            case ItemType.LaserModAmmoCap:
+            case WeaponType.LaserModAmmoCap:
                 switch (x)
                 {
                     case 1:
@@ -305,7 +306,7 @@ public class ItemDefinitions {
                         break;
                 }
                 break;
-            case ItemType.LaserModRechargeRate:
+            case WeaponType.LaserModRechargeRate:
                 switch (x)
                 {
                     case 1:
@@ -319,7 +320,7 @@ public class ItemDefinitions {
                         break;
                 }
                 break;
-            case ItemType.LaserModRange:
+            case WeaponType.LaserModRange:
                 switch (x)
                 {
                     case 1:
@@ -334,7 +335,7 @@ public class ItemDefinitions {
                         break;
                 }
                 break;
-            case ItemType.MissileModDamage:
+            case WeaponType.MissileModDamage:
                 switch (x)
                 {
                     case 1:
@@ -348,7 +349,7 @@ public class ItemDefinitions {
                         break;
                 }
                 break;
-            case ItemType.MissileModFireRate:
+            case WeaponType.MissileModFireRate:
                 switch (x)
                 {
                     case 1:
@@ -362,7 +363,7 @@ public class ItemDefinitions {
                         break;
                 }
                 break;
-            case ItemType.MissileModAmmoCap:
+            case WeaponType.MissileModAmmoCap:
                 switch (x)
                 {
                     case 1:
@@ -376,7 +377,7 @@ public class ItemDefinitions {
                         break;
                 }
                 break;
-            case ItemType.MissileModRechargeRate:
+            case WeaponType.MissileModRechargeRate:
                 switch (x)
                 {
                     case 1:
@@ -390,7 +391,7 @@ public class ItemDefinitions {
                         break;
                 }
                 break;
-            case ItemType.MissileModSpeed:
+            case WeaponType.MissileModSpeed:
                 switch (x)
                 {
                     case 1:
@@ -404,7 +405,7 @@ public class ItemDefinitions {
                         break;
                 }
                 break;
-            case ItemType.MissileModRange:
+            case WeaponType.MissileModRange:
                 switch (x)
                 {
                     case 1:
@@ -418,7 +419,7 @@ public class ItemDefinitions {
                         break;
                 }
                 break;
-            case ItemType.CrownModDamage:
+            case WeaponType.CrownModDamage:
                 switch (x)
                 {
                     case 1:
@@ -432,7 +433,7 @@ public class ItemDefinitions {
                         break;
                 }
                 break;
-            case ItemType.CrownModAmmoCap:
+            case WeaponType.CrownModAmmoCap:
                 switch (x)
                 {
                     case 1:
@@ -446,7 +447,7 @@ public class ItemDefinitions {
                         break;
                 }
                 break;
-            case ItemType.CrownModRechargeRate:
+            case WeaponType.CrownModRechargeRate:
                 switch (x)
                 {
                     case 1:
@@ -460,7 +461,7 @@ public class ItemDefinitions {
                         break;
                 }
                 break;
-            case ItemType.CrownModRange:
+            case WeaponType.CrownModRange:
                 // range is 2 by default
                 // range is 2.5 with tier 1 upgrade
                 // range is 3 with tier 2 upgrade
@@ -478,7 +479,7 @@ public class ItemDefinitions {
                         break;
                 }
                 break;
-            case ItemType.Error:
+            case WeaponType.Error:
                 retStr = "(╯°□°）╯︵ ┻━┻";
                 break;
         }
@@ -486,125 +487,72 @@ public class ItemDefinitions {
         return retStr;
     }
 
-    public struct Item
+    public override string getType()
     {
-        public ItemType type;
-        public int tier;
-        public Item(ItemType type, int tier)
-        {
-            this.type = type;
-            this.tier = tier;
-        }
-        public Item(ItemType type)
-        {
-            this.type = type;
-            this.tier = 1;
-        }
+        return type.ToString();
     }
 
-    // Used for display purposes
-    public static string itemToString(Item item)
+    public override int getTier()
     {
-        return item.type.ToString() + ":" + item.tier;
+        return tier;
     }
 
-    // Used to figure out what item an object is displaying
-    public static Item stringToItem(String str)
+    public static WeaponType getWeaponType(string str)
     {
-        ItemType itemType;
-
-        string[] split = str.Split(':');
+        WeaponType type;
         try
         {
-            itemType = (ItemType)Enum.Parse(typeof(ItemType), split[0]);
+            type = (WeaponType)Enum.Parse(typeof(WeaponType), str);
         }
         catch (ArgumentException err)
         {
-            itemType = ItemType.Error;
+            type = WeaponType.Error;
         }
 
-        int tier = 0;
-        if (split.Length == 2)
-            tier = int.Parse(split[1]);
-        return new Item(itemType, tier);
+        return type;
     }
 
-    // used for indexing item quantities
-    public static int itemToInt(Item item)
+    public static Boolean isWeaponType(string str)
     {
-        if (item.type == ItemType.Error)
-            return 0;
-        return (3 * (int)item.type) - 2 + item.tier;
-    }
-
-    public static Item intToItem(int index)
-    {
-        if (index == 0)
-            return new Item(ItemType.Error);
-        Item item;
-        try
+        if (getWeaponType(str) == WeaponType.Error)
         {
-            ItemType type = (ItemType)Enum.Parse(typeof(ItemType),
-            (index / 3).ToString());
-            int tier = index % 3 + 1;
-            item = new Item(type, tier);
+            return false;
         }
-        catch (ArgumentException err)
-        {
-            item = new Item(ItemType.Error);
-        }
-        return item;
+        return true;
     }
 
-    // Convert an encoded string into a list of items
-    public static List<ItemDefinitions.Item> stringToItems(string itemsEncoded)
+    public override string toString()
     {
-        List<ItemDefinitions.Item> items = new List<Item>();
-
-        string[] itemsSeparated = itemsEncoded.Split('#');
-
-        foreach(string itemEncoded in itemsSeparated)
-        {
-            items.Add(stringToItem(itemEncoded));
-        }
-
-        return items;
+        return type.ToString() + ":" + tier.ToString();
     }
 
-    // convert a list of items into an encoded string
-    public static string itemsToString(List<Item> items)
+    public WeaponItem()
     {
-        string ret = "";
-
-        foreach(Item item in items)
-        {
-            ret = ret + "#" + itemToString(item);
-        }
-
-        return ret;
-    }
-    // save a string of items to PlayerPrefs
-    public static void saveItems(string uniqueId, string itemsEncoded)
-    {
-        //TSSEList[Type][UniqueId]
-        PlayerPrefs.SetString("TSSEList[Item][" + uniqueId + "]", itemsEncoded);
+        type = WeaponType.Error;
+        this.tier = 0;
     }
 
-    // load a string of items from PlayerPrefs
-    public static string loadItems(string uniqueId)
+    public WeaponItem(WeaponType type)
     {
-        return PlayerPrefs.GetString("TSSEList[Item][" + uniqueId + "]").TrimStart('#');
+        this.type = type;
+        this.tier = 0;
     }
 
-    // This is how we get the price value when buying or selling something
-    // Item is the item to be bought or sold, inventoryId is something like
-    // "Player" or "MerchantXYZ", and buying is true if we want a purchase 
-    // price, and false if we want a selling price
-    public static int getCost(Item item, String inventoryId, bool buying)
+    public WeaponItem(WeaponType type, int tier)
     {
-        // Here we cleverly utilize all three parameters to determine a 
-        // dynamic price
-        return 10;
-        // wow hardcoded placeholder value, much clever
+        this.type = type;
+        this.tier = tier;
+    }
+
+    public WeaponItem(String type)
+    {
+        this.type = getWeaponType(type);
+        this.tier = 0;
+    }
+
+    public WeaponItem(String type, int tier)
+    {
+        this.type = getWeaponType(type);
+        this.tier = tier;
     }
 }

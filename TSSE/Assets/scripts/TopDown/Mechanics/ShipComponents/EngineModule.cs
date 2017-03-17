@@ -55,4 +55,13 @@ public class EngineModule : MonoBehaviour {
             gameObject.transform.parent.transform.Rotate(temp);
         temp = Vector3.zero;
     }
+
+    public void applyBuff(ItemAbstract item)
+    {
+        if(!EngineItem.isEngineType(item.getType()))
+        {
+            return;
+        }
+        //process item
+    }
 }

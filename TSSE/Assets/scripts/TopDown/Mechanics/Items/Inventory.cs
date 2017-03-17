@@ -8,7 +8,7 @@ using System.Collections.Generic;
 public class Inventory : MonoBehaviour {
 
     // number of each item we have
-    private int[] numOfEachItem = new int[ItemDefinitions.numberOfItemTypes];
+    private int[] numOfEachItem = new int[WeaponItem.numWeaponTypes];
 
     // the two gameobjects that display the inventory and currency of this entity
     public GameObject inventoryDisplay;
@@ -21,17 +21,17 @@ public class Inventory : MonoBehaviour {
     public string uniqueId;
 
     // currently selected item
-    private ItemDefinitions.Item selected;
+    private ItemAbstract selected;
 
     // currency in possession of this entity
     private int currency = 200;
 
     void Start()
     {
-        List<ItemDefinitions.Item> items = ItemDefinitions.stringToItems(
+        List<ItemAbstract> items = ItemDefinitions.stringToItems(
             ItemDefinitions.loadItems(uniqueId));
 
-        foreach(ItemDefinitions.Item item in items)
+        foreach(ItemAbstract item in items)
         {
             addItem(item);
         }
@@ -57,7 +57,7 @@ public class Inventory : MonoBehaviour {
     }
 
     // add an item, if we already have it just increase the quantity
-    public void addItem(ItemDefinitions.Item item)
+    public void addItem(ItemAbstract item)
     {
         inventoryDisplay.GetComponent<ItemListHandler>().
             addItem(item);
@@ -66,7 +66,7 @@ public class Inventory : MonoBehaviour {
     }
 
     // reduce quantity, remove from list if none are left
-    public void removeItem(ItemDefinitions.Item item)
+    public void removeItem(ItemAbstract item)
     {
         if (numOfEachItem[ItemDefinitions.itemToInt(item)] == 0)
             return;
@@ -76,15 +76,15 @@ public class Inventory : MonoBehaviour {
     }
 
     // do we have the item? maybeeee
-    public bool findItem(ItemDefinitions.Item item)
+    public bool findItem(ItemAbstract item)
     {
         return (numOfEachItem[ItemDefinitions.itemToInt(item)] != 0);
     }
 
     public void saveInventory()
     {
-        string invSlotLabel = uniqueId + "InventorySlotLabel";
-        for (int i = 0; i < ItemDefinitions.numberOfItemTypes; i++)
+        string invSlotLabel = uniqueId + "InventorySlotLabel[Weapon]";
+        for (int i = 0; i < WeaponItem.numWeaponTypes; i++)
         {
             string currLabel = invSlotLabel + i.ToString();
             print("Saving item: " + i + " and num = " + numOfEachItem[i]);
@@ -95,8 +95,8 @@ public class Inventory : MonoBehaviour {
     public void loadInventory()
     {
         clearInventory();
-        string invSlotLabel = uniqueId + "InventorySlotLabel";
-        for (int i = 0; i < ItemDefinitions.numberOfItemTypes; i++)
+        string invSlotLabel = uniqueId + "InventorySlotLabel[Weapon]";
+        for (int i = 0; i < WeaponItem.numWeaponTypes; i++)
         {
             string currLabel = invSlotLabel + i.ToString();
             numOfEachItem[i] = 0;
@@ -110,7 +110,7 @@ public class Inventory : MonoBehaviour {
             }
         }
 
-        for (int i = 0; i < ItemDefinitions.numberOfItemTypes; i++)
+        for (int i = 0; i < WeaponItem.numWeaponTypes; i++)
         {
             for (int j = 0; j < numOfEachItem[i]; j++)
             {
@@ -122,7 +122,7 @@ public class Inventory : MonoBehaviour {
 
     public void clearInventory()
     {
-        for (int i = 0; i < ItemDefinitions.numberOfItemTypes; i++)
+        for (int i = 0; i < WeaponItem.numWeaponTypes; i++)
         {
                 numOfEachItem[i] = 0;
         }

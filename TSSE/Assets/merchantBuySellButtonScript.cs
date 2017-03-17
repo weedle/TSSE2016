@@ -72,7 +72,7 @@ public class merchantBuySellButtonScript : MonoBehaviour {
 
         // convert the text from that object to an item
         // It's of the form "ObjectName (x)" where x is a quantity
-        ItemDefinitions.Item item;
+        ItemAbstract item;
         UnityEngine.UI.Text indexItem = itemObj.transform.GetChild(0).
             GetComponent<UnityEngine.UI.Text>();
         Regex regex = new Regex(@"\w+");
@@ -91,7 +91,7 @@ public class merchantBuySellButtonScript : MonoBehaviour {
             playerInventory.addCurrency(-cost);
             merchantItemList.removeItem(item);
             playerItemList.addItem(item);
-            if (item.tier > 3)
+            if (item.getTier() > 3)
             {
                 BlueprintDefinitions.applyBlueprint(item);
                 print("applying blueprint " + ItemDefinitions.itemToString(item));
@@ -104,7 +104,7 @@ public class merchantBuySellButtonScript : MonoBehaviour {
             playerInventory.addCurrency(cost);
             playerItemList.removeItem(item);
             merchantItemList.addItem(item);
-            if (item.tier > 3)
+            if (item.getTier() > 3)
             {
                 BlueprintDefinitions.deapplyBlueprint(item);
                 print("deapplying blueprint " + ItemDefinitions.itemToString(item));
@@ -114,14 +114,14 @@ public class merchantBuySellButtonScript : MonoBehaviour {
 
     public void exit()
     {
-        List<ItemDefinitions.Item> playerInventory = new List<ItemDefinitions.Item>();
-        playerInventory.Add(new ItemDefinitions.Item(ItemDefinitions.ItemType.FlameModAmmoCap, 1));
-        playerInventory.Add(new ItemDefinitions.Item(ItemDefinitions.ItemType.CrownModDamage, 3));
-        playerInventory.Add(new ItemDefinitions.Item(ItemDefinitions.ItemType.LaserModAmmoCap, 5));
+        List<ItemAbstract> playerInventory = new List<ItemAbstract>();
+        playerInventory.Add(ItemAbstract.newItem(WeaponItem.WeaponType.FlameModAmmoCap, 1));
+        playerInventory.Add(ItemAbstract.newItem(WeaponItem.WeaponType.CrownModDamage, 3));
+        playerInventory.Add(ItemAbstract.newItem(WeaponItem.WeaponType.LaserModAmmoCap, 5));
 
         ItemDefinitions.saveItems("Player", ItemDefinitions.itemsToString(playerInventory));
 
-        List<ItemDefinitions.Item> merchantInventory = merchantItemList.getAllItems();
+        List<ItemAbstract> merchantInventory = merchantItemList.getAllItems();
 
         ItemDefinitions.saveItems(merchantId, ItemDefinitions.itemsToString(merchantInventory));
     }

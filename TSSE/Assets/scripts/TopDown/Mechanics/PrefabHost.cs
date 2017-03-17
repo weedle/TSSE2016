@@ -22,6 +22,8 @@ public class PrefabHost : MonoBehaviour
 
     public GameObject merchantItem;
     public GameObject inventoryItem;
+    public GameObject shipyardInventoryItem;
+    public GameObject iconItem;
     public GameObject questItem;
     public GameObject questEmptyItem;
     public GameObject eventItem;
@@ -106,6 +108,18 @@ public class PrefabHost : MonoBehaviour
     public GameObject getInventoryItem()
     {
         GameObject obj = (GameObject)Instantiate(inventoryItem, Vector3.zero, Quaternion.Euler(0, 0, 0));
+        return obj;
+    }
+
+    public GameObject getShipyardInventoryItem()
+    {
+        GameObject obj = (GameObject)Instantiate(shipyardInventoryItem, Vector3.zero, Quaternion.Euler(0, 0, 0));
+        return obj;
+    }
+
+    public GameObject getIconItem()
+    {
+        GameObject obj = (GameObject)Instantiate(iconItem, Vector3.zero, Quaternion.Euler(0, 0, 0));
         return obj;
     }
 

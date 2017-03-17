@@ -121,10 +121,10 @@ public class prebattleShipHandler : MonoBehaviour
         blkActive.normalColor = highlighted;
         ship.GetComponent<UnityEngine.UI.Button>().colors = blkActive;
 
-        setImage(new ItemDefinitions.Item(ItemDefinitions.ItemType.CrownModRange, 2), 0);
+        setImage(ItemAbstract.newItem(WeaponItem.WeaponType.CrownModRange, 2), 0);
     }
 
-    public void setImage(ItemDefinitions.Item item, int index)
+    public void setImage(ItemAbstract item, int index)
     {
         Sprite sprite = imgStore.getImage(item);
         GameObject ship = null;

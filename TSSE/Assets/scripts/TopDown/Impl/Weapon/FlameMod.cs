@@ -28,7 +28,7 @@ public class FlameMod : MonoBehaviour, FiringModule
         projectile.GetComponent<Flames>().setDamage(1.5f);
         projectile.GetComponent<Flames>().setLifetime(25);
 
-        ItemDefinitions.Item testThing = ItemDefinitions.stringToItem(testItem);
+        ItemAbstract testThing = ItemDefinitions.stringToItem(testItem);
         applyBuff(testThing);
 
         /*
@@ -113,13 +113,16 @@ public class FlameMod : MonoBehaviour, FiringModule
         return (float)ammunition / ammoMax;
     }
 
-    public void applyBuff(ItemDefinitions.Item item)
+    public void applyBuff(ItemAbstract itemA)
     {
+        WeaponItem item = (WeaponItem)itemA;
+        if (!WeaponItem.isWeaponType(item.getType()))
+            return;
         if (item.tier == 0)
             return;
         switch(item.type)
         {
-            case ItemDefinitions.ItemType.FlameModDamage:
+            case WeaponItem.WeaponType.FlameModDamage:
                 // damage is 1 by default
                 // damage is 1.25 with tier 1 upgrade
                 // damage is 1.5 with tier 2 upgrade
@@ -137,21 +140,21 @@ public class FlameMod : MonoBehaviour, FiringModule
                 projectile.GetComponent<Flames>().
                     setDamage(0.75f + bonusDamage);
                 break;
-            case ItemDefinitions.ItemType.FlameModFireRate:
+            case WeaponItem.WeaponType.FlameModFireRate:
                 // rate is 2 by default
                 // rate is 3 with tier 1 upgrade (1^1 = 1, ceil(1/2) = 1, 2+1 = 3)
                 // rate is 4 with tier 2 upgrade (2^1 = 4, ceil(4/2) = 2, 2+2 = 4)
                 // rate is 7 with tier 3 upgrade (3^1 = 9, ceil(9/2) = 5, 2+5 = 7)
                 fireRate = 3 + (int)Mathf.Ceil((item.tier * item.tier) / 2);
                 break;
-            case ItemDefinitions.ItemType.FlameModSpread:
+            case WeaponItem.WeaponType.FlameModSpread:
                 // spread is 0.03 by default
                 // spread is 0.05 with tier 1 upgrade
                 // spread is 0.07 with tier 2 upgrade
                 // spread is 0.09 with tier 3 upgrade
                 spread = 0.03f + item.tier * 0.02f;
                 break;
-            case ItemDefinitions.ItemType.FlameModAmmoCap:
+            case WeaponItem.WeaponType.FlameModAmmoCap:
                 // cap is 15 by default
                 // cap is 20 with tier 1 upgrade
                 // cap is 25 with tier 2 upgrade
@@ -159,7 +162,7 @@ public class FlameMod : MonoBehaviour, FiringModule
                 ammoMax = 15 + 5 * item.tier;
                 ammunition = ammoMax;
                 break;
-            case ItemDefinitions.ItemType.FlameModRechargeRate:
+            case WeaponItem.WeaponType.FlameModRechargeRate:
                 // cooldown is 2 by default
                 // cooldown is 1.75 with tier 1 upgrade
                 // cooldown is 1.5 with tier 2 upgrade
@@ -176,7 +179,7 @@ public class FlameMod : MonoBehaviour, FiringModule
                 }
                 ammoCooldown = 2 - cooldownSaved;
                 break;
-            case ItemDefinitions.ItemType.FlameModSpeed:
+            case WeaponItem.WeaponType.FlameModSpeed:
                 // proj speed is 0.25 by default
                 // proj speed is 0.3 with tier 1 upgrade
                 // proj speed is 0.4 with tier 2 upgrade
@@ -193,7 +196,7 @@ public class FlameMod : MonoBehaviour, FiringModule
                 }
                 projVel = 0.25f + bonusSpeed;
                 break;
-            case ItemDefinitions.ItemType.FlameModRange:
+            case WeaponItem.WeaponType.FlameModRange:
                 // lifetime is 15 by default
                 // lifetime is 20 with tier 1 upgrade
                 // lifetime is 25 with tier 2 upgrade

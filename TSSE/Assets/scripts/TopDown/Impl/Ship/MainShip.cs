@@ -23,7 +23,7 @@ public class MainShip : MonoBehaviour, ShipIntf
     public ShipDefinitions.ShipType shipType;
     private EngineModule engine;
     private FiringModule weapon;
-    private List<ItemDefinitions.Item> inventory;
+    private List<ItemAbstract> inventory;
 
     // Use this for initialization
     void Start()
@@ -43,7 +43,7 @@ public class MainShip : MonoBehaviour, ShipIntf
         ammo.GetComponent<AmmoBar>().setTarget(gameObject);
         text.GetComponent<ShipLabel>().setTarget(gameObject);
         if (inventory == null)
-            inventory = new List<ItemDefinitions.Item>();
+            inventory = new List<ItemAbstract>();
         GameObject engineObj;
         if (engType == ShipDefinitions.EngineType.Engine1)
         {
@@ -79,7 +79,7 @@ public class MainShip : MonoBehaviour, ShipIntf
                 break;
         }
 
-        foreach(ItemDefinitions.Item item in inventory)
+        foreach(ItemAbstract item in inventory)
         {
             GetComponent<FiringModule>().applyBuff(item);
         }
@@ -305,7 +305,7 @@ public class MainShip : MonoBehaviour, ShipIntf
         gameObject.tag = faction.ToString();
     }
 
-    public void setItems(List<ItemDefinitions.Item> items)
+    public void setItems(List<ItemAbstract> items)
     {
         inventory = items;
     }

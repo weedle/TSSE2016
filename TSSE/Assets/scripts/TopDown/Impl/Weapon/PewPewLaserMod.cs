@@ -25,7 +25,7 @@ public class PewPewLaserMod : MonoBehaviour, FiringModule
 
         if (testItem != "")
         {
-            ItemDefinitions.Item testThing = ItemDefinitions.stringToItem(testItem);
+            ItemAbstract testThing = ItemDefinitions.stringToItem(testItem);
             applyBuff(testThing);
         }
 
@@ -118,13 +118,16 @@ public class PewPewLaserMod : MonoBehaviour, FiringModule
         return (float)ammunition / ammoMax;
     }
 
-    public void applyBuff(ItemDefinitions.Item item)
+    public void applyBuff(ItemAbstract itemA)
     {
+        WeaponItem item = (WeaponItem)itemA;
+        if (!WeaponItem.isWeaponType(item.getType()))
+            return;
         if (item.tier == 0)
             return;
         switch (item.type)
         {
-            case ItemDefinitions.ItemType.LaserModDamage:
+            case WeaponItem.WeaponType.LaserModDamage:
                 // damage is 1 by default
                 // damage is 14 with tier 1 upgrade
                 // damage is 16 with tier 2 upgrade
@@ -142,7 +145,7 @@ public class PewPewLaserMod : MonoBehaviour, FiringModule
                 projectile.GetComponent<PewPewLaser>().
                     setDamage(12 + bonusDamage);
                 break;
-            case ItemDefinitions.ItemType.LaserModFireRate:
+            case WeaponItem.WeaponType.LaserModFireRate:
                 // fire delay is 0.4 by default
                 // fire delay is 0.3 with tier 1 upgrade
                 // fire delay is 0.2 with tier 2 upgrade
@@ -150,7 +153,7 @@ public class PewPewLaserMod : MonoBehaviour, FiringModule
                 immediateCooldownMax = 0.4f;
                 immediateCooldownMax -= item.tier * 0.1f;
                 break;
-            case ItemDefinitions.ItemType.LaserModSpeed:
+            case WeaponItem.WeaponType.LaserModSpeed:
                 // proj speed is 40 by default
                 // proj speed is 50 with tier 1 upgrade
                 // proj speed is 60 with tier 2 upgrade
@@ -158,7 +161,7 @@ public class PewPewLaserMod : MonoBehaviour, FiringModule
                 projectileSpeed = 40;
                 projectileSpeed += 10 * item.tier;
                 break;
-            case ItemDefinitions.ItemType.LaserModAmmoCap:
+            case WeaponItem.WeaponType.LaserModAmmoCap:
                 // cap is 4 by default
                 // cap is 6 with tier 1 upgrade
                 // cap is 8 with tier 2 upgrade
@@ -167,7 +170,7 @@ public class PewPewLaserMod : MonoBehaviour, FiringModule
                 ammoMax += item.tier * 2;
                 ammunition = ammoMax;
                 break;
-            case ItemDefinitions.ItemType.LaserModRechargeRate:
+            case WeaponItem.WeaponType.LaserModRechargeRate:
                 // cooldown is 2 by default
                 // cooldown is 1.5 with tier 1 upgrade
                 // cooldown is 1 with tier 2 upgrade
@@ -175,7 +178,7 @@ public class PewPewLaserMod : MonoBehaviour, FiringModule
                 ammoCooldown = 2;
                 ammoCooldown -= 0.5f * item.tier;
                 break;
-            case ItemDefinitions.ItemType.LaserModRange:
+            case WeaponItem.WeaponType.LaserModRange:
                 // lifetime is 25 by default
                 // lifetime is 30 with tier 1 upgrade
                 // lifetime is 35 with tier 2 upgrade
