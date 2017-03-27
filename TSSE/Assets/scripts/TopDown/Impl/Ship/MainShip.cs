@@ -81,7 +81,13 @@ public class MainShip : MonoBehaviour, ShipIntf
 
         foreach(ItemAbstract item in inventory)
         {
-            GetComponent<FiringModule>().applyBuff(item);
+            if (WeaponItem.isWeaponType(item.getType()))
+            {
+                weapon.applyBuff(item);
+            } else if(EngineItem.isEngineType(item.getType()))
+            {
+                engine.applyBuff(item);
+            }
         }
 
         ShipDefinitions.Faction faction = ShipDefinitions.stringToFaction(gameObject.tag);
