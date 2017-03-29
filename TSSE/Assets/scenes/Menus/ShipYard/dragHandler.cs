@@ -30,9 +30,10 @@ public class dragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 	{
 		screenPoint = Input.mousePosition;
 		screenPoint.z = 1f;
-		transform.position = Camera.main.ScreenToWorldPoint (screenPoint);
+        transform.position = screenPoint;//Camera.main.ScreenToWorldPoint (screenPoint);
 
-	}
+
+    }
 
 	#endregion
 

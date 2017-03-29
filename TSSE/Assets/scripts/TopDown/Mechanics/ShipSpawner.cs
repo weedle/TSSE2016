@@ -42,58 +42,55 @@ public class ShipSpawner : MonoBehaviour
         currentLevel = LevelDefinitions.loadLevel(levelId);
 
         playerShips = new List<ShipDefinitions.ShipEntity>();
+        for (int i = 0; i < 6; i++)
+        {
+            string id = "PlayerShip" + i.ToString();
+            playerShips.Add(ShipDefinitions.loadShip(id));
+        }
         enemyWaves = new List<List<ShipDefinitions.ShipEntity>>();
 
         foreach(ShipDefinitions.ShipEntity entity in currentLevel.ships)
         {
             if(entity.shipType != ShipDefinitions.ShipType.None)
             {
-                if (entity.faction == ShipDefinitions.Faction.Player ||
-                    entity.faction == ShipDefinitions.Faction.PlayerAffil)
+                string spawningToken = "";
+                int waveNum = 0;
+                //string spawnPos = "spawn:0:0";
+                if (currentLevel.shipSpawningTokens.ContainsKey(entity.uniqueId))
                 {
-                    playerShips.Add(entity);
+                    spawningToken = currentLevel.shipSpawningTokens[entity.uniqueId];
+
+                    string[] tokens = spawningToken.Split('#');
+                    foreach(string token in tokens)
+                    {
+                        print("3: " + entity.uniqueId);
+                        print("3: " + token);
+                        if (token.Contains("wave"))
+                        {
+                            waveNum = int.Parse(token.Substring(token.Length-1,1));
+                        }
+                        /*
+                        if(token.Contains("spawn"))
+                        {
+                            spawnPos = token;
+                        }
+                        */
+                    }
+
+                    if(enemyWaves.ToArray().GetLength(0) <= waveNum)
+                    {
+                        print(waveNum);
+                        print(enemyWaves.ToArray().GetLength(0));
+                        enemyWaves.Add(new List<ShipDefinitions.ShipEntity>());
+                    }
+
+                    enemyWaves[waveNum].Add(entity);
                 }
                 else
                 {
-                    string spawningToken = "";
-                    int waveNum = 0;
-                    //string spawnPos = "spawn:0:0";
-                    if (currentLevel.shipSpawningTokens.ContainsKey(entity.uniqueId))
-                    {
-                        spawningToken = currentLevel.shipSpawningTokens[entity.uniqueId];
-
-                        string[] tokens = spawningToken.Split('#');
-                        foreach(string token in tokens)
-                        {
-                            print("3: " + entity.uniqueId);
-                            print("3: " + token);
-                            if (token.Contains("wave"))
-                            {
-                                waveNum = int.Parse(token.Substring(token.Length-1,1));
-                            }
-                            /*
-                            if(token.Contains("spawn"))
-                            {
-                                spawnPos = token;
-                            }
-                            */
-                        }
-
-                        if(enemyWaves.ToArray().GetLength(0) <= waveNum)
-                        {
-                            print(waveNum);
-                            print(enemyWaves.ToArray().GetLength(0));
-                            enemyWaves.Add(new List<ShipDefinitions.ShipEntity>());
-                        }
-
-                        enemyWaves[waveNum].Add(entity);
-                    }
-                    else
-                    {
-                        // if we have no token for this ship, just spawn it immediately
-                        // better we see effects immediately instead of failing silently
-                        spawnShip(getSpawnPosition(spawningToken), entity);
-                    }
+                    // if we have no token for this ship, just spawn it immediately
+                    // better we see effects immediately instead of failing silently
+                    spawnShip(getSpawnPosition(spawningToken), entity);
                 }
             }
         }

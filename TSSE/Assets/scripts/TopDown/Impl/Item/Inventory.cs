@@ -13,6 +13,7 @@ public class Inventory : MonoBehaviour {
     // the two gameobjects that display the inventory and currency of this entity
     public GameObject inventoryDisplay;
     public GameObject currencyDisplay;
+    public GameObject shipDisplay;
 
     // Player? Merchant? TREASURE CHEST?!
     public string inventoryType;
@@ -29,13 +30,20 @@ public class Inventory : MonoBehaviour {
     void Start()
     {
         List<ItemAbstract> items = ItemDefinitions.stringToItems(
-            ItemDefinitions.loadItems(uniqueId));
+        ItemDefinitions.loadItems(uniqueId));
 
         foreach(ItemAbstract item in items)
         {
             addItem(item);
         }
-        updateCurrency();
+
+        if (shipDisplay == null)
+            return;
+        for (int i = 0; i < 6; i++)
+        {
+            string id = "PlayerShip" + i.ToString();
+            shipDisplay.GetComponent<ShipListHandler>().addShip(ShipDefinitions.loadShip(id));
+        }
     }
 
     // just refresh the label
@@ -64,6 +72,11 @@ public class Inventory : MonoBehaviour {
 
         numOfEachItem[ItemDefinitions.itemToInt(item)] += 1;
     }
+    public void addShip(ShipDefinitions.ShipEntity entity)
+    {
+        shipDisplay.GetComponent<ShipListHandler>().
+            addShip(entity);
+    }
 
     // reduce quantity, remove from list if none are left
     public void removeItem(ItemAbstract item)
@@ -73,6 +86,13 @@ public class Inventory : MonoBehaviour {
         inventoryDisplay.GetComponent<ItemListHandler>().
             removeItem(item);
         numOfEachItem[ItemDefinitions.itemToInt(item)] -= 1;
+    }
+
+    // reduce quantity, remove from list if none are left
+    public void removeShip(ShipDefinitions.ShipEntity entity)
+    {
+        inventoryDisplay.GetComponent<ShipListHandler>().
+            removeShip(entity);
     }
 
     // do we have the item? maybeeee

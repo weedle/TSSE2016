@@ -36,7 +36,6 @@ public class QuestListHandler : MonoBehaviour
     // add the item
     public void addQuest(QuestDefinitions.Quest quest)
     {
-        print(quest.questInfo);
         // We have an example item in the PrefabHost
         GameObject newItem = GameObject.Find("GameLogic").
             GetComponent<PrefabHost>().getQuestItem();

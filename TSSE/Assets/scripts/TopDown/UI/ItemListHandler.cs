@@ -10,9 +10,13 @@ public class ItemListHandler : MonoBehaviour {
     public string mode = "merchant";
     public bool iconsMode = false;
 
+    public int numItemsTotal = 0;
+
     // if an item is selected, keep track of it
     public void itemSelected(GameObject obj)
     {
+        if (iconsMode)
+            return;
         UnityEngine.UI.Text indexItem = obj.transform.GetChild(0).
                GetComponent<UnityEngine.UI.Text>();
         ItemAbstract item = ItemDefinitions.stringToItem(
@@ -56,22 +60,46 @@ public class ItemListHandler : MonoBehaviour {
 
         // Now, search through items we have for a matching one
         // It's in the format "ObjectName (x)", so we trim the (x) part
-        for (int i = 0; i < transform.GetChild(0).childCount; i++)
+        if (!iconsMode)
         {
-            UnityEngine.UI.Text indexItem = transform.GetChild(0).GetChild(i).GetChild(0).
-                GetComponent<UnityEngine.UI.Text>();
-            string labelItemText = indexItem.text.Substring(0, indexItem.text.Length-4);
-            int numItems = int.Parse(indexItem.text.Substring(indexItem.text.Length - 2, 1));
-            // if this is the item:
-            if (labelItemText == itemText)
+            for (int i = 0; i < transform.GetChild(0).childCount; i++)
             {
-                // increase the quantity and update the label
-                // then return cause we're done
-                int x = numItems;
-                x++;
+                UnityEngine.UI.Text indexItem = transform.GetChild(0).GetChild(i).GetChild(0).
+                    GetComponent<UnityEngine.UI.Text>();
+                string labelItemText = indexItem.text.Substring(0, indexItem.text.Length - 4);
+                int numItems = int.Parse(indexItem.text.Substring(indexItem.text.Length - 2, 1));
+                // if this is the item:
+                if (labelItemText == itemText)
+                {
+                    // increase the quantity and update the label
+                    // then return cause we're done
+                    int x = numItems;
+                    x++;
 
-                indexItem.text = itemText + " (" + x + ")";
-                return;
+                    indexItem.text = itemText + " (" + x + ")";
+                    return;
+                }
+            }
+        }
+        else
+        {
+            for(int i = 0; i < transform.GetChild(0).childCount; i++)
+            {
+                Item indexItem = transform.GetChild(0).GetChild(i).GetComponent<Item>();
+                string labelItemText = indexItem.itemString;
+                int numItems = indexItem.itemQuantity;
+                // if this is the item:
+                if (labelItemText == itemText)
+                {
+                    // increase the quantity and update the label
+                    // then return cause we're done
+                    int x = numItems;
+                    x++;
+
+                    indexItem.itemString = itemText + " (" + x + ")";
+                    indexItem.itemQuantity = x;
+                    return;
+                }
             }
         }
 
@@ -79,6 +107,7 @@ public class ItemListHandler : MonoBehaviour {
         // So, we create a new thing and add to the listview
         // We have an example item in the PrefabHost
         GameObject newItem;
+        numItemsTotal++;
         if (mode == "inventory")
         {
             newItem = GameObject.Find("GameLogic").
@@ -93,12 +122,23 @@ public class ItemListHandler : MonoBehaviour {
         {
             newItem = GameObject.Find("GameLogic").
                 GetComponent<PrefabHost>().getIconItem();
+            newItem.transform.position = 
+                new Vector3(-140 + 45 * (numItemsTotal % 5), 140 - 45 * (numItemsTotal / 5));
+            newItem.transform.GetChild(0).GetComponent<UnityEngine.UI.Image>()
+                .sprite = getImage(item);
         }
 
         // Initially has 1 object
-        newItem.transform.GetChild(0).GetComponent<UnityEngine.UI.Text>().
-            text = itemText + " (1)";
-
+        if (iconsMode)
+        {
+            newItem.GetComponent<Item>().itemString = itemText + " (1)";
+            newItem.GetComponent<Item>().itemQuantity = 1;
+        }
+        else
+        {
+            newItem.transform.GetChild(0).GetComponent<UnityEngine.UI.Text>().
+                text = itemText + " (1)";
+        }
         // Add to listview
         newItem.transform.SetParent(transform.GetChild(0).transform, false);
 
@@ -106,7 +146,20 @@ public class ItemListHandler : MonoBehaviour {
         newItem.GetComponent<UnityEngine.UI.Button>()
             .onClick.AddListener(delegate () { itemSelected(newItem); });
 
-        GetComponent<UnityEngine.UI.ScrollRect>().verticalNormalizedPosition = 1;
+        if (iconsMode)
+        {
+            GameObject greyedItem = (GameObject)Instantiate(newItem, Vector3.zero, Quaternion.Euler(0, 0, 0));
+            greyedItem.transform.SetParent(newItem.transform.parent);
+            greyedItem.transform.position = newItem.transform.position;
+            greyedItem.transform.SetAsFirstSibling();
+            greyedItem.transform.GetChild(0).GetComponent<UnityEngine.UI.Image>()
+                .color = Color.gray;
+            Destroy(greyedItem.GetComponent<dragHandler>());
+        }
+        else
+        {
+            GetComponent<UnityEngine.UI.ScrollRect>().verticalNormalizedPosition = 1;
+        }
     }
 
     // reduce quantity if present, otherwise remove item
@@ -114,29 +167,61 @@ public class ItemListHandler : MonoBehaviour {
     {
         // like in addItem, first we search for the item
         string itemText = ItemDefinitions.itemToString(item);
-        for (int i = 0; i < transform.GetChild(0).childCount; i++)
+        if (iconsMode)
         {
-            UnityEngine.UI.Text indexItem = transform.GetChild(0).GetChild(i).GetChild(0).
-                GetComponent<UnityEngine.UI.Text>();
-            string labelItemText = indexItem.text.Substring(0, indexItem.text.Length - 4);
-            int numItems = int.Parse(indexItem.text.Substring(indexItem.text.Length - 2, 1));
-            // if it matches, we found it
-            if (labelItemText == itemText)
+            for (int i = 0; i < transform.GetChild(0).childCount; i++)
             {
-                // first figure out how many we now have
-                int x = numItems;
-                x--;
-
-                // we have none left, so remove this item
-                if(x == 0)
+                Item indexItem = transform.GetChild(0).GetChild(i).GetComponent<Item>();
+                string labelItemText = indexItem.itemString;
+                int numItems = indexItem.itemQuantity;
+                // if it matches, we found it
+                if (labelItemText == itemText)
                 {
-                    GameObject.Destroy(indexItem.transform.parent.gameObject);
+                    // first figure out how many we now have
+                    int x = numItems;
+                    x--;
+
+                    // we have none left, so remove this item
+                    if (x == 0)
+                    {
+                        GameObject.Destroy(transform.GetChild(0).GetChild(i).gameObject);
+                        numItemsTotal--;
+                        return;
+                    }
+
+                    // refresh the label
+                    indexItem.itemString = itemText + " (" + x + ")";
+                    indexItem.itemQuantity = x;
                     return;
                 }
+            }
+        }
+        else
+        {
+            for (int i = 0; i < transform.GetChild(0).childCount; i++)
+            {
+                UnityEngine.UI.Text indexItem = transform.GetChild(0).GetChild(i).GetChild(0).
+                    GetComponent<UnityEngine.UI.Text>();
+                string labelItemText = indexItem.text.Substring(0, indexItem.text.Length - 4);
+                int numItems = int.Parse(indexItem.text.Substring(indexItem.text.Length - 2, 1));
+                // if it matches, we found it
+                if (labelItemText == itemText)
+                {
+                    // first figure out how many we now have
+                    int x = numItems;
+                    x--;
 
-                // refresh the label
-                indexItem.text = itemText + " (" + x + ")";
-                return;
+                    // we have none left, so remove this item
+                    if (x == 0)
+                    {
+                        GameObject.Destroy(indexItem.transform.parent.gameObject);
+                        return;
+                    }
+
+                    // refresh the label
+                    indexItem.text = itemText + " (" + x + ")";
+                    return;
+                }
             }
         }
     }
@@ -153,20 +238,35 @@ public class ItemListHandler : MonoBehaviour {
     public List<ItemAbstract> getAllItems()
     {
         List<ItemAbstract> retItems = new List<ItemAbstract>();
-
-        for (int i = 0; i < transform.GetChild(0).childCount; i++)
+        if (iconsMode)
         {
-            UnityEngine.UI.Text indexItem = transform.GetChild(0).GetChild(i).GetChild(0).
-                GetComponent<UnityEngine.UI.Text>();
-            string labelItemText = indexItem.text.Substring(0, indexItem.text.Length - 4);
-            int numItems = int.Parse(indexItem.text.Substring(indexItem.text.Length - 2, 1));
-            ItemAbstract item = ItemDefinitions.stringToItem(labelItemText);
-            for (int j = 0; j < numItems; j++)
+            for (int i = 0; i < transform.GetChild(0).childCount; i++)
             {
-                retItems.Add(item);
+                Item indexItem = transform.GetChild(0).GetChild(i).GetComponent<Item>();
+                string labelItemText = indexItem.itemString;
+                int numItems = indexItem.itemQuantity;
+                ItemAbstract item = ItemDefinitions.stringToItem(labelItemText);
+                for (int j = 0; j < numItems; j++)
+                {
+                    retItems.Add(item);
+                }
             }
         }
-
+        else
+        {
+            for (int i = 0; i < transform.GetChild(0).childCount; i++)
+            {
+                UnityEngine.UI.Text indexItem = transform.GetChild(0).GetChild(i).GetChild(0).
+                    GetComponent<UnityEngine.UI.Text>();
+                string labelItemText = indexItem.text.Substring(0, indexItem.text.Length - 4);
+                int numItems = int.Parse(indexItem.text.Substring(indexItem.text.Length - 2, 1));
+                ItemAbstract item = ItemDefinitions.stringToItem(labelItemText);
+                for (int j = 0; j < numItems; j++)
+                {
+                    retItems.Add(item);
+                }
+            }
+        }
         return retItems;
     }
 }

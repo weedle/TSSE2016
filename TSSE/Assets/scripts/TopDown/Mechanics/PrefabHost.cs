@@ -39,6 +39,15 @@ public class PrefabHost : MonoBehaviour
     public RuntimeAnimatorController shipRubyAnimator;
     public RuntimeAnimatorController shipPeacockAnimator;
 
+    public GameObject shipDisplayObject;
+    public GameObject shipyardDisplayObject;
+    public GameObject engine1HD;
+    public GameObject engine2HD;
+
+    public GameObject shipyardTwoSlots;
+    public GameObject shipyardFourSlots;
+    public GameObject shipyardSixSlots;
+
     public GameObject getHealthObject()
     {
         GameObject obj = (GameObject)Instantiate(healthBar, Vector3.zero, Quaternion.Euler(0, 0, 0));
@@ -111,12 +120,6 @@ public class PrefabHost : MonoBehaviour
         return obj;
     }
 
-    public GameObject getShipyardInventoryItem()
-    {
-        GameObject obj = (GameObject)Instantiate(shipyardInventoryItem, Vector3.zero, Quaternion.Euler(0, 0, 0));
-        return obj;
-    }
-
     public GameObject getIconItem()
     {
         GameObject obj = (GameObject)Instantiate(iconItem, Vector3.zero, Quaternion.Euler(0, 0, 0));
@@ -169,5 +172,47 @@ public class PrefabHost : MonoBehaviour
     public GameObject getLaser()
     {
         return laser;
+    }
+
+    public GameObject getShipDisplayObject()
+    {
+        GameObject obj = (GameObject)Instantiate(shipDisplayObject, Vector3.zero, Quaternion.Euler(0, 0, 0));
+        return obj;
+    }
+
+    public GameObject getEngine1HD()
+    {
+        GameObject obj = (GameObject)Instantiate(engine1HD, Vector3.zero, Quaternion.Euler(0, 0, 0));
+        return obj;
+    }
+
+    public GameObject getEngine2HD()
+    {
+        GameObject obj = (GameObject)Instantiate(engine2HD, Vector3.zero, Quaternion.Euler(0, 0, 0));
+        return obj;
+    }
+
+    public GameObject getShipyardDisplayObject()
+    {
+        GameObject obj = (GameObject)Instantiate(shipyardDisplayObject, Vector3.zero, Quaternion.Euler(0, 0, 0));
+        return obj;
+    }
+
+    public GameObject getShipyardTwoSlots()
+    {
+        GameObject obj = (GameObject)Instantiate(shipyardTwoSlots, Vector3.zero, Quaternion.Euler(0, 0, 0));
+        return obj;
+    }
+
+    public GameObject getShipyardFourSlots()
+    {
+        GameObject obj = (GameObject)Instantiate(shipyardFourSlots, Vector3.zero, Quaternion.Euler(0, 0, 0));
+        return obj;
+    }
+
+    public GameObject getShipyardSixSlots()
+    {
+        GameObject obj = (GameObject)Instantiate(shipyardSixSlots, Vector3.zero, Quaternion.Euler(0, 0, 0));
+        return obj;
     }
 }

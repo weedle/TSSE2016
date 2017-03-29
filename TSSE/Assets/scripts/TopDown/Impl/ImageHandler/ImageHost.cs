@@ -16,6 +16,7 @@ public class ImageHost : MonoBehaviour {
     public Sprite missileSpriteLvl1;
     public Sprite missileSpriteLvl2;
     public Sprite missileSpriteLvl3;
+
     public Sprite blueprintFireSpriteLvl1;
     public Sprite blueprintFireSpriteLvl2;
     public Sprite blueprintFireSpriteLvl3;
@@ -28,6 +29,9 @@ public class ImageHost : MonoBehaviour {
     public Sprite blueprintMissileSpriteLvl1;
     public Sprite blueprintMissileSpriteLvl2;
     public Sprite blueprintMissileSpriteLvl3;
+
+    public Sprite shipRuby;
+    public Sprite shipPeacock;
 
     // getImage will return the appropriate icon for a given item
     public Sprite getImage(ItemAbstract item)
