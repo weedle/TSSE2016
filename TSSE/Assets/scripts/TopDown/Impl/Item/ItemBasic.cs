@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Item : MonoBehaviour {
+public class ItemBasic : MonoBehaviour {
     public string itemString;
     public int itemQuantity;
-    public bool inUse;
 }

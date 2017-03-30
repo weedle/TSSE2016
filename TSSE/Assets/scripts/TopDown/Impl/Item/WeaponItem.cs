@@ -10,7 +10,7 @@ public class WeaponItem : ItemAbstract {
     public WeaponType type;
     public int tier;
 
-    public const int numWeaponTypes = 72;
+    public const int numWeaponTypes = 144;
 
     public enum WeaponType
     {

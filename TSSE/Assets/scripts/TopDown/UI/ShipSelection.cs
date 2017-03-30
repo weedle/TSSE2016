@@ -122,6 +122,8 @@ public class ShipSelection : MonoBehaviour {
             shipInfo[i] = entity;
         }
 
+        shipInfo[0].items.Add(ItemAbstract.newItem(WeaponItem.WeaponType.CrownModAmmoCap, 1));
+
         // add listener so we change current selected ship
         // when the dropdown changes
         dropdown.onValueChanged.AddListener(delegate {
@@ -210,6 +212,7 @@ public class ShipSelection : MonoBehaviour {
             level.shipSpawningTokens["Enemy5"] = "wave1";
             level.shipSpawningTokens["Enemy6"] = "wave1";
 
+            /*
             level.ships[0].items.Add(ItemAbstract.newItem(WeaponItem.WeaponType.CrownModDamage, 3));
             level.ships[0].items.Add(ItemAbstract.newItem(WeaponItem.WeaponType.CrownModRechargeRate, 3));
             level.ships[0].items.Add(ItemAbstract.newItem(WeaponItem.WeaponType.CrownModRange, 3));
@@ -219,14 +222,14 @@ public class ShipSelection : MonoBehaviour {
             level.ships[2].items.Add(ItemAbstract.newItem(WeaponItem.WeaponType.CrownModDamage, 3));
             level.ships[2].items.Add(ItemAbstract.newItem(WeaponItem.WeaponType.CrownModRechargeRate, 3));
             level.ships[2].items.Add(ItemAbstract.newItem(WeaponItem.WeaponType.CrownModRange, 3));
-
+            */
 
             PlayerPrefs.SetString("TSSE[Level][Current]", "awyesfirstlevel");
 
             LevelDefinitions.saveLevel(level);
 
             // load the combat scene
-            SceneManager.LoadScene(1);
+            GameObject.Find("GameLogic").GetComponent<GameEventHandler>().combat();
         }
         else
         {

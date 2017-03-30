@@ -8,7 +8,7 @@ public class EngineItem : ItemAbstract
     public EngineType type;
     public int tier;
 
-    public const int numEngineTypes = 12;
+    public const int numEngineTypes = 24;
     public enum EngineType
     {
         Thruster,   // Provides strong forward acceleration but 

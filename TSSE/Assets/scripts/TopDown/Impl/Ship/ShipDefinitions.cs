@@ -185,6 +185,13 @@ public class ShipDefinitions
     public static ShipEntity stringtoShip(string shipEncoded)
     {
         ShipEntity entity = new ShipEntity();
+        if(shipEncoded == "")
+        {
+            entity.engType = EngineType.None;
+            entity.weapType = WeaponType.None;
+            entity.shipType = ShipType.None;
+            return entity;
+        }
         //GameObject.Find("GameLogic").GetComponent<GameEventHandler>().printThing(shipEncoded);
         string[] shipDetails = shipEncoded.Split(':');
         EngineType engType = (EngineType)Enum.Parse(
@@ -226,6 +233,10 @@ public class ShipDefinitions
         ShipEntity entity = stringtoShip(
             PlayerPrefs.GetString("TSSE[ShipEntity][" + uniqueId + "]"));
         entity.uniqueId = uniqueId;
+        if (entity.shipType == ShipType.None)
+        {
+            return entity;
+        }
         entity.items = ItemDefinitions.stringToItems(
             PlayerPrefs.GetString("TSSEList[Item][" + entity.uniqueId + "]"));
         GameObject.Find("GameLogic").GetComponent<GameEventHandler>().printThing(

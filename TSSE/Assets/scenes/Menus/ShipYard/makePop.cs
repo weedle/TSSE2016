@@ -32,11 +32,9 @@ public class makePop : MonoBehaviour {
 
 	// makes necessary changes to the hidden pop-up menu
 	public void setUpMenu() {
-
-		// set image
-
-
-
-
+        ShipDefinitions.ShipEntity entityUpdated = gameObject.transform.parent.GetComponent<ShipBasic>().entity;
+        print("loaded ship: " + ShipDefinitions.shipToString(entityUpdated));
+        entityUpdated = ShipDefinitions.loadShip(entityUpdated.uniqueId);
+        popUp.GetComponent<ShipModSlotHandler>().setShip(entityUpdated);
 	}
 }

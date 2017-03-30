@@ -30,6 +30,26 @@ public class ImageHost : MonoBehaviour {
     public Sprite blueprintMissileSpriteLvl2;
     public Sprite blueprintMissileSpriteLvl3;
 
+    public Sprite engineStandardLvl1;
+    public Sprite engineStandardLvl2;
+    public Sprite engineStandardLvl3;
+    public Sprite engineSpinjetLvl1;
+    public Sprite engineSpinjetLvl2;
+    public Sprite engineSpinjetLvl3;
+    public Sprite engineThrusterLvl1;
+    public Sprite engineThrusterLvl2;
+    public Sprite engineThrusterLvl3;
+
+    public Sprite blueprintEngineStandardLvl1;
+    public Sprite blueprintEngineStandardLvl2;
+    public Sprite blueprintEngineStandardLvl3;
+    public Sprite blueprintEngineSpinjetLvl1;
+    public Sprite blueprintEngineSpinjetLvl2;
+    public Sprite blueprintEngineSpinjetLvl3;
+    public Sprite blueprintEngineThrusterLvl1;
+    public Sprite blueprintEngineThrusterLvl2;
+    public Sprite blueprintEngineThrusterLvl3;
+
     public Sprite shipRuby;
     public Sprite shipPeacock;
 
@@ -163,6 +183,83 @@ public class ImageHost : MonoBehaviour {
             else
             {
                 img = defaultSprite;
+            }
+        }
+        else
+        if (EngineItem.isEngineType(item.getType()))
+        {
+            EngineItem itemE = (EngineItem)item;
+            if(itemE.type == EngineItem.EngineType.Standard)
+            {
+                switch(itemE.tier)
+                {
+                    case 1:
+                        img = engineStandardLvl1;
+                        break;
+                    case 2:
+                        img = engineStandardLvl2;
+                        break;
+                    case 3:
+                        img = engineStandardLvl3;
+                        break;
+                    case 4:
+                        img = blueprintEngineStandardLvl1;
+                        break;
+                    case 5:
+                        img = blueprintEngineStandardLvl2;
+                        break;
+                    case 6:
+                        img = blueprintEngineStandardLvl3;
+                        break;
+                }
+            }
+            else if (itemE.type == EngineItem.EngineType.Spinjet)
+            {
+                switch (itemE.tier)
+                {
+                    case 1:
+                        img = engineSpinjetLvl1;
+                        break;
+                    case 2:
+                        img = engineSpinjetLvl2;
+                        break;
+                    case 3:
+                        img = engineSpinjetLvl3;
+                        break;
+                    case 4:
+                        img = blueprintEngineSpinjetLvl1;
+                        break;
+                    case 5:
+                        img = blueprintEngineSpinjetLvl2;
+                        break;
+                    case 6:
+                        img = blueprintEngineSpinjetLvl3;
+                        break;
+                }
+            }
+            else if (itemE.type == EngineItem.EngineType.Thruster)
+            {
+                switch (itemE.tier)
+                {
+                    case 1:
+                        img = engineThrusterLvl1;
+                        break;
+                    case 2:
+                        img = engineThrusterLvl2;
+                        break;
+                    case 3:
+                        img = engineThrusterLvl3;
+                        break;
+                    case 4:
+                        img = blueprintEngineThrusterLvl1;
+                        break;
+                    case 5:
+                        img = blueprintEngineThrusterLvl2;
+                        break;
+                    case 6:
+                        img = blueprintEngineThrusterLvl3;
+                        break;
+                }
             }
         }
         return img;

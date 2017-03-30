@@ -9,6 +9,7 @@ public class ItemListHandler : MonoBehaviour {
     public GameObject selectedItem = null;
     public string mode = "merchant";
     public bool iconsMode = false;
+    public bool removing = false;
 
     public int numItemsTotal = 0;
 
@@ -85,7 +86,7 @@ public class ItemListHandler : MonoBehaviour {
         {
             for(int i = 0; i < transform.GetChild(0).childCount; i++)
             {
-                Item indexItem = transform.GetChild(0).GetChild(i).GetComponent<Item>();
+                ItemBasic indexItem = transform.GetChild(0).GetChild(i).GetComponent<ItemBasic>();
                 string labelItemText = indexItem.itemString;
                 int numItems = indexItem.itemQuantity;
                 // if this is the item:
@@ -96,8 +97,11 @@ public class ItemListHandler : MonoBehaviour {
                     int x = numItems;
                     x++;
 
-                    indexItem.itemString = itemText + " (" + x + ")";
+                    indexItem.itemString = itemText;
                     indexItem.itemQuantity = x;
+                    print("++in ILH adding: " + itemText);
+                    transform.GetChild(0).GetChild(i).GetComponent<IconHandler>().setNum(x);
+                    //print("incrementing existing item: " + itemText);
                     return;
                 }
             }
@@ -106,8 +110,8 @@ public class ItemListHandler : MonoBehaviour {
         // We haven't returned earlier, so this must be a new item
         // So, we create a new thing and add to the listview
         // We have an example item in the PrefabHost
+        //print("creating new item: " + itemText);
         GameObject newItem;
-        numItemsTotal++;
         if (mode == "inventory")
         {
             newItem = GameObject.Find("GameLogic").
@@ -123,16 +127,18 @@ public class ItemListHandler : MonoBehaviour {
             newItem = GameObject.Find("GameLogic").
                 GetComponent<PrefabHost>().getIconItem();
             newItem.transform.position = 
-                new Vector3(-140 + 45 * (numItemsTotal % 5), 140 - 45 * (numItemsTotal / 5));
+                new Vector3(-95 + 45 * (numItemsTotal % 5), 140 - 45 * (numItemsTotal / 5));
             newItem.transform.GetChild(0).GetComponent<UnityEngine.UI.Image>()
                 .sprite = getImage(item);
         }
+        numItemsTotal++;
 
         // Initially has 1 object
         if (iconsMode)
         {
-            newItem.GetComponent<Item>().itemString = itemText + " (1)";
-            newItem.GetComponent<Item>().itemQuantity = 1;
+            newItem.GetComponent<ItemBasic>().itemString = itemText;
+            newItem.GetComponent<ItemBasic>().itemQuantity = 1;
+            newItem.GetComponent<IconHandler>().setNum(1);
         }
         else
         {
@@ -148,6 +154,7 @@ public class ItemListHandler : MonoBehaviour {
 
         if (iconsMode)
         {
+            /*
             GameObject greyedItem = (GameObject)Instantiate(newItem, Vector3.zero, Quaternion.Euler(0, 0, 0));
             greyedItem.transform.SetParent(newItem.transform.parent);
             greyedItem.transform.position = newItem.transform.position;
@@ -155,11 +162,14 @@ public class ItemListHandler : MonoBehaviour {
             greyedItem.transform.GetChild(0).GetComponent<UnityEngine.UI.Image>()
                 .color = Color.gray;
             Destroy(greyedItem.GetComponent<dragHandler>());
+            */
         }
         else
         {
             GetComponent<UnityEngine.UI.ScrollRect>().verticalNormalizedPosition = 1;
         }
+
+        print("XXin ILH adding: " + itemText);
     }
 
     // reduce quantity if present, otherwise remove item
@@ -167,31 +177,18 @@ public class ItemListHandler : MonoBehaviour {
     {
         // like in addItem, first we search for the item
         string itemText = ItemDefinitions.itemToString(item);
+        print("removing item: " + itemText);
         if (iconsMode)
         {
             for (int i = 0; i < transform.GetChild(0).childCount; i++)
             {
-                Item indexItem = transform.GetChild(0).GetChild(i).GetComponent<Item>();
+                ItemBasic indexItem = transform.GetChild(0).GetChild(i).GetComponent<ItemBasic>();
                 string labelItemText = indexItem.itemString;
-                int numItems = indexItem.itemQuantity;
                 // if it matches, we found it
                 if (labelItemText == itemText)
                 {
-                    // first figure out how many we now have
-                    int x = numItems;
-                    x--;
-
-                    // we have none left, so remove this item
-                    if (x == 0)
-                    {
-                        GameObject.Destroy(transform.GetChild(0).GetChild(i).gameObject);
-                        numItemsTotal--;
-                        return;
-                    }
-
-                    // refresh the label
-                    indexItem.itemString = itemText + " (" + x + ")";
-                    indexItem.itemQuantity = x;
+                    transform.GetChild(0).GetChild(i).
+                        GetComponent<IconHandler>().decOne();
                     return;
                 }
             }
@@ -229,10 +226,14 @@ public class ItemListHandler : MonoBehaviour {
     // reduce quantity if present, otherwise remove item
     public void removeAllItems()
     {
+        removing = true;
+        print("in ILH removing all");
         for (int i = 0; i < transform.GetChild(0).childCount; i++)
         {
             GameObject.Destroy(transform.GetChild(0).GetChild(i).gameObject);
         }
+        numItemsTotal = 0;
+        removing = false;
     }
 
     public List<ItemAbstract> getAllItems()
@@ -242,7 +243,7 @@ public class ItemListHandler : MonoBehaviour {
         {
             for (int i = 0; i < transform.GetChild(0).childCount; i++)
             {
-                Item indexItem = transform.GetChild(0).GetChild(i).GetComponent<Item>();
+                ItemBasic indexItem = transform.GetChild(0).GetChild(i).GetComponent<ItemBasic>();
                 string labelItemText = indexItem.itemString;
                 int numItems = indexItem.itemQuantity;
                 ItemAbstract item = ItemDefinitions.stringToItem(labelItemText);

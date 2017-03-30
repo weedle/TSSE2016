@@ -407,14 +407,16 @@ public class ShipSpawner : MonoBehaviour
         GameObject ship;
         if (entity.faction == ShipDefinitions.Faction.Enemy)
         {
-            if(entity.shipType == ShipDefinitions.ShipType.Ruby)
+            if (entity.shipType == ShipDefinitions.ShipType.Ruby)
             {
                 ship = getShipRubyPirate();
             }
-            else
+            else if (entity.shipType == ShipDefinitions.ShipType.Peacock)
             {
                 ship = getShipPeacockPirate();
             }
+            else
+                return;
         }
         else
         {
@@ -422,10 +424,12 @@ public class ShipSpawner : MonoBehaviour
             {
                 ship = getShipRuby();
             }
-            else
+            else if (entity.shipType == ShipDefinitions.ShipType.Peacock)
             {
                 ship = getShipPeacock();
             }
+            else
+                return;
         }
         
         ShipIntf shipIntf = ship.GetComponent<ShipIntf>();

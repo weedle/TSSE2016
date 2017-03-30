@@ -45,14 +45,21 @@ public class ItemDefinitions {
             WeaponItem itemW = (WeaponItem) item;
             if (itemW.type == WeaponItem.WeaponType.Error)
                 return 0;
-            return (3 * (int) itemW.type) - 2 + itemW.tier;
+            return (6 * (int) itemW.type) - 5 + itemW.tier;
+        }
+        else if (EngineItem.isEngineType(item.getType()))
+        {
+            EngineItem itemE = (EngineItem)item;
+            if (itemE.type == EngineItem.EngineType.Error)
+                return 0;
+            return (6 * (int)itemE.type) - 5 + itemE.tier + WeaponItem.numWeaponTypes;
         }
         return 0;
     }
 
     public static ItemAbstract intToItem(int index)
     {
-        if (index < 72)
+        if (index < WeaponItem.numWeaponTypes)
         {
             if (index == 0)
                 return new WeaponItem(WeaponItem.WeaponType.Error);
@@ -60,8 +67,8 @@ public class ItemDefinitions {
             try
             {
                 WeaponItem.WeaponType type = (WeaponItem.WeaponType)Enum.Parse(typeof(WeaponItem.WeaponType),
-                (index / 3).ToString());
-                int tier = index % 3 + 1;
+                (index / 6).ToString());
+                int tier = index % 6 + 1;
                 item = new WeaponItem(type, tier);
             }
             catch (ArgumentException err)
@@ -70,7 +77,25 @@ public class ItemDefinitions {
             }
             return item;
         }
-        
+        else if (index <= WeaponItem.numWeaponTypes + EngineItem.numEngineTypes)
+        {
+            index -= WeaponItem.numWeaponTypes;
+            if (index == 0)
+                return new EngineItem(EngineItem.EngineType.Error);
+            EngineItem item;
+            try
+            {
+                EngineItem.EngineType type = (EngineItem.EngineType)Enum.Parse(typeof(EngineItem.EngineType),
+                (index / 6).ToString());
+                int tier = index % 6 + 1;
+                item = new EngineItem(type, tier);
+            }
+            catch (ArgumentException err)
+            {
+                item = new EngineItem(EngineItem.EngineType.Error);
+            }
+            return item;
+        }
         return new WeaponItem(WeaponItem.WeaponType.Error);
     }
 

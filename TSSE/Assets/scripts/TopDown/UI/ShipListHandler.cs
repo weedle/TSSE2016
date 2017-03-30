@@ -10,6 +10,11 @@ public class ShipListHandler : MonoBehaviour
     public GameObject slotsTwo;
     public GameObject slotsFour;
     public GameObject slotsSix;
+    public GameObject shipInfoHandler;
+    void Start()
+    {
+    }
+
     void Update()
     {
         if(selectedShip != null)
@@ -25,6 +30,10 @@ public class ShipListHandler : MonoBehaviour
     {
         print("selected ship!");
         selectedShip = obj;
+        ShipDefinitions.ShipEntity updatedEntity =
+            ShipDefinitions.loadShip(obj.GetComponent<ShipBasic>().entity.uniqueId);
+        shipInfoHandler.GetComponent<ShipyardInfoViewHandler>()
+            .setShipInfo(updatedEntity);
     }
 
     // add the ship
@@ -39,6 +48,7 @@ public class ShipListHandler : MonoBehaviour
         {
             newShip = GameObject.Find("GameLogic").
                 GetComponent<PrefabHost>().getShipyardDisplayObject();
+            newShip.GetComponent<ShipBasic>().entity = entity;
             switch(entity.shipType)
             {
                 case ShipDefinitions.ShipType.Ruby:
@@ -108,7 +118,6 @@ public class ShipListHandler : MonoBehaviour
     {
     }
 
-    // reduce quantity if present, otherwise remove item
     public void removeAllItems()
     {
         for (int i = 0; i < transform.GetChild(0).childCount; i++)

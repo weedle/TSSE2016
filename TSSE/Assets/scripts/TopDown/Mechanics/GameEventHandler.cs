@@ -68,6 +68,11 @@ public class GameEventHandler : MonoBehaviour {
     public void merchant(string merchantId)
     {
         PlayerPrefs.SetString("TSSE[Level][Merchant]", merchantId);
-        SceneManager.LoadScene("scenes/Menu/Merchant/Scenes/menu", LoadSceneMode.Single);
+        SceneManager.LoadScene("scenes/merchantMenu", LoadSceneMode.Single);
+    }
+
+    public void combat()
+    {
+        SceneManager.LoadScene("scenes/arena", LoadSceneMode.Single);
     }
 }
