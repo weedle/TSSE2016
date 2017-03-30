@@ -2,7 +2,6 @@
 using System.Collections;
 
 public class ShipyardResetThisShip : MonoBehaviour {
-
 	// Use this for initialization
 	void Start () {
 	
@@ -20,5 +19,9 @@ public class ShipyardResetThisShip : MonoBehaviour {
         entity = ShipDefinitions.loadShip(entity.uniqueId);
         entity.items.Clear();
         ShipDefinitions.saveShip(entity);
+
+        // I am so sorry
+        GameObject.Find("ship-info-textbox").GetComponent<ShipyardInfoViewHandler>()
+            .updateEntity();
     }
 }

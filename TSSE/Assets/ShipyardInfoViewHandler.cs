@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class ShipyardInfoViewHandler : MonoBehaviour {
-
+    private ShipDefinitions.ShipEntity thisEntity;
 	// Use this for initialization
 	void Start () {
 	
@@ -15,6 +15,7 @@ public class ShipyardInfoViewHandler : MonoBehaviour {
 
     public void setShipInfo(ShipDefinitions.ShipEntity entity)
     {
+        thisEntity = entity;
         UnityEngine.UI.Text textThing = transform.GetChild(0).GetComponent<UnityEngine.UI.Text>();
         string info = "Current Ship: " + entity.uniqueId + "\n";
         info += "Ship type: " + entity.shipType.ToString() + "\n";
@@ -28,5 +29,11 @@ public class ShipyardInfoViewHandler : MonoBehaviour {
             info += item.toString() + " ";
         }
         textThing.text = info;
+    }
+
+    public void updateEntity()
+    {
+        thisEntity = ShipDefinitions.loadShip(thisEntity.uniqueId);
+        setShipInfo(thisEntity);
     }
 }

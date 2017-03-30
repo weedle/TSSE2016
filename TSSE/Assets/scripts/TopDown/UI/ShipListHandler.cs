@@ -62,6 +62,7 @@ public class ShipListHandler : MonoBehaviour
         else {
             newShip = GameObject.Find("GameLogic").
                 GetComponent<PrefabHost>().getShipDisplayObject();
+            newShip.GetComponent<ShipBasic>().entity = entity;
         }
         GameObject newEngine = null;
 
@@ -79,7 +80,7 @@ public class ShipListHandler : MonoBehaviour
             case ShipDefinitions.ShipType.None:
                 return;
         }
-
+        /*
         switch(entity.engType)
         {
             case ShipDefinitions.EngineType.Engine1:
@@ -103,6 +104,7 @@ public class ShipListHandler : MonoBehaviour
                 newEngine.transform.GetComponent<Animator>().Play("Active");
                 break;
         }
+        */
         // Add to listview
         newShip.transform.SetParent(transform.GetChild(0).transform, false);
 

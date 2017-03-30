@@ -9,7 +9,6 @@ public class ItemListHandler : MonoBehaviour {
     public GameObject selectedItem = null;
     public string mode = "merchant";
     public bool iconsMode = false;
-    public bool removing = false;
 
     public int numItemsTotal = 0;
 
@@ -226,14 +225,12 @@ public class ItemListHandler : MonoBehaviour {
     // reduce quantity if present, otherwise remove item
     public void removeAllItems()
     {
-        removing = true;
         print("in ILH removing all");
         for (int i = 0; i < transform.GetChild(0).childCount; i++)
         {
             GameObject.Destroy(transform.GetChild(0).GetChild(i).gameObject);
         }
         numItemsTotal = 0;
-        removing = false;
     }
 
     public List<ItemAbstract> getAllItems()

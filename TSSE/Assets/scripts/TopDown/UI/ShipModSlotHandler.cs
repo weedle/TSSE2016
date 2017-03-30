@@ -4,12 +4,12 @@ using System.Collections;
 public class ShipModSlotHandler : MonoBehaviour {
     public GameObject shipImage;
     public int totalSlots;
-    public GameObject slotL01; // 0
-    public GameObject slotR01; // 1
-    public GameObject slotL02; // 2
-    public GameObject slotR02; // 3
-    public GameObject slotL03; // 4
-    public GameObject slotR03; // 5
+    public GameObject slotL01; // 1
+    public GameObject slotR01; // 2
+    public GameObject slotL02; // 3
+    public GameObject slotR02; // 4
+    public GameObject slotL03; // 5
+    public GameObject slotR03; // 6
 
     public ShipDefinitions.ShipEntity thisEntity;
 

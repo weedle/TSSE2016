@@ -48,6 +48,8 @@ public class PrefabHost : MonoBehaviour
     public GameObject shipyardFourSlots;
     public GameObject shipyardSixSlots;
 
+    public GameObject shipyardBlueprint;
+
     public GameObject getHealthObject()
     {
         GameObject obj = (GameObject)Instantiate(healthBar, Vector3.zero, Quaternion.Euler(0, 0, 0));
@@ -213,6 +215,12 @@ public class PrefabHost : MonoBehaviour
     public GameObject getShipyardSixSlots()
     {
         GameObject obj = (GameObject)Instantiate(shipyardSixSlots, Vector3.zero, Quaternion.Euler(0, 0, 0));
+        return obj;
+    }
+
+    public GameObject getBlueprintItem()
+    {
+        GameObject obj = (GameObject)Instantiate(shipyardBlueprint, Vector3.zero, Quaternion.Euler(0, 0, 0));
         return obj;
     }
 }
