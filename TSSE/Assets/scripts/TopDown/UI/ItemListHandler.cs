@@ -7,6 +7,9 @@ using System.Collections.Generic;
 public class ItemListHandler : MonoBehaviour {
     // whichever item we selected, probably by clicking it
     public GameObject selectedItem = null;
+    public GameObject itemImage;
+    public GameObject panel1;
+    public GameObject panel2;
     public string mode = "merchant";
     public bool iconsMode = false;
 
@@ -15,16 +18,23 @@ public class ItemListHandler : MonoBehaviour {
     // if an item is selected, keep track of it
     public void itemSelected(GameObject obj)
     {
-        if (iconsMode)
-            return;
-        UnityEngine.UI.Text indexItem = obj.transform.GetChild(0).
-               GetComponent<UnityEngine.UI.Text>();
-        ItemAbstract item = ItemDefinitions.stringToItem(
-            indexItem.text.Substring(0, indexItem.text.Length - 4));
-
+        ItemAbstract item;
         if (!iconsMode)
         {
-            GameObject imgObj = GameObject.Find("itemImage");
+            UnityEngine.UI.Text indexItem = obj.transform.GetChild(0).
+               GetComponent<UnityEngine.UI.Text>();
+            item = ItemDefinitions.stringToItem(
+            indexItem.text.Substring(0, indexItem.text.Length - 4));
+        }
+        else
+        {
+            item = ItemDefinitions.stringToItem(
+                obj.GetComponent<ItemBasic>().itemString);
+        }
+
+        if (itemImage != null)
+        {
+            GameObject imgObj = itemImage;
 
             UnityEngine.UI.Image img = null;
             if (imgObj != null)
@@ -33,16 +43,14 @@ public class ItemListHandler : MonoBehaviour {
             {
                 img.sprite = getImage(item);
             }
-            GameObject panel1 = GameObject.Find("panelText01");
-            if (panel1 != null)
-                panel1.GetComponent<UnityEngine.UI.Text>()
-                .text = ItemDefinitions.getDesc(item);
-            GameObject panel2 = GameObject.Find("panelText02");
-            if (panel2 != null)
-                panel2.GetComponent<UnityEngine.UI.Text>()
-                .text = ItemDefinitions.getSpec(item);
-            selectedItem = obj;
         }
+        if (panel1 != null)
+            panel1.GetComponent<UnityEngine.UI.Text>()
+            .text = ItemDefinitions.getDesc(item);
+        if (panel2 != null)
+            panel2.GetComponent<UnityEngine.UI.Text>()
+            .text = ItemDefinitions.getSpec(item);
+        selectedItem = obj;
     }
 
     public Sprite getImage(ItemAbstract item)

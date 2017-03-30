@@ -51,7 +51,6 @@ public class Inventory : MonoBehaviour {
         items.Add(new WeaponItem(WeaponItem.WeaponType.FlameModAmmoCap, 2));
         items.Add(new WeaponItem(WeaponItem.WeaponType.FlameModAmmoCap, 2));
         items.Add(new WeaponItem(WeaponItem.WeaponType.FlameModAmmoCap, 5));
-        /*
         items.Add(new EngineItem(EngineItem.EngineType.Spinjet, 1));
         items.Add(new EngineItem(EngineItem.EngineType.Spinjet, 2));
         items.Add(new EngineItem(EngineItem.EngineType.Spinjet, 3));
@@ -86,7 +85,6 @@ public class Inventory : MonoBehaviour {
         items.Add(new WeaponItem(WeaponItem.WeaponType.MissileModAmmoCap, 4));
         items.Add(new WeaponItem(WeaponItem.WeaponType.MissileModAmmoCap, 5));
         items.Add(new WeaponItem(WeaponItem.WeaponType.MissileModSpeed, 3));
-        */
 
         clearInventory();
         foreach (ItemAbstract item in items)
@@ -143,7 +141,7 @@ public class Inventory : MonoBehaviour {
             if (inventory[key] <= 0)
                 continue;
             ItemAbstract item = ItemDefinitions.stringToItem(key);
-            //print(key + "->" + item.getType() + ":" + item.getTier());
+            print(key + "->" + item.getType() + ":" + item.getTier());
             if (item.getType() == "Error")
                 continue;
             if(WeaponItem.isWeaponType(item.getType()))
