@@ -1,0 +1,33 @@
+<DialogueCollection name="Jim">
+
+	<Dialogues level="0">
+		<Dialogue>
+			<regular>
+HEY, IT'S ME, SHIPYARD JIM./WANNA WORK ON YOUR SHIPS?
+			</regular>
+
+			<yes>
+SWEET LET'S GET TO WORK BRUH
+			</yes>
+
+			<no>
+OKAY THAT'S COOL
+			</no>
+
+			<callback type="2" cb="scene scenes/shipee" />
+		</Dialogue>
+
+
+		<Dialogue>
+			<regular>
+HEY WELCOME BACK HOW'S LIFE EH
+			</regular>
+
+			<yes></yes>
+			<no></no>
+
+			<callback type="0" cb=""/>
+		</Dialogue>
+	</Dialogues>
+
+</DialogueCollection>

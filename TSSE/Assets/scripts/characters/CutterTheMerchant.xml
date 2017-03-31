@@ -14,7 +14,7 @@ Aw yes gimme those sweet credits yesssssss.
 Yeah well come back if you change your mind.
 			</no>
 
-			<callback type="2" cb="scene scenes/Combat/prebattle" />
+			<callback type="2" cb="scene scenes/merchantMenu" />
 		</Dialogue>
 
 

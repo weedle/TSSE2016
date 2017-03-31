@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 // This handles the UI for the merchant scene
 public class merchantBuySellButtonScript : MonoBehaviour {
@@ -114,15 +115,25 @@ public class merchantBuySellButtonScript : MonoBehaviour {
 
     public void exit()
     {
-        List<ItemAbstract> playerInventory = new List<ItemAbstract>();
-        playerInventory.Add(ItemAbstract.newItem(WeaponItem.WeaponType.FlameModAmmoCap, 1));
-        playerInventory.Add(ItemAbstract.newItem(WeaponItem.WeaponType.CrownModDamage, 3));
-        playerInventory.Add(ItemAbstract.newItem(WeaponItem.WeaponType.LaserModAmmoCap, 5));
+        List<ItemAbstract> playerItems = playerItemList.getAllItems();
+        ItemDefinitions.saveItems("Player", ItemDefinitions.itemsToString(playerItems));
 
-        ItemDefinitions.saveItems("Player", ItemDefinitions.itemsToString(playerInventory));
+        List<ItemAbstract> merchantItems = merchantItemList.getAllItems();
 
-        List<ItemAbstract> merchantInventory = merchantItemList.getAllItems();
+        ItemDefinitions.saveItems(merchantId, ItemDefinitions.itemsToString(merchantItems));
 
-        ItemDefinitions.saveItems(merchantId, ItemDefinitions.itemsToString(merchantInventory));
+        playerInventory.saveCurrency();
+        merchantInventory.saveCurrency();
+        loadPreviousLevel();
+    }
+
+    public void cancel()
+    {
+        loadPreviousLevel();
+    }
+
+    public void loadPreviousLevel()
+    {
+        SceneManager.LoadScene("scenes/Level0", LoadSceneMode.Single);
     }
 }

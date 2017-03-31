@@ -44,19 +44,18 @@ public class GameEventHandler : MonoBehaviour {
     }
 
     private void dialogue(string character)
-    {
-        if(character == "CutterTheMerchant")
-        {
-            Character chrNext = new Character("CutterTheMerchant", 0);
-            //Character chrNext = new MerchantXYZ();
-        GameObject.Find("GameLogic")
-            .GetComponent<DialogueManager>().
-            setCharacter(chrNext);
-        }
-        else if (character == "vanish")
+    {if (character == "vanish")
         {
             GameObject.Find("GameLogic")
                 .GetComponent<DialogueManager>().toggleAllComps(false);
+        }
+        else
+        {
+            Character chrNext = new Character(character, 0);
+            //Character chrNext = new MerchantXYZ();
+            GameObject.Find("GameLogic")
+                .GetComponent<DialogueManager>().
+                setCharacter(chrNext);
         }
     }
 

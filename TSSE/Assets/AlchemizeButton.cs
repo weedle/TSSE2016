@@ -33,15 +33,25 @@ public class AlchemizeButton : MonoBehaviour {
     {
         if(blueprints.findItem(item))
         {
-            inventory.addItem(item);
-            print("you alchemized an item!");
+            int scrap = PlayerPrefs.GetInt("score");
+            int cost = ItemDefinitions.getScrapCost(item);
+            if (cost <= scrap)
+            {
+                inventory.addItem(item);
+                inventory.addCurrency(-cost);
+                inventory.updateCurrency();
+            }
+            //print("you alchemized an item!");
             // something with scrap lol
         }
     }
 
     public void destroy()
     {
+        int cost = ItemDefinitions.getScrapCost(item);
         inventory.removeItem(item);
+        inventory.addCurrency(cost);
+        inventory.updateCurrency();
         // something with scrap lol
     }
 
@@ -50,11 +60,13 @@ public class AlchemizeButton : MonoBehaviour {
         item = newItem;
         if (blueprints.findItem(item))
         {
-            enable();
+            int scrap = PlayerPrefs.GetInt("score");
+            if (ItemDefinitions.getScrapCost(item) <= scrap)
+            {
+                enable();
+                return;
+            }
         }
-        else
-        {
-            disable();
-        }
+        disable();
     }
 }

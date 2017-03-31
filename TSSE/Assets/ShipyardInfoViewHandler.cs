@@ -22,12 +22,13 @@ public class ShipyardInfoViewHandler : MonoBehaviour {
         info += "Engine type: " + entity.engType.ToString() + "\n";
         info += "Weapon type: " + entity.weapType.ToString() + "\n";
         info += "Items: ";
-        foreach(ItemAbstract item in entity.items)
-        {
-            if (item.getType() == "Error")
-                continue;
-            info += item.toString() + " ";
-        }
+        if(entity.items != null)
+            foreach(ItemAbstract item in entity.items)
+            {
+                if (item.getType() == "Error")
+                    continue;
+                info += item.toString() + " ";
+            }
         textThing.text = info;
     }
 

@@ -31,82 +31,87 @@ public class Inventory : MonoBehaviour {
     // currency in possession of this entity
     private int currency = 200;
 
-    private bool engines = true;
-    private bool engineBlueprints = false;
-    private bool weapons = true;
-    private bool weaponBlueprints = false;
+    public bool engines = true;
+    public bool engineBlueprints = false;
+    public bool weapons = true;
+    public bool weaponBlueprints = false;
 
     void Start()
     {
+        if(inventoryType == "Player")
+            currency = PlayerPrefs.GetInt("score");
+        else
+            currency = PlayerPrefs.GetInt("score-" + inventoryType);
         //PlayerPrefs.DeleteAll();
-        //List<ItemAbstract> items = ItemDefinitions.stringToItems(
-        //ItemDefinitions.loadItems(uniqueId));
-        
+        List<ItemAbstract> items = ItemDefinitions.stringToItems(
+        ItemDefinitions.loadItems(uniqueId));
+        /*
+        if(inventoryType == "Merchant")
+        {
+            items = new List<ItemAbstract>();
+            items.Add(new EngineItem(EngineItem.EngineType.Spinjet, 4));
+
+            items.Add(new WeaponItem(WeaponItem.WeaponType.CrownModAmmoCap, 4));
+            items.Add(new WeaponItem(WeaponItem.WeaponType.CrownModRange, 4));
+            items.Add(new WeaponItem(WeaponItem.WeaponType.FlameModRechargeRate, 4));
+            items.Add(new WeaponItem(WeaponItem.WeaponType.MissileModAmmoCap, 4));
+            items.Add(new WeaponItem(WeaponItem.WeaponType.MissileModAmmoCap, 5));
+        }
+        else if(inventoryType == "Player")
+        {
+            items = new List<ItemAbstract>();
+            items.Add(new WeaponItem(WeaponItem.WeaponType.CrownModAmmoCap, 1));
+            items.Add(new WeaponItem(WeaponItem.WeaponType.CrownModAmmoCap, 2));
+            items.Add(new WeaponItem(WeaponItem.WeaponType.CrownModAmmoCap, 4));
+            items.Add(new WeaponItem(WeaponItem.WeaponType.CrownModRange, 2));
+            items.Add(new WeaponItem(WeaponItem.WeaponType.CrownModRechargeRate, 3));
+            items.Add(new WeaponItem(WeaponItem.WeaponType.FlameModAmmoCap, 2));
+            items.Add(new WeaponItem(WeaponItem.WeaponType.FlameModAmmoCap, 2));
+            items.Add(new WeaponItem(WeaponItem.WeaponType.FlameModRechargeRate, 3));
+            items.Add(new WeaponItem(WeaponItem.WeaponType.FlameModRechargeRate, 1));
+        }
+        /*
         List<ItemAbstract> items = new List<ItemAbstract>();
         // hardcoding temporary item list
-        items.Add(new EngineItem(EngineItem.EngineType.Spinjet, 1));
-        items.Add(new EngineItem(EngineItem.EngineType.Spinjet, 2));
-        items.Add(new EngineItem(EngineItem.EngineType.Spinjet, 6));
-        items.Add(new EngineItem(EngineItem.EngineType.Spinjet, 6));
-        items.Add(new WeaponItem(WeaponItem.WeaponType.CrownModRechargeRate, 5));
-        items.Add(new WeaponItem(WeaponItem.WeaponType.FlameModAmmoCap, 2));
-        items.Add(new WeaponItem(WeaponItem.WeaponType.FlameModAmmoCap, 2));
-        items.Add(new WeaponItem(WeaponItem.WeaponType.FlameModAmmoCap, 5));
-        items.Add(new EngineItem(EngineItem.EngineType.Spinjet, 1));
-        items.Add(new EngineItem(EngineItem.EngineType.Spinjet, 2));
-        items.Add(new EngineItem(EngineItem.EngineType.Spinjet, 3));
-        items.Add(new EngineItem(EngineItem.EngineType.Spinjet, 5));
-        items.Add(new EngineItem(EngineItem.EngineType.Spinjet, 6));
-        items.Add(new EngineItem(EngineItem.EngineType.Standard, 1));
-        items.Add(new EngineItem(EngineItem.EngineType.Standard, 1));
-        items.Add(new EngineItem(EngineItem.EngineType.Standard, 1));
-        items.Add(new EngineItem(EngineItem.EngineType.Thruster, 2));
-        items.Add(new EngineItem(EngineItem.EngineType.Standard, 4));
-
         items.Add(new WeaponItem(WeaponItem.WeaponType.CrownModAmmoCap, 1));
         items.Add(new WeaponItem(WeaponItem.WeaponType.CrownModAmmoCap, 2));
         items.Add(new WeaponItem(WeaponItem.WeaponType.CrownModRange, 2));
         items.Add(new WeaponItem(WeaponItem.WeaponType.CrownModRechargeRate, 3));
-        items.Add(new WeaponItem(WeaponItem.WeaponType.CrownModRange, 4));
-        items.Add(new WeaponItem(WeaponItem.WeaponType.CrownModRechargeRate, 5));
         items.Add(new WeaponItem(WeaponItem.WeaponType.FlameModAmmoCap, 2));
         items.Add(new WeaponItem(WeaponItem.WeaponType.FlameModAmmoCap, 2));
         items.Add(new WeaponItem(WeaponItem.WeaponType.FlameModRechargeRate, 3));
         items.Add(new WeaponItem(WeaponItem.WeaponType.FlameModRechargeRate, 1));
-        items.Add(new WeaponItem(WeaponItem.WeaponType.FlameModAmmoCap, 5));
-        items.Add(new WeaponItem(WeaponItem.WeaponType.FlameModRechargeRate, 6));
-        items.Add(new WeaponItem(WeaponItem.WeaponType.LaserModAmmoCap, 1));
-        items.Add(new WeaponItem(WeaponItem.WeaponType.LaserModAmmoCap, 1));
-        items.Add(new WeaponItem(WeaponItem.WeaponType.LaserModAmmoCap, 1));
-        items.Add(new WeaponItem(WeaponItem.WeaponType.LaserModAmmoCap, 1));
-        items.Add(new WeaponItem(WeaponItem.WeaponType.LaserModAmmoCap, 4));
-        items.Add(new WeaponItem(WeaponItem.WeaponType.MissileModAmmoCap, 1));
-        items.Add(new WeaponItem(WeaponItem.WeaponType.MissileModAmmoCap, 2));
-        items.Add(new WeaponItem(WeaponItem.WeaponType.MissileModAmmoCap, 1));
-        items.Add(new WeaponItem(WeaponItem.WeaponType.MissileModAmmoCap, 4));
-        items.Add(new WeaponItem(WeaponItem.WeaponType.MissileModAmmoCap, 5));
-        items.Add(new WeaponItem(WeaponItem.WeaponType.MissileModSpeed, 3));
-
+        */
         clearInventory();
         foreach (ItemAbstract item in items)
         {
             if (item.getType() != "Error")
             {
+                print("adding " + item);
                 //addItem(item);
                 inventory[ItemDefinitions.itemToString(item)]++;
+                if(item.getTier() > 3)
+                {
+                    if (blueprintDisplay != null)
+                    {
+                        blueprintDisplay.GetComponent<ItemListHandler>().
+                            addItem(item);
+                    }
+                }
             }
         }
         saveInventory();
-        
         //ItemDefinitions.saveItems("Player", ItemDefinitions.itemsToString(items));
-        if (shipDisplay == null)
-            return;
-        for (int i = 0; i < 6; i++)
+        if (shipDisplay != null)
         {
-            string id = "PlayerShip" + i.ToString();
-            shipDisplay.GetComponent<ShipListHandler>().addShip(ShipDefinitions.loadShip(id));
+            for (int i = 0; i < 6; i++)
+            {
+                string id = "PlayerShip" + i.ToString();
+                shipDisplay.GetComponent<ShipListHandler>().addShip(ShipDefinitions.loadShip(id));
+            }
         }
         reloadItems();
+        updateCurrency();
     }
 
     public void toggleEngines()
@@ -175,7 +180,7 @@ public class Inventory : MonoBehaviour {
     }
 
     // just refresh the label
-    private void updateCurrency()
+    public void updateCurrency()
     {
         if (currencyDisplay == null)
             return;
@@ -413,5 +418,13 @@ public class Inventory : MonoBehaviour {
     {
         currency += toAdd;
         updateCurrency();
+    }
+
+    public void saveCurrency()
+    {
+        if (inventoryType == "Player")
+            PlayerPrefs.SetInt("score", currency);
+        else
+            PlayerPrefs.SetInt("score-" + inventoryType, currency);
     }
 }

@@ -150,4 +150,9 @@ public class ItemDefinitions {
         return 10;
         // wow hardcoded placeholder value, much clever
     }
+
+    public static int getScrapCost(ItemAbstract item)
+    {
+        return 2 * item.getTier();
+    }
 }
