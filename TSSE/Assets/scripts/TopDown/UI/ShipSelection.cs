@@ -156,77 +156,82 @@ public class ShipSelection : MonoBehaviour {
         });
     }
 
+    public void saveStuff()
+    {
+
+        List<ShipDefinitions.ShipEntity> list = new List<ShipDefinitions.ShipEntity>();
+        list.AddRange(shipInfo);
+
+        // Adding default enemies for sake of testing
+        ShipDefinitions.ShipEntity enemy1 = new ShipDefinitions.ShipEntity(ShipDefinitions.EngineType.Engine1, ShipDefinitions.WeaponType.Flame,
+            ShipDefinitions.ShipType.Ruby, new List<ItemAbstract>(), ShipDefinitions.Faction.Enemy, "Enemy1");
+        ShipDefinitions.ShipEntity enemy2 = new ShipDefinitions.ShipEntity(ShipDefinitions.EngineType.Engine1, ShipDefinitions.WeaponType.Crown,
+            ShipDefinitions.ShipType.Ruby, new List<ItemAbstract>(), ShipDefinitions.Faction.Enemy, "Enemy2");
+        ShipDefinitions.ShipEntity enemy3 = new ShipDefinitions.ShipEntity(ShipDefinitions.EngineType.Engine1, ShipDefinitions.WeaponType.Flame,
+            ShipDefinitions.ShipType.Ruby, new List<ItemAbstract>(), ShipDefinitions.Faction.Enemy, "Enemy3");
+
+
+        ShipDefinitions.ShipEntity enemy4 = new ShipDefinitions.ShipEntity(ShipDefinitions.EngineType.Engine2, ShipDefinitions.WeaponType.Laser,
+            ShipDefinitions.ShipType.Ruby, new List<ItemAbstract>(), ShipDefinitions.Faction.Enemy, "Enemy4");
+        ShipDefinitions.ShipEntity enemy5 = new ShipDefinitions.ShipEntity(ShipDefinitions.EngineType.Engine2, ShipDefinitions.WeaponType.Crown,
+            ShipDefinitions.ShipType.Ruby, new List<ItemAbstract>(), ShipDefinitions.Faction.Enemy, "Enemy5");
+        ShipDefinitions.ShipEntity enemy6 = new ShipDefinitions.ShipEntity(ShipDefinitions.EngineType.Engine2, ShipDefinitions.WeaponType.Missile,
+            ShipDefinitions.ShipType.Ruby, new List<ItemAbstract>(), ShipDefinitions.Faction.Enemy, "Enemy6");
+        list.Add(enemy1);
+        list.Add(enemy2);
+        list.Add(enemy3);
+        list.Add(enemy4);
+        list.Add(enemy5);
+        list.Add(enemy6);
+        /*
+        LevelDefinitions.Level level = new LevelDefinitions.Level();
+
+        level.uniqueId = "awyesfirstlevel";
+        level.ships = list;
+        level.type = LevelDefinitions.LevelType.Wave;
+        level.shipSpawningTokens = new Dictionary<string, string>();
+
+        foreach(ShipDefinitions.ShipEntity playership in shipInfo)
+        {
+            level.shipSpawningTokens[playership.uniqueId] = "center";
+        }
+        level.shipSpawningTokens["Enemy1"] = "wave0";
+        level.shipSpawningTokens["Enemy2"] = "wave0";
+        level.shipSpawningTokens["Enemy3"] = "wave0";
+        level.shipSpawningTokens["Enemy4"] = "wave1";
+        level.shipSpawningTokens["Enemy5"] = "wave1";
+        level.shipSpawningTokens["Enemy6"] = "wave1";
+
+        /*
+        level.ships[0].items.Add(ItemAbstract.newItem(WeaponItem.WeaponType.CrownModDamage, 3));
+        level.ships[0].items.Add(ItemAbstract.newItem(WeaponItem.WeaponType.CrownModRechargeRate, 3));
+        level.ships[0].items.Add(ItemAbstract.newItem(WeaponItem.WeaponType.CrownModRange, 3));
+        level.ships[1].items.Add(ItemAbstract.newItem(WeaponItem.WeaponType.CrownModDamage, 3));
+        level.ships[1].items.Add(ItemAbstract.newItem(WeaponItem.WeaponType.CrownModRechargeRate, 3));
+        level.ships[1].items.Add(ItemAbstract.newItem(WeaponItem.WeaponType.CrownModRange, 3));
+        level.ships[2].items.Add(ItemAbstract.newItem(WeaponItem.WeaponType.CrownModDamage, 3));
+        level.ships[2].items.Add(ItemAbstract.newItem(WeaponItem.WeaponType.CrownModRechargeRate, 3));
+        level.ships[2].items.Add(ItemAbstract.newItem(WeaponItem.WeaponType.CrownModRange, 3));
+
+        PlayerPrefs.SetString("TSSE[Level][Current]", "awyesfirstlevel");
+
+        LevelDefinitions.saveLevel(level);
+        */
+    }
+
     // if we have enough scrap for the current loadout, then
     // save that loadout into player preferences so we can
     // access it in the next scene
     // then, load said scene
     void tryToContinue(Button buttonContinue)
     {
-        updateCost();
+        saveStuff();
         int score = PlayerPrefs.GetInt("score");
         if (score >= cost)
         {
             score -= cost;
             PlayerPrefs.SetInt("score", score);
-
-            List<ShipDefinitions.ShipEntity> list = new List<ShipDefinitions.ShipEntity>();
-            list.AddRange(shipInfo);
-
-            // Adding default enemies for sake of testing
-            ShipDefinitions.ShipEntity enemy1 = new ShipDefinitions.ShipEntity(ShipDefinitions.EngineType.Engine1, ShipDefinitions.WeaponType.Flame, 
-                ShipDefinitions.ShipType.Ruby, new List<ItemAbstract>(), ShipDefinitions.Faction.Enemy, "Enemy1");
-            ShipDefinitions.ShipEntity enemy2 = new ShipDefinitions.ShipEntity(ShipDefinitions.EngineType.Engine1, ShipDefinitions.WeaponType.Crown,
-                ShipDefinitions.ShipType.Ruby, new List<ItemAbstract>(), ShipDefinitions.Faction.Enemy, "Enemy2");
-            ShipDefinitions.ShipEntity enemy3 = new ShipDefinitions.ShipEntity(ShipDefinitions.EngineType.Engine1, ShipDefinitions.WeaponType.Flame,
-                ShipDefinitions.ShipType.Ruby, new List<ItemAbstract>(), ShipDefinitions.Faction.Enemy, "Enemy3");
-
-
-            ShipDefinitions.ShipEntity enemy4 = new ShipDefinitions.ShipEntity(ShipDefinitions.EngineType.Engine2, ShipDefinitions.WeaponType.Laser,
-                ShipDefinitions.ShipType.Ruby, new List<ItemAbstract>(), ShipDefinitions.Faction.Enemy, "Enemy4");
-            ShipDefinitions.ShipEntity enemy5 = new ShipDefinitions.ShipEntity(ShipDefinitions.EngineType.Engine2, ShipDefinitions.WeaponType.Crown,
-                ShipDefinitions.ShipType.Ruby, new List<ItemAbstract>(), ShipDefinitions.Faction.Enemy, "Enemy5");
-            ShipDefinitions.ShipEntity enemy6 = new ShipDefinitions.ShipEntity(ShipDefinitions.EngineType.Engine2, ShipDefinitions.WeaponType.Missile,
-                ShipDefinitions.ShipType.Ruby, new List<ItemAbstract>(), ShipDefinitions.Faction.Enemy, "Enemy6");
-            list.Add(enemy1);
-            list.Add(enemy2);
-            list.Add(enemy3);
-            list.Add(enemy4);
-            list.Add(enemy5);
-            list.Add(enemy6);
-            /*
-            LevelDefinitions.Level level = new LevelDefinitions.Level();
-
-            level.uniqueId = "awyesfirstlevel";
-            level.ships = list;
-            level.type = LevelDefinitions.LevelType.Wave;
-            level.shipSpawningTokens = new Dictionary<string, string>();
-
-            foreach(ShipDefinitions.ShipEntity playership in shipInfo)
-            {
-                level.shipSpawningTokens[playership.uniqueId] = "center";
-            }
-            level.shipSpawningTokens["Enemy1"] = "wave0";
-            level.shipSpawningTokens["Enemy2"] = "wave0";
-            level.shipSpawningTokens["Enemy3"] = "wave0";
-            level.shipSpawningTokens["Enemy4"] = "wave1";
-            level.shipSpawningTokens["Enemy5"] = "wave1";
-            level.shipSpawningTokens["Enemy6"] = "wave1";
-
-            /*
-            level.ships[0].items.Add(ItemAbstract.newItem(WeaponItem.WeaponType.CrownModDamage, 3));
-            level.ships[0].items.Add(ItemAbstract.newItem(WeaponItem.WeaponType.CrownModRechargeRate, 3));
-            level.ships[0].items.Add(ItemAbstract.newItem(WeaponItem.WeaponType.CrownModRange, 3));
-            level.ships[1].items.Add(ItemAbstract.newItem(WeaponItem.WeaponType.CrownModDamage, 3));
-            level.ships[1].items.Add(ItemAbstract.newItem(WeaponItem.WeaponType.CrownModRechargeRate, 3));
-            level.ships[1].items.Add(ItemAbstract.newItem(WeaponItem.WeaponType.CrownModRange, 3));
-            level.ships[2].items.Add(ItemAbstract.newItem(WeaponItem.WeaponType.CrownModDamage, 3));
-            level.ships[2].items.Add(ItemAbstract.newItem(WeaponItem.WeaponType.CrownModRechargeRate, 3));
-            level.ships[2].items.Add(ItemAbstract.newItem(WeaponItem.WeaponType.CrownModRange, 3));
-
-            PlayerPrefs.SetString("TSSE[Level][Current]", "awyesfirstlevel");
-
-            LevelDefinitions.saveLevel(level);
-            */
+            updateCost();
             // load the combat scene
             GameObject.Find("GameLogic").GetComponent<GameEventHandler>().combat();
         }

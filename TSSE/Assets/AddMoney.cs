@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class AddMoney : MonoBehaviour {
-    int money = 5000;
+    public int money = 200;
 	// Use this for initialization
 	void Start () {
 	

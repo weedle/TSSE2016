@@ -39,6 +39,26 @@ public class GameEventHandler : MonoBehaviour {
                     triggerLevel(full[1]);
                     break;
                 }
+            case "money":
+                {
+                    if (full.Length != 2)
+                    {
+                        print("ERROR: money called but no value given!");
+                        return;
+                    }
+                    money(int.Parse(full[1]));
+                    break;
+                }
+            case "addmoney":
+                {
+                    if (full.Length != 2)
+                    {
+                        print("ERROR: money called but no value given!");
+                        return;
+                    }
+                    addmoney(int.Parse(full[1]));
+                    break;
+                }
         }
     }
 
@@ -47,7 +67,7 @@ public class GameEventHandler : MonoBehaviour {
         if(levelId == "Level1")
         {
             GetComponent<Level1Gen>().Level1Setup();
-            loadScene("arena");
+            loadScene("prebattle");
         }
     }
 
@@ -92,5 +112,21 @@ public class GameEventHandler : MonoBehaviour {
     public void combat()
     {
         SceneManager.LoadScene("scenes/arena", LoadSceneMode.Single);
+    }
+
+    public void loadHomeScene()
+    {
+        SceneManager.LoadScene("scenes/Level0", LoadSceneMode.Single);
+    }
+
+    public void money(int newMoney)
+    {
+        PlayerPrefs.SetInt("score", newMoney);
+    }
+
+    public void addmoney(int newMoney)
+    {
+        int money = PlayerPrefs.GetInt("score");
+        PlayerPrefs.SetInt("score", money + newMoney);
     }
 }
