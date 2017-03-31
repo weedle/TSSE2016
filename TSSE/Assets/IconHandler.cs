@@ -25,8 +25,11 @@ public class IconHandler : MonoBehaviour {
         Transform textChild = transform.GetChild(0).GetChild(0).GetChild(0);
         int num = int.Parse(textChild.GetComponent<UnityEngine.UI.Text>().text);
         num--;
+        print(num);
         if (num == 0)
+        {
             Destroy(gameObject);
+        }
         textChild.GetComponent<UnityEngine.UI.Text>().text = num.ToString();
     }
 }
