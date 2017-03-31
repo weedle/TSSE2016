@@ -15,6 +15,7 @@ public class Inventory : MonoBehaviour {
 
     // the two gameobjects that display the inventory and currency of this entity
     public GameObject inventoryDisplay;
+    public GameObject blueprintDisplay;
     public GameObject currencyDisplay;
     public GameObject shipDisplay;
 
@@ -31,9 +32,9 @@ public class Inventory : MonoBehaviour {
     private int currency = 200;
 
     private bool engines = true;
-    private bool engineBlueprints = true;
+    private bool engineBlueprints = false;
     private bool weapons = true;
-    private bool weaponBlueprints = true;
+    private bool weaponBlueprints = false;
 
     void Start()
     {
@@ -91,7 +92,7 @@ public class Inventory : MonoBehaviour {
         {
             if (item.getType() != "Error")
             {
-                addItem(item);
+                //addItem(item);
                 inventory[ItemDefinitions.itemToString(item)]++;
             }
         }
@@ -105,7 +106,7 @@ public class Inventory : MonoBehaviour {
             string id = "PlayerShip" + i.ToString();
             shipDisplay.GetComponent<ShipListHandler>().addShip(ShipDefinitions.loadShip(id));
         }
-        //reloadItems();
+        reloadItems();
     }
 
     public void toggleEngines()
@@ -204,6 +205,14 @@ public class Inventory : MonoBehaviour {
         //print("inv adding: " + item.getType() + " " + item.getTier());
         inventoryDisplay.GetComponent<ItemListHandler>().
             addItem(item);
+        if(item.getTier() > 3)
+        {
+            if(blueprintDisplay!= null)
+            {
+                blueprintDisplay.GetComponent<ItemListHandler>().
+                    addItem(item);
+            }
+        }
         /*
         if (WeaponItem.isWeaponType(item.getType()))
         {
@@ -254,6 +263,14 @@ public class Inventory : MonoBehaviour {
         inventory[ItemDefinitions.itemToString(item)]--;
         inventoryDisplay.GetComponent<ItemListHandler>().
             removeItem(item);
+        if (item.getTier() > 3)
+        {
+            if (blueprintDisplay != null)
+            {
+                blueprintDisplay.GetComponent<ItemListHandler>().
+                    removeItem(item);
+            }
+        }
     }
 
     // reduce quantity, remove from list if none are left

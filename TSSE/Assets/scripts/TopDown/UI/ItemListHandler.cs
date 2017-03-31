@@ -13,6 +13,8 @@ public class ItemListHandler : MonoBehaviour {
     public string mode = "merchant";
     public bool iconsMode = false;
 
+    public GameObject alchemizeButton;
+
     public int numItemsTotal = 0;
 
     // if an item is selected, keep track of it
@@ -50,6 +52,13 @@ public class ItemListHandler : MonoBehaviour {
         if (panel2 != null)
             panel2.GetComponent<UnityEngine.UI.Text>()
             .text = ItemDefinitions.getSpec(item);
+
+        if(alchemizeButton != null)
+        {
+            alchemizeButton.GetComponent<AlchemizeButton>()
+                .itemSelected(item);
+        }
+
         selectedItem = obj;
     }
 
@@ -63,6 +72,9 @@ public class ItemListHandler : MonoBehaviour {
     // if it's already there, increase quantity
     public void addItem(ItemAbstract item)
     {
+        if(mode == "blueprint")
+            item = ItemAbstract.newItem(item.getType(), item.getTier() - 3);
+
         // First, convert item to a string
         string itemText = ItemDefinitions.itemToString(item);
 
@@ -83,7 +95,6 @@ public class ItemListHandler : MonoBehaviour {
                     // then return cause we're done
                     int x = numItems;
                     x++;
-
                     indexItem.text = itemText + " (" + x + ")";
                     return;
                 }
@@ -106,7 +117,7 @@ public class ItemListHandler : MonoBehaviour {
 
                     indexItem.itemString = itemText;
                     indexItem.itemQuantity = x;
-                    print("++in ILH adding: " + itemText);
+                    //print("++in ILH adding: " + itemText);
                     transform.GetChild(0).GetChild(i).GetComponent<IconHandler>().setNum(x);
                     //print("incrementing existing item: " + itemText);
                     return;
@@ -129,7 +140,7 @@ public class ItemListHandler : MonoBehaviour {
             newItem = GameObject.Find("GameLogic").
                 GetComponent<PrefabHost>().getMerchantItem();
         }
-        else
+        else if (mode == "icon")
         {
             newItem = GameObject.Find("GameLogic").
                 GetComponent<PrefabHost>().getIconItem();
@@ -137,6 +148,10 @@ public class ItemListHandler : MonoBehaviour {
                 new Vector3(-95 + 45 * (numItemsTotal % 5), 140 - 45 * (numItemsTotal / 5));
             newItem.transform.GetChild(0).GetComponent<UnityEngine.UI.Image>()
                 .sprite = getImage(item);
+        } else
+        {
+            newItem = GameObject.Find("GameLogic").
+                GetComponent<PrefabHost>().getBlueprintItem();
         }
         numItemsTotal++;
 
@@ -176,12 +191,56 @@ public class ItemListHandler : MonoBehaviour {
             GetComponent<UnityEngine.UI.ScrollRect>().verticalNormalizedPosition = 1;
         }
 
-        print("XXin ILH adding: " + itemText);
+        //print("XXin ILH adding: " + itemText);
+    }
+
+    public bool findItem(ItemAbstract item)
+    {
+        //if (mode == "blueprint")
+            //item = ItemAbstract.newItem(item.getType(), item.getTier() - 3);
+
+        // First, convert item to a string
+        string itemText = ItemDefinitions.itemToString(item);
+
+        // Now, search through items we have for a matching one
+        // It's in the format "ObjectName (x)", so we trim the (x) part
+        if (!iconsMode)
+        {
+            for (int i = 0; i < transform.GetChild(0).childCount; i++)
+            {
+                UnityEngine.UI.Text indexItem = transform.GetChild(0).GetChild(i).GetChild(0).
+                    GetComponent<UnityEngine.UI.Text>();
+                string labelItemText = indexItem.text.Substring(0, indexItem.text.Length - 4);
+                int numItems = int.Parse(indexItem.text.Substring(indexItem.text.Length - 2, 1));
+                // if this is the item:
+                if (labelItemText == itemText)
+                {
+                    return true;
+                }
+            }
+        }
+        else
+        {
+            for (int i = 0; i < transform.GetChild(0).childCount; i++)
+            {
+                ItemBasic indexItem = transform.GetChild(0).GetChild(i).GetComponent<ItemBasic>();
+                string labelItemText = indexItem.itemString;
+                int numItems = indexItem.itemQuantity;
+                // if this is the item:
+                if (labelItemText == itemText)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     // reduce quantity if present, otherwise remove item
     public void removeItem(ItemAbstract item)
     {
+        if (mode == "blueprint")
+            item = ItemAbstract.newItem(item.getType(), item.getTier() - 3);
         // like in addItem, first we search for the item
         string itemText = ItemDefinitions.itemToString(item);
         print("removing item: " + itemText);
@@ -236,6 +295,8 @@ public class ItemListHandler : MonoBehaviour {
         print("in ILH removing all");
         for (int i = 0; i < transform.GetChild(0).childCount; i++)
         {
+            transform.GetChild(0).GetChild(i).GetComponent<ItemBasic>()
+                .itemString = "";
             GameObject.Destroy(transform.GetChild(0).GetChild(i).gameObject);
         }
         numItemsTotal = 0;
@@ -249,6 +310,7 @@ public class ItemListHandler : MonoBehaviour {
             for (int i = 0; i < transform.GetChild(0).childCount; i++)
             {
                 ItemBasic indexItem = transform.GetChild(0).GetChild(i).GetComponent<ItemBasic>();
+
                 string labelItemText = indexItem.itemString;
                 int numItems = indexItem.itemQuantity;
                 ItemAbstract item = ItemDefinitions.stringToItem(labelItemText);
