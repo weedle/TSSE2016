@@ -82,6 +82,6 @@ public class LevelDefinitions {
 
     public string getCurrentLevel()
     {
-        return PlayerPrefs.GetString("TSSEcurrentLevel");
+        return PlayerPrefs.GetString("TSSE[Level][Current]");
     }
 }

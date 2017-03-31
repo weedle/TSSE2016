@@ -193,7 +193,7 @@ public class ShipSelection : MonoBehaviour {
             list.Add(enemy4);
             list.Add(enemy5);
             list.Add(enemy6);
-
+            /*
             LevelDefinitions.Level level = new LevelDefinitions.Level();
 
             level.uniqueId = "awyesfirstlevel";
@@ -222,12 +222,11 @@ public class ShipSelection : MonoBehaviour {
             level.ships[2].items.Add(ItemAbstract.newItem(WeaponItem.WeaponType.CrownModDamage, 3));
             level.ships[2].items.Add(ItemAbstract.newItem(WeaponItem.WeaponType.CrownModRechargeRate, 3));
             level.ships[2].items.Add(ItemAbstract.newItem(WeaponItem.WeaponType.CrownModRange, 3));
-            */
 
             PlayerPrefs.SetString("TSSE[Level][Current]", "awyesfirstlevel");
 
             LevelDefinitions.saveLevel(level);
-
+            */
             // load the combat scene
             GameObject.Find("GameLogic").GetComponent<GameEventHandler>().combat();
         }

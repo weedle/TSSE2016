@@ -1,0 +1,35 @@
+<DialogueCollection name="NPC">
+
+	<Dialogues level="0">
+		<Dialogue>
+			<regular>
+Oh no, Trader Smith! We have some enemies in the northern sector!/
+Would you like to initiate combat?/
+Enemies:/ wave1 - 3x Lvl1 Flame/ wave2 - 3x Lvl1 Crown
+			</regular>
+
+			<yes>
+Good luck!
+			</yes>
+
+			<no>
+Ok, let me know when you are ready.
+			</no>
+
+			<callback type="2" cb="trigger Level1" />
+		</Dialogue>
+
+
+		<Dialogue>
+			<regular>
+Oh, hey there. Ready to fight now?
+			</regular>
+
+			<yes></yes>
+			<no></no>
+
+			<callback type="0" cb=""/>
+		</Dialogue>
+	</Dialogues>
+
+</DialogueCollection>

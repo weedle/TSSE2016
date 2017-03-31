@@ -38,9 +38,9 @@ public class ShipSpawner : MonoBehaviour
     void Start()
     {
         string levelId = PlayerPrefs.GetString("TSSE[Level][Current]");
-
+        print("current level: " + levelId);
         currentLevel = LevelDefinitions.loadLevel(levelId);
-
+        print(levelId);
         playerShips = new List<ShipDefinitions.ShipEntity>();
         for (int i = 0; i < 6; i++)
         {
@@ -101,9 +101,12 @@ public class ShipSpawner : MonoBehaviour
 
     void spawnPlayers()
     {
+        print("spawning players");
         foreach(ShipDefinitions.ShipEntity entity in playerShips)
         {
-            spawnShip(getSpawnPosition(currentLevel.shipSpawningTokens[entity.uniqueId]), entity);
+            print(entity.uniqueId);
+            if(currentLevel.shipSpawningTokens.ContainsKey(entity.uniqueId))
+                spawnShip(getSpawnPosition(currentLevel.shipSpawningTokens[entity.uniqueId]), entity);
         }
     }
 
@@ -121,7 +124,7 @@ public class ShipSpawner : MonoBehaviour
     {
         if(waveNum >= enemyWaves.ToArray().Length)
         {
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene("scenes/victuuri");
             return;
         }
         List<ShipDefinitions.ShipEntity> waveX = enemyWaves.ToArray()[waveNum];
@@ -177,7 +180,7 @@ public class ShipSpawner : MonoBehaviour
             // all our players are dead, game over
             if(numGoodies == 0)
             {
-                UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+                SceneManager.LoadScene("scenes/failuuuuure");
             }
 
             if(numEnemies == 0)

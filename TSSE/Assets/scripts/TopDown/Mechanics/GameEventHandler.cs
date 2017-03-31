@@ -29,6 +29,25 @@ public class GameEventHandler : MonoBehaviour {
                 }
                 loadScene(full[1]);
                 break;
+            case "trigger":
+                {
+                    if (full.Length != 2)
+                    {
+                        print("ERROR: trigger called but no scene given!");
+                        return;
+                    }
+                    triggerLevel(full[1]);
+                    break;
+                }
+        }
+    }
+
+    private void triggerLevel(string levelId)
+    {
+        if(levelId == "Level1")
+        {
+            GetComponent<Level1Gen>().Level1Setup();
+            loadScene("arena");
         }
     }
 
