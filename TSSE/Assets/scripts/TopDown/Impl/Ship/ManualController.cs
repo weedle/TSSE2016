@@ -54,8 +54,9 @@ public class ManualController : MonoBehaviour, ShipController
     // Update is called once per frame
     void Update()
     {
-        ship.setText(ship.getName() +
-            ": " + "manual");
+        // TBD: enable in battle
+        //ship.setText(ship.getName() +
+        //    ": " + "manual");
         if (!ship.getActive()) return;
         getNextState();
     }

@@ -10,7 +10,8 @@ using System.Collections.Generic;
 public class MainShip : MonoBehaviour, ShipIntf
 {
     public bool inactive;
-    private string shipName;
+    public string shipName;
+    public GameObject background = null;
     private GameObject health;
     private GameObject ammo;
     private GameObject text;
@@ -30,7 +31,8 @@ public class MainShip : MonoBehaviour, ShipIntf
     {
         //Camera camera = Camera.main;
         //camera.orthographicSize = 640 / Screen.width * Screen.height / 2;
-        shipName = ShipDefinitions.generateName();
+        if(shipName == "")
+            shipName = ShipDefinitions.generateName();
         GameObject parent = GameObject.Find("GameLogic").GetComponent<PrefabHost>().getEmptyObject();
         this.health = GameObject.Find("GameLogic").GetComponent<PrefabHost>().getHealthObject();
         this.ammo = GameObject.Find("GameLogic").GetComponent<PrefabHost>().getAmmoObject();
@@ -39,6 +41,7 @@ public class MainShip : MonoBehaviour, ShipIntf
         ammo.transform.SetParent(parent.transform);
         text.transform.SetParent(parent.transform);
         transform.SetParent(parent.transform);
+        text.GetComponent<ShipLabel>().setText(shipName);
         health.GetComponent<HealthBar>().setTarget(gameObject);
         ammo.GetComponent<AmmoBar>().setTarget(gameObject);
         text.GetComponent<ShipLabel>().setTarget(gameObject);
@@ -159,7 +162,15 @@ public class MainShip : MonoBehaviour, ShipIntf
     {
         // If the ship is out of bounds, Bounds.getPosInBounds
         // will return a new position within bounds
-        transform.position = Bounds.getPosInBounds(transform.position);
+        // if we've been given a specific level, make sure we stay in those bounds
+        // but by default we just use the camera view
+        if (background != null)
+        {
+            Vector3 levelSize = background.GetComponent<SpriteRenderer>().bounds.size;
+            transform.position = Bounds.getPosInBounds(transform.position, levelSize.x, levelSize.y);
+        }
+        else
+            transform.position = Bounds.getPosInBounds(transform.position);
         if (GetComponent<FiringModule>() != null)
         {
             float perc = GetComponent<FiringModule>().getAmmoPerc();

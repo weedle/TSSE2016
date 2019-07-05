@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 public class GameEventHandler : MonoBehaviour {
 
@@ -57,6 +58,32 @@ public class GameEventHandler : MonoBehaviour {
                         return;
                     }
                     addmoney(int.Parse(full[1]));
+                    break;
+                }
+            case "hack":
+                {
+                    addmoney(1000);
+                    List<ItemAbstract>  items = new List<ItemAbstract>();
+                    items.Add(new EngineItem(EngineItem.EngineType.Spinjet, 4));
+
+                    items.Add(new WeaponItem(WeaponItem.WeaponType.CrownModAmmoCap, 1));
+                    items.Add(new WeaponItem(WeaponItem.WeaponType.CrownModRange, 2));
+                    items.Add(new WeaponItem(WeaponItem.WeaponType.FlameModRechargeRate, 4));
+                    items.Add(new WeaponItem(WeaponItem.WeaponType.MissileModAmmoCap, 1));
+                    items.Add(new WeaponItem(WeaponItem.WeaponType.MissileModAmmoCap, 1));
+                    ItemDefinitions.saveItems("Player", ItemDefinitions.itemsToString(items));
+
+                    List<ItemAbstract>  aitems = new List<ItemAbstract>();
+                    aitems.Add(new WeaponItem(WeaponItem.WeaponType.CrownModAmmoCap, 1));
+                    aitems.Add(new WeaponItem(WeaponItem.WeaponType.CrownModAmmoCap, 2));
+                    aitems.Add(new WeaponItem(WeaponItem.WeaponType.CrownModAmmoCap, 4));
+                    aitems.Add(new WeaponItem(WeaponItem.WeaponType.CrownModRange, 2));
+                    aitems.Add(new WeaponItem(WeaponItem.WeaponType.CrownModRechargeRate, 3));
+                    aitems.Add(new WeaponItem(WeaponItem.WeaponType.FlameModAmmoCap, 2));
+                    aitems.Add(new WeaponItem(WeaponItem.WeaponType.FlameModAmmoCap, 2));
+                    aitems.Add(new WeaponItem(WeaponItem.WeaponType.FlameModRechargeRate, 3));
+                    aitems.Add(new WeaponItem(WeaponItem.WeaponType.FlameModRechargeRate, 1));
+                    ItemDefinitions.saveItems("MerchantTest", ItemDefinitions.itemsToString(items));
                     break;
                 }
         }

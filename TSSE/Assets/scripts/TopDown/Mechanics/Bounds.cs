@@ -41,25 +41,31 @@ public class Bounds : MonoBehaviour
     {
         vertExtent = Camera.main.orthographicSize;
         horzExtent = vertExtent * Screen.width / Screen.height;
-        xbound = horzExtent * 0.9f;
-        ybound = vertExtent * 0.9f;
+        xbound = horzExtent * 0.90f;
+        ybound = vertExtent * 0.90f;
+
+        return getPosInBounds(position, xbound, ybound);
+    }
+
+    public static Vector2 getPosInBounds(Vector3 position, float givenXBound, float givenYBound)
+    {
         Vector3 temp = position;
 
-        if (position.x < -xbound)
+        if (position.x < -givenXBound)
         {
-            temp = new Vector3(xbound, position.y, position.z);
+            temp = new Vector3(givenXBound, position.y, position.z);
         }
-        if (position.x > xbound)
+        if (position.x > givenXBound)
         {
-            temp = new Vector3(-xbound, position.y, position.z);
+            temp = new Vector3(-givenXBound, position.y, position.z);
         }
-        if (position.y > ybound)
+        if (position.y > givenYBound)
         {
-            temp = new Vector3(position.x, -ybound, position.z);
+            temp = new Vector3(position.x, -givenYBound, position.z);
         }
-        if (position.y < -ybound)
+        if (position.y < -givenYBound)
         {
-            temp = new Vector3(position.x, ybound, position.z);
+            temp = new Vector3(position.x, givenYBound, position.z);
         }
         position = temp;
 

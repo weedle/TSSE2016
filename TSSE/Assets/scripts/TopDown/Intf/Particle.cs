@@ -28,8 +28,8 @@ public abstract class Particle : MonoBehaviour
         Rigidbody2D rbody = GetComponent<Rigidbody2D>();
         velKeep = rbody.velocity;
         rbody.velocity = Vector2.zero;
-        if(GetComponent<Animator>() != null)
-            GetComponent<Animator>().Stop();
+        if (GetComponent<Animator>() != null)
+            GetComponent<Animator>().enabled = false;
     }
 
 	/*
