@@ -47,26 +47,44 @@ public class Bounds : MonoBehaviour
         return getPosInBounds(position, xbound, ybound);
     }
 
-    public static Vector2 getPosInBounds(Vector3 position, float givenXBound, float givenYBound)
+    public static Vector3 getPosInBounds(Vector3 position, float givenXBound, float givenYBound)
     {
         Vector3 temp = position;
 
         if (position.x < -givenXBound)
         {
-            temp = new Vector3(givenXBound, position.y, position.z);
+            temp.Set(givenXBound, position.y, position.z);
         }
         if (position.x > givenXBound)
         {
-            temp = new Vector3(-givenXBound, position.y, position.z);
+            temp.Set(-givenXBound, position.y, position.z);
         }
         if (position.y > givenYBound)
         {
-            temp = new Vector3(position.x, -givenYBound, position.z);
+            temp.Set(position.x, -givenYBound, position.z);
         }
         if (position.y < -givenYBound)
         {
-            temp = new Vector3(position.x, givenYBound, position.z);
+            temp.Set(position.x, givenYBound, position.z);
         }
+        position = temp;
+
+        return position;
+    }
+
+    public static Vector3 getPosInBounds(Vector3 position, Vector3 bgPos, Vector3 bgSize)
+    {
+        Vector3 temp = position;
+
+        if (position.x < bgPos.x - bgSize.x / 2)
+            temp.Set(bgPos.x + bgSize.x / 2, bgPos.y, position.z);
+        if (position.x > bgPos.x + bgSize.x / 2)
+            temp.Set(bgPos.x - bgSize.x / 2, bgPos.y, position.z);
+        if (position.y < bgPos.y - bgSize.y / 2)
+            temp.Set(bgPos.x, bgPos.y + bgSize.y / 2, position.z);
+        if (position.y > bgPos.y + bgSize.y / 2)
+            temp.Set(bgPos.x, bgPos.y - bgSize.y / 2, position.z);
+
         position = temp;
 
         return position;

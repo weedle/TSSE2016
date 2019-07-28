@@ -167,10 +167,15 @@ public class MainShip : MonoBehaviour, ShipIntf
         if (background != null)
         {
             Vector3 levelSize = background.GetComponent<SpriteRenderer>().bounds.size;
-            transform.position = Bounds.getPosInBounds(transform.position, levelSize.x, levelSize.y);
+            transform.position = Bounds.getPosInBounds(transform.position, background.transform.position, levelSize);
         }
         else
             transform.position = Bounds.getPosInBounds(transform.position);
+
+        if (background != null)
+            print("testing" + background.GetComponent<SpriteRenderer>().bounds.size +
+            background.transform.position + transform.position);
+
         if (GetComponent<FiringModule>() != null)
         {
             float perc = GetComponent<FiringModule>().getAmmoPerc();

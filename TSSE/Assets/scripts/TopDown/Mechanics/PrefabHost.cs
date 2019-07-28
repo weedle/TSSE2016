@@ -39,14 +39,14 @@ public class PrefabHost : MonoBehaviour
     public RuntimeAnimatorController shipRubyAnimator;
     public RuntimeAnimatorController shipPeacockAnimator;
 
-    public GameObject shipDisplayObject;
-    public GameObject shipyardDisplayObject;
-    public GameObject engine1HD;
-    public GameObject engine2HD;
+    private GameObject shipDisplayObject;
+    private GameObject shipyardDisplayObject;
+    private GameObject engine1HD;
+    private GameObject engine2HD;
 
-    public GameObject shipyardTwoSlots;
-    public GameObject shipyardFourSlots;
-    public GameObject shipyardSixSlots;
+    private GameObject shipyardTwoSlots;
+    private GameObject shipyardFourSlots;
+    private GameObject shipyardSixSlots;
 
     public GameObject shipyardBlueprint;
 
@@ -243,48 +243,72 @@ public class PrefabHost : MonoBehaviour
 
     public GameObject getShipDisplayObject()
     {
+        if (!shipDisplayObject)
+            shipDisplayObject = (GameObject)Resources.Load("prefabs/shipDisplayObject", typeof(GameObject));
+
         GameObject obj = (GameObject)Instantiate(shipDisplayObject, Vector3.zero, Quaternion.Euler(0, 0, 0));
         return obj;
     }
 
     public GameObject getEngine1HD()
     {
+        if (!engine1HD)
+            engine1HD = (GameObject)Resources.Load("prefabs/engine1HD", typeof(GameObject));
+
         GameObject obj = (GameObject)Instantiate(engine1HD, Vector3.zero, Quaternion.Euler(0, 0, 0));
         return obj;
     }
 
     public GameObject getEngine2HD()
     {
+        if (!engine1HD)
+            engine1HD = (GameObject)Resources.Load("prefabs/engine1HD", typeof(GameObject));
+
         GameObject obj = (GameObject)Instantiate(engine2HD, Vector3.zero, Quaternion.Euler(0, 0, 0));
         return obj;
     }
 
     public GameObject getShipyardDisplayObject()
     {
+        if (!shipyardDisplayObject)
+            shipyardDisplayObject = (GameObject)Resources.Load("prefabs/shipyardDisplayObject", typeof(GameObject));
+
         GameObject obj = (GameObject)Instantiate(shipyardDisplayObject, Vector3.zero, Quaternion.Euler(0, 0, 0));
         return obj;
     }
 
     public GameObject getShipyardTwoSlots()
     {
+        if (!shipyardTwoSlots)
+            shipyardTwoSlots = (GameObject)Resources.Load("prefabs/shipyardTwoSlots", typeof(GameObject));
+
         GameObject obj = (GameObject)Instantiate(shipyardTwoSlots, Vector3.zero, Quaternion.Euler(0, 0, 0));
         return obj;
     }
 
     public GameObject getShipyardFourSlots()
     {
+        if (!shipyardFourSlots)
+            shipyardFourSlots = (GameObject)Resources.Load("prefabs/shipyardFourSlots", typeof(GameObject));
+
         GameObject obj = (GameObject)Instantiate(shipyardFourSlots, Vector3.zero, Quaternion.Euler(0, 0, 0));
         return obj;
     }
 
     public GameObject getShipyardSixSlots()
     {
+        if (!shipyardSixSlots)
+            shipyardSixSlots = (GameObject)Resources.Load("prefabs/shipyardSixSlots", typeof(GameObject));
+
         GameObject obj = (GameObject)Instantiate(shipyardSixSlots, Vector3.zero, Quaternion.Euler(0, 0, 0));
         return obj;
     }
 
     public GameObject getBlueprintItem()
     {
+        if (!shipyardBlueprint)
+            shipyardBlueprint = (GameObject)Resources.Load("prefabs/shipyardBlueprint", typeof(GameObject));
+
         GameObject obj = (GameObject)Instantiate(shipyardBlueprint, Vector3.zero, Quaternion.Euler(0, 0, 0));
         return obj;
     }
